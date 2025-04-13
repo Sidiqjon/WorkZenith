@@ -49,12 +49,12 @@ model Company {
   nameUz      String
   nameRu      String?
   nameEn      String?
-  taxId       String
-  bankCode    String
-  bankAccount String
-  bankName    String
-  oked        String
-  address     String
+  taxId       String?
+  bankCode    String?
+  bankAccount String?
+  bankName    String?
+  oked        String?
+  address     String?
   ownerId     String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
@@ -65,17 +65,17 @@ model Company {
 model Session {
   id            String   @id @default(uuid())
   userId        String
-  ip            String
-  userAgent     String
-  device        String
-  brand         String
-  model         String
-  os            String
-  osVersion     String
-  client        String
-  clientType    String
-  clientVersion String
-  isBot         Boolean
+  ip            String?
+  userAgent     String?
+  device        String?
+  brand         String?
+  model         String?
+  os            String?
+  osVersion     String?
+  client        String?
+  clientType    String?
+  clientVersion String?
+  isBot         Boolean?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
@@ -85,9 +85,10 @@ model Session {
 model Brand {
   id      String @id @default(uuid())
   nameUz  String
-  nameRu  String
-  nameEn  String
-
+  nameRu  String?
+  nameEn  String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   tools Tool[]
 }
 
@@ -96,7 +97,8 @@ model Size {
   nameUz  String
   nameRu  String?
   nameEn  String?
-
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   tools Tool[]
 }
 
@@ -105,7 +107,8 @@ model Power {
   nameUz  String
   nameRu  String?
   nameEn  String?
-
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   tools Tool[]
 }
 
@@ -155,13 +158,14 @@ model Master {
 model MasterProfession {
   id              String   @id @default(uuid())
   professionId    String?
-  minWorkingHours Float
+  minWorkingHours Float?
   levelId         String?
   priceHourly     Decimal
   priceDaily      Decimal
   experience      Float
   masterId        String?
-
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   profession Profession? @relation(fields: [professionId], references: [id], onDelete: SetNull)
   level      Level?      @relation(fields: [levelId], references: [id], onDelete: SetNull)
   master     Master?     @relation(fields: [masterId], references: [id], onDelete: Cascade)
@@ -172,7 +176,8 @@ model Level {
   nameUz  String
   nameRu  String?
   nameEn  String?
-
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   masterProfessions MasterProfession[]
   professionLevels  ProfessionLevel[]
   orderProductLevel OrderProduct[]
@@ -187,7 +192,8 @@ model Profession {
   minWorkingHours Float
   priceHourly     Decimal
   priceDaily      Decimal
-
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   masterProfessions MasterProfession[]
   professionLevels  ProfessionLevel[]
   professionTools   ProfessionTool[]
@@ -198,7 +204,8 @@ model ProfessionLevel {
   id           String @id @default(uuid())
   professionId String
   levelId      String
-
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   profession Profession @relation(fields: [professionId], references: [id], onDelete: Cascade)
   level      Level      @relation(fields: [levelId], references: [id], onDelete: Cascade)
 }
@@ -207,7 +214,8 @@ model ProfessionTool {
   id           String @id @default(uuid())
   professionId String
   toolId       String
-
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   profession Profession @relation(fields: [professionId], references: [id], onDelete: Cascade)
   tool       Tool       @relation(fields: [toolId], references: [id], onDelete: Cascade)
 }
@@ -289,7 +297,8 @@ model Contact {
   phoneNumber  String     
   address      String
   message      String?
-
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   userId       String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -297,21 +306,23 @@ model Contact {
 model FAQ {
   id           String     @id @default(uuid())
   questionUz   String
-  questionRu   String
-  questionEn   String
+  questionRu   String?
+  questionEn   String?
   answerUz     String
-  answerRu     String
-  answerEn     String
+  answerRu     String?
+  answerEn     String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 }
 
 model Showcase {
   id            String   @id @default(uuid())
   nameUz        String
-  nameRu        String
-  nameEn        String
+  nameRu        String?
+  nameEn        String?
   descriptionUz String
-  descriptionRu String
-  descriptionEn String
+  descriptionRu String?
+  descriptionEn String?
   image         String   
   link          String   
   createdAt     DateTime @default(now())
@@ -321,8 +332,8 @@ model Showcase {
 model Partner {
   id        String   @id @default(uuid())
   nameUz    String
-  nameRu    String
-  nameEn    String
+  nameRu    String?
+  nameEn    String?
   image     String   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -330,15 +341,17 @@ model Partner {
 
 model SiteMetadata {
   id              String     @id @default(uuid())
-  aboutUz         String?
+  aboutUz         String
   aboutRu         String?
   aboutEn         String?
-  privacyPolicyUz String?
+  privacyPolicyUz String
   privacyPolicyRu String?
   privacyPolicyEn String?
   email           String   
   phoneNumber     String
   socialMedia     Json 
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 }
 
 
