@@ -80,7 +80,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Logout and remove refresh token from user' })
+  @ApiOperation({ summary: 'Logout and remove refresh token and session from user' })
   logout(@Req() req: Request) {
     return this.authService.logout(req);
   }
