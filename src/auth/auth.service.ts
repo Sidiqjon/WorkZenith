@@ -26,14 +26,14 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { totp } from 'otplib';
 
-totp.options = { step: 1200, digits: 6 };
+totp.options = { step: 3600, digits: 6 };
 
 @Injectable()
 export class AuthService {
   private ACCESS_SECRET = process.env.ACCESS_SECRET;
   private REFRESH_SECRET = process.env.REFRESH_SECRET;
   private OTP_SECRET = process.env.OTP_SECRET;
-
+  
   private deviceDetector = new DeviceDetector();
 
   constructor(
@@ -41,9 +41,9 @@ export class AuthService {
     private eskizService: EskizService,
     private jwtServices: JwtService,
   ) {}
-
+    
   async register(RegisterUser: RegisterDTO) {
-    const { phoneNumber, password, regionId } = RegisterUser;
+    const { phoneNumber, password, regionId, role } = RegisterUser;
   
     try {
       const existingUser = await this.prisma.user.findUnique({
@@ -51,6 +51,12 @@ export class AuthService {
       });
       if (existingUser) {
         throw new ConflictException('A user with this phone number already exists!');
+      }
+
+      if (role) {
+        if ( ['INDIVIDUAL', 'COMPANY'].includes(role) === false) {
+          throw new BadRequestException('Invalid role!');
+        }
       }
   
       const region = await this.prisma.region.findUnique({
@@ -75,7 +81,7 @@ export class AuthService {
   
       return {
         message:
-          `Hello ${RegisterUser.firstName}.You registered successfully. An OTP code has been sent to your phone number. Please verify to activateAccount your account.`,
+          `Hello ${RegisterUser.firstName}.You registered successfully. An OTP code has been sent to your phone number. Please activate your account.`,
         otp, 
       };
     } catch (error) {
@@ -93,12 +99,12 @@ export class AuthService {
       const user = await this.prisma.user.findUnique({ where: { phoneNumber } });
   
       if (!user) {
-        throw new UnauthorizedException('User not found with the provided phone number.Please register first!');
+        throw new NotFoundException('User not found with the provided phone number.Please register first!');
       }
   
       const isValid = await bcrypt.compare(password, user.password);
       if (!isValid) {
-        throw new UnauthorizedException('Phone number or password is incorrect!');
+        throw new BadRequestException('Phone number or password is incorrect!');
       }
   
       if (user.status === 'INACTIVE') {
@@ -190,7 +196,7 @@ export class AuthService {
   
     try {
       const isValid = totp.check(otp, this.OTP_SECRET + phoneNumber);
-  
+      
       if (!isValid) {
         throw new UnauthorizedException('Invalid phone number or OTP!');
       }
@@ -323,11 +329,12 @@ export class AuthService {
 
   async me(req: Request) {
     const user = req['user'];
-  
+    
     try {
       const data = await this.prisma.user.findUnique({
         where: { id: user.id },
-        select: { password: false },  
+        omit: { password: true, refreshToken: true },
+        include: {sessions: true, region:true, companies: true, contact: true, order: true},
       });
   
       if (!data) {
@@ -342,6 +349,7 @@ export class AuthService {
   
 
   genAccessToken(payload: any) {
+    
     return this.jwtServices.sign(payload, {
       secret: this.ACCESS_SECRET,
       expiresIn: '12h',

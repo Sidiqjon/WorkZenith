@@ -15,11 +15,12 @@ import { FaqModule } from './faq/faq.module';
 import { ShowcaseModule } from './showcase/showcase.module';
 import { PartnerModule } from './partner/partner.module';
 import { SitemetadataModule } from './sitemetadata/sitemetadata.module';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule],
+    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, CompanyModule],
   controllers: [],
   providers: [EskizService],
 })

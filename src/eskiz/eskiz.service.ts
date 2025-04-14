@@ -30,7 +30,7 @@ export class EskizService {
         `${this.baseUrl}/message/sms/send`,
         {
           mobile_phone: phone,
-          message: ' This is test from Eskiz',
+          message: 'This is test from Eskiz',
           from: '4546',
         },
         {
