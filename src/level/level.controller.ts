@@ -25,7 +25,7 @@ export class LevelController {
   @Get()
   @ApiQuery({ name: 'page', required: false, example: 1, description: 'Page number for pagination' })
   @ApiQuery({ name: 'limit', required: false, example: 10, description: 'Limit number of items per page' })
-  @ApiQuery({ name: 'search', required: false, example: 'Boshlang\'ich', description: 'Search term for name fields' })
+  @ApiQuery({ name: 'search', required: false, example: 'Boshlangʻich', description: 'Search term for name fields' })
   @ApiQuery({ name: 'sortBy', required: false, example: 'createdAt', description: 'Field to sort by' })
   @ApiQuery({ name: 'sortOrder', required: false, example: 'desc', description: 'Sort order: asc or desc' })
   findAll(
@@ -54,10 +54,7 @@ export class LevelController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateLevelDto: UpdateLevelDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateLevelDto: UpdateLevelDto) {
     return this.levelService.update(id, updateLevelDto);
   }
 

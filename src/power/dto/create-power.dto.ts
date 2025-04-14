@@ -1,41 +1,32 @@
-import { IsNotEmpty, IsOptional, IsString, IsNumber, Min } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString, Matches } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreatePowerDto {
   @ApiProperty({
     description: 'Name of the power in Uzbek',
-    example: 'Kichik quvvat',
+    example: '500W',
     required: true,
   })
   @IsNotEmpty({ message: 'nameUz is required' })
   @IsString({ message: 'nameUz must be a string' })
   nameUz: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Name of the power in Russian',
-    example: 'Маленькая мощность',
-    required: false,
+    example: '500Вт',
   })
   @IsOptional()
   @IsString({ message: 'nameRu must be a string' })
+  @Matches(/^[А-Яа-яЁё0-9\s\W]+$/, {
+    message: 'nameRu must contain only valid Russian characters',
+  })
   nameRu?: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Name of the power in English',
-    example: 'Small Power',
-    required: false,
+    example: '500W',
   })
   @IsOptional()
   @IsString({ message: 'nameEn must be a string' })
   nameEn?: string;
-
-  @ApiProperty({
-    description: 'Power in watts',
-    example: 100,
-    required: true,
-  })
-  @IsNotEmpty({ message: 'value in watts is required' })
-  @IsNumber({}, { message: 'value must be a number' })
-  @Min(1, { message: 'value must be greater than 0' })
-  value: number;
 }

@@ -50,11 +50,11 @@ export class PowerService {
         sortOrder = 'desc',
         filter = {},
       } = query || {};
-  
+
       const where: any = {
         ...filter,
       };
-  
+
       if (search) {
         where.OR = [
           { nameUz: { contains: search, mode: 'insensitive' } },
@@ -62,22 +62,22 @@ export class PowerService {
           { nameEn: { contains: search, mode: 'insensitive' } },
         ];
       }
-  
+
       const data = await this.prisma.power.findMany({
         where,
         orderBy: { [sortBy]: sortOrder },
         skip: (page - 1) * limit,
         take: limit,
       });
-  
+
       const total = await this.prisma.power.count({ where });
-  
+
       if (!data.length) {
-        throw new NotFoundException('No powers found!');
+        throw new NotFoundException('No power records found!');
       }
-  
+
       return {
-        message: 'Powers fetched successfully!',
+        message: 'Power list fetched successfully!',
         meta: {
           total,
           page,
@@ -92,9 +92,7 @@ export class PowerService {
 
   async findOne(id: string) {
     try {
-      const data = await this.prisma.power.findUnique({
-        where: { id },
-      });
+      const data = await this.prisma.power.findUnique({ where: { id } });
 
       if (!data) {
         throw new NotFoundException("Power not found with the provided 'id'!");
@@ -108,9 +106,23 @@ export class PowerService {
 
   async update(id: string, updatePowerDto: UpdatePowerDto) {
     try {
-      const power = await this.prisma.power.findUnique({ where: { id }});
-      if (!power) {
+      const existing = await this.prisma.power.findUnique({ where: { id } });
+
+      if (!existing) {
         throw new NotFoundException("Power not found with the provided 'id'!");
+      }
+
+      if (updatePowerDto.nameUz) {
+        const duplicate = await this.prisma.power.findFirst({
+          where: {
+            nameUz: updatePowerDto.nameUz,
+            NOT: { id },
+          },
+        });
+
+        if (duplicate) {
+          throw new ConflictException('Another power with this name already exists!');
+        }
       }
 
       const data = await this.prisma.power.update({
@@ -118,7 +130,7 @@ export class PowerService {
         data: updatePowerDto,
       });
 
-      return { message: 'Power updated successfully', data };
+      return { message: 'Power updated successfully!', data };
     } catch (error) {
       this.handleError(error);
     }
@@ -126,9 +138,9 @@ export class PowerService {
 
   async remove(id: string) {
     try {
-      const power = await this.prisma.power.findUnique({ where: { id } });
+      const existing = await this.prisma.power.findUnique({ where: { id } });
 
-      if (!power) {
+      if (!existing) {
         throw new NotFoundException("Power not found with the provided 'id'!");
       }
 

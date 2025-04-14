@@ -11,11 +11,13 @@ import { BrandModule } from './brand/brand.module';
 import { SizeModule } from './size/size.module';
 import { PowerModule } from './power/power.module';
 import { LevelModule } from './level/level.module';
+import { FaqModule } from './faq/faq.module';
+import { ShowcaseModule } from './showcase/showcase.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule],
+    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule],
   controllers: [AppController],
   providers: [AppService, EskizService],
 })

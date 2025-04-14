@@ -5,9 +5,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateLevelDto } from './dto/create-level.dto';
 import { UpdateLevelDto } from './dto/update-level.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class LevelService {
@@ -51,9 +51,7 @@ export class LevelService {
         filter = {},
       } = query || {};
 
-      const where: any = {
-        ...filter,
-      };
+      const where: any = { ...filter };
 
       if (search) {
         where.OR = [
@@ -92,7 +90,14 @@ export class LevelService {
 
   async findOne(id: string) {
     try {
-      const data = await this.prisma.level.findUnique({ where: { id } });
+      const data = await this.prisma.level.findUnique({
+        where: { id },
+        include: {
+          masterProfessions: true,
+          professionLevels: true,
+          orderProductLevel: true,
+        },
+      });
 
       if (!data) {
         throw new NotFoundException("Level not found with the provided 'id'!");
@@ -107,6 +112,7 @@ export class LevelService {
   async update(id: string, updateLevelDto: UpdateLevelDto) {
     try {
       const level = await this.prisma.level.findUnique({ where: { id } });
+
       if (!level) {
         throw new NotFoundException("Level not found with the provided 'id'!");
       }
