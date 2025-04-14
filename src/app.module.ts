@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+// import { AppController } from './app.controller';
+// import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { RegionModule } from './region/region.module';
@@ -13,12 +13,14 @@ import { PowerModule } from './power/power.module';
 import { LevelModule } from './level/level.module';
 import { FaqModule } from './faq/faq.module';
 import { ShowcaseModule } from './showcase/showcase.module';
+import { PartnerModule } from './partner/partner.module';
+import { SitemetadataModule } from './sitemetadata/sitemetadata.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule],
-  controllers: [AppController],
-  providers: [AppService, EskizService],
+    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule],
+  controllers: [],
+  providers: [EskizService],
 })
 export class AppModule {}
