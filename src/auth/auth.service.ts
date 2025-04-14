@@ -7,13 +7,17 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
+
 import {
-  ActivateDto,
-  CreateAuthDto,
-  LoginAuthDto,
-  ResetPasswordDto,
+  RegisterDTO,
+  LoginDTO,
   SendOtpDto,
+  ActivateDto,
+  VerifyOTPDto,
+  ResetPasswordDto,
+  RefreshTokenDto,
 } from './dto/create-auth.dto';
+
 import { PrismaService } from 'src/prisma/prisma.service';
 import { EskizService } from 'src/eskiz/eskiz.service';
 import * as DeviceDetector from 'device-detector-js';
@@ -21,6 +25,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { totp } from 'otplib';
+
 totp.options = { step: 1200, digits: 6 };
 
 @Injectable()
@@ -28,6 +33,7 @@ export class AuthService {
   private ACCESS_SECRET = process.env.ACCESS_SECRET;
   private REFRESH_SECRET = process.env.REFRESH_SECRET;
   private OTP_SECRET = process.env.OTP_SECRET;
+
   private deviceDetector = new DeviceDetector();
 
   constructor(
@@ -36,196 +42,304 @@ export class AuthService {
     private jwtServices: JwtService,
   ) {}
 
-  async register(createAuthDto: CreateAuthDto) {
-    const { phoneNumber, password, regionId } = createAuthDto;
+  async register(RegisterUser: RegisterDTO) {
+    const { phoneNumber, password, regionId } = RegisterUser;
+  
     try {
-      const user = await this.prisma.user.findUnique({ where: { phoneNumber } });
-      if (user) {
-        throw new ConflictException('User already exists');
+      const existingUser = await this.prisma.user.findUnique({
+        where: { phoneNumber },
+      });
+      if (existingUser) {
+        throw new ConflictException('A user with this phone number already exists!');
       }
-
+  
       const region = await this.prisma.region.findUnique({
         where: { id: regionId },
       });
       if (!region) {
-        throw new NotFoundException('Not found region');
+        throw new NotFoundException('Region not found with the provided regionId!');
       }
-
-      const hashedpassword = await bcrypt.hash(password, 10);
+  
+      const hashedPassword = await bcrypt.hash(password, 7);
+  
       await this.prisma.user.create({
-        data: { ...createAuthDto, password: hashedpassword },
+        data: {
+          ...RegisterUser,
+          password: hashedPassword,
+        },
       });
-
+  
       const otp = totp.generate(this.OTP_SECRET + phoneNumber);
+  
       // await this.eskizService.sendSMS(otp, phoneNumber);
-
+  
       return {
-        otp,
-        data: 'Registration was successful. The code was sent to your phoneNumber number, please activate your account',
+        message:
+          `Hello ${RegisterUser.firstName}.You registered successfully. An OTP code has been sent to your phone number. Please verify to activateAccount your account.`,
+        otp, 
       };
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
       }
-      throw new BadRequestException(error?.message || 'Something went wrong');
+      throw new BadRequestException(error?.message || 'Something went wrong during registration');
     }
   }
-
-  async login(loginAuthDto: LoginAuthDto, req: Request) {
-    const { phoneNumber, password } = loginAuthDto;
+  
+  async login(loginUser: LoginDTO, req: Request) {
+    const { phoneNumber, password } = loginUser;
+  
     try {
       const user = await this.prisma.user.findUnique({ where: { phoneNumber } });
+  
       if (!user) {
-        throw new UnauthorizedException('Not found user');
+        throw new UnauthorizedException('User not found with the provided phone number.Please register first!');
       }
-
+  
       const isValid = await bcrypt.compare(password, user.password);
       if (!isValid) {
-        throw new UnauthorizedException('Phone number or password is wrong');
+        throw new UnauthorizedException('Phone number or password is incorrect!');
       }
-
+  
       if (user.status === 'INACTIVE') {
-        throw new ForbiddenException(
-          'Your account is not active, please activate your account',
-        );
+        throw new ForbiddenException('Your account is not active, please activateAccount it first!');
       }
-
-      const session = await this.prisma.session.findFirst({
-        where: { ip: req.ip, userId: user.id },
+  
+      if (user.status === 'BANNED') {
+        throw new ForbiddenException('Your account is banned, please contact support!');
+      }
+  
+      const existingSession = await this.prisma.session.findFirst({
+        where: {
+          ip: req.ip,
+          userId: user.id,
+        },
       });
-
-      if (!session) {
-        const useragent: any = req.headers['user-agent'];
-        const device = this.deviceDetector.parse(useragent);
-
-        const newSession: any = {
-          ip_address: req.ip,
-          user_id: user.id,
-          device: {},
-        };
-
+  
+      if (!existingSession) {
+        const userAgentHeader = req.headers['user-agent'] || '';
+        const deviceInfo = this.deviceDetector.parse(userAgentHeader);
+  
         await this.prisma.session.create({
-          data: newSession,
+          data: {
+            userId: user.id,
+            ip: req.ip,
+            userAgent: userAgentHeader,
+            device: deviceInfo.device?.type || null,
+            brand: deviceInfo.device?.brand || null,
+            model: deviceInfo.device?.model || null,
+            os: deviceInfo.os?.name || null,
+            osVersion: deviceInfo.os?.version || null,
+            client: deviceInfo.client?.name || null,
+            clientType: deviceInfo.client?.type || null,
+            clientVersion: deviceInfo.client?.version || null,
+            isBot: deviceInfo.bot ? true : false,
+          },
         });
       }
-
-      console.log(session);
-
-      const payload = { id: user.id, role: user.role };
+  
+      const payload = { id: user.id, role: user.role, status: user.status };
       const accessToken = this.genAccessToken(payload);
       const refreshToken = this.genRefreshToken(payload);
 
-      return { accessToken, refreshToken };
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: { refreshToken: refreshToken },
+      });
+  
+      return {
+        message: 'Login successful!',
+        accessToken,
+        refreshToken,
+      };
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
       }
-      throw new BadRequestException(error?.message || 'Something went wrong');
+      throw new BadRequestException(error?.message || 'Something went wrong during login!');
     }
   }
-
-  async sendOTP(sendOtpDto: SendOtpDto) {
+  
+  async sendOtp(sendOtpDto: SendOtpDto) {
     const { phoneNumber } = sendOtpDto;
+  
     try {
       const user = await this.prisma.user.findUnique({ where: { phoneNumber } });
+  
       if (!user) {
-        throw new UnauthorizedException('Not found user');
+        throw new UnauthorizedException('User not found!');
       }
-
+  
       const otp = totp.generate(this.OTP_SECRET + phoneNumber);
       // await this.eskizService.sendSMS(otp, phoneNumber)
-
-      return { data: 'OTP sent to your phoneNumber number', otp };
+  
+      return {
+        message: 'OTP has been sent to the provided phone number!',
+        otp,
+      };
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
       }
-      throw new BadRequestException(error?.message || 'Something went wrong');
+      throw new BadRequestException(error?.message || 'Failed to send OTP!');
     }
   }
 
-  async activate(activateDto: ActivateDto) {
+  async activateAccount(activateDto: ActivateDto) {
     const { phoneNumber, otp } = activateDto;
+  
     try {
       const isValid = totp.check(otp, this.OTP_SECRET + phoneNumber);
+  
       if (!isValid) {
-        throw new UnauthorizedException('OTP code or phoneNumber number is wrong');
+        throw new UnauthorizedException('Invalid phone number or OTP!');
       }
-
+  
       await this.prisma.user.update({
         where: { phoneNumber },
         data: { status: 'ACTIVE' },
       });
-
-      return { data: 'Your account has been successfully activated' };
+  
+      return { message: 'Account successfully activated!' };
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
       }
-      throw new BadRequestException(error?.message || 'Something went wrong');
+      throw new BadRequestException(error?.message || 'Activation failed!');
+    }
+  }
+
+  async verifyOtp(verifyOTP: VerifyOTPDto) {
+    const { phoneNumber, otp } = verifyOTP;
+  
+    try {
+      const isValid = totp.check(otp, this.OTP_SECRET + phoneNumber);
+  
+      if (!isValid) {
+        throw new UnauthorizedException('Invalid phone number or OTP!');
+      }
+  
+      return { message: 'OTP verified successfully!' };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new BadRequestException(error?.message || 'OTP verification failed!');
     }
   }
 
   async resetPassword(resetPasswordDto: ResetPasswordDto) {
-    const { phoneNumber, otp, newPassword } = resetPasswordDto;
+    const { phoneNumber, newPassword } = resetPasswordDto;
+  
     try {
-      const isValid = totp.check(otp, this.OTP_SECRET + phoneNumber);
-      if (!isValid) {
-        throw new UnauthorizedException('OTP code or phoneNumber number is wrong');
+      const user = await this.prisma.user.findUnique({ where: { phoneNumber } });
+  
+      if (!user) {
+        throw new NotFoundException('User with this phone number does not exist!');
       }
-
-      const hashedpassword = await bcrypt.hash(newPassword, 10);
+  
+      const hashedPassword = await bcrypt.hash(newPassword, 7);
+  
       await this.prisma.user.update({
         where: { phoneNumber },
-        data: { password: hashedpassword },
+        data: { password: hashedPassword },
       });
-
-      return { data: 'Your password updated successfully' };
+  
+      return { message: 'Password successfully updated!' };
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
       }
-      throw new BadRequestException(error?.message || 'Something went wrong');
+      throw new BadRequestException(error?.message || 'Password update failed!');
     }
   }
-
-  refreshToken(req: Request) {
-    const user = req['user'];
+  
+  async refreshToken(refreshTokenDto: RefreshTokenDto) {
+    const { refreshToken } = refreshTokenDto;
+  
     try {
-      const accessToken = this.genAccessToken({ id: user.id, role: user.role });
+      const payload = await this.jwtServices.verifyAsync(refreshToken, {
+        secret: this.REFRESH_SECRET,
+      });
+  
+      const user = await this.prisma.user.findUnique({
+        where: { id: payload.id },
+      });
+  
+      if (!user) {
+        throw new NotFoundException('User not found!');
+      }
+  
+      if (user.status === 'INACTIVE') {
+        throw new ForbiddenException('User account is not active!');
+      }
 
-      return { accessToken };
+      if (user.status === 'BANNED') {
+        throw new ForbiddenException('User account is BANNED!');
+      }
+
+      if (user.refreshToken !== refreshToken) {
+        throw new UnauthorizedException('Invalid refresh token!');
+      }
+  
+      const newAccessToken = this.genAccessToken({
+        id: user.id,
+        role: user.role,
+        status: user.status,
+      });
+  
+      return { accessToken: newAccessToken };
     } catch (error) {
-      throw new BadRequestException(error?.message || 'Something went wrong');
+      if (error instanceof HttpException) {
+        throw error;
+      }
+  
+      throw new UnauthorizedException('Invalid or expired refresh token!');
     }
   }
-
+  
   async logout(req: Request) {
     const user = req['user'];
+  
     try {
-      await this.prisma.session.deleteMany({
-        where: { ip: req.ip, userId: user.id },
-      });
-
-      return { data: 'Logged out successfully' };
+      await this.prisma.$transaction([
+        this.prisma.session.deleteMany({
+          where: {
+            ip: req.ip,
+            userId: user.id,
+          },
+        }),
+        this.prisma.user.update({
+          where: { id: user.id },
+          data: { refreshToken: null },
+        }),
+      ]);
+  
+      return { data: 'Logged out successfully!' };
     } catch (error) {
-      throw new BadRequestException(error?.message || 'Something went wrong');
+      throw new BadRequestException(error?.message || 'Something went wrong during logout!');
     }
   }
 
   async me(req: Request) {
     const user = req['user'];
+  
     try {
-      const data = this.prisma.user.findUnique({
+      const data = await this.prisma.user.findUnique({
         where: { id: user.id },
-        omit: { password: true },
+        select: { password: false },  
       });
-
+  
+      if (!data) {
+        throw new NotFoundException('User not found!');
+      }
+  
       return { data };
     } catch (error) {
-      throw new BadRequestException(error?.message || 'Something went wrong');
+      throw new BadRequestException(error?.message || 'Something went wrong!');
     }
   }
+  
 
   genAccessToken(payload: any) {
     return this.jwtServices.sign(payload, {
