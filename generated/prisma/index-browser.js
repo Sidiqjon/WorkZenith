@@ -263,9 +263,7 @@ exports.Prisma.ProfessionScalarFieldEnum = {
   nameRu: 'nameRu',
   nameEn: 'nameEn',
   img: 'img',
-  minWorkingHours: 'minWorkingHours',
-  priceHourly: 'priceHourly',
-  priceDaily: 'priceDaily',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -274,6 +272,9 @@ exports.Prisma.ProfessionLevelScalarFieldEnum = {
   id: 'id',
   professionId: 'professionId',
   levelId: 'levelId',
+  minWorkingHours: 'minWorkingHours',
+  priceHourly: 'priceHourly',
+  priceDaily: 'priceDaily',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -298,8 +299,7 @@ exports.Prisma.OrderScalarFieldEnum = {
   paymentType: 'paymentType',
   withDelivery: 'withDelivery',
   status: 'status',
-  comment: 'comment',
-  masters: 'masters',
+  deliveryComment: 'deliveryComment',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -308,6 +308,7 @@ exports.Prisma.OrderProductScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
   professionId: 'professionId',
+  toolId: 'toolId',
   levelId: 'levelId',
   quantity: 'quantity',
   timeUnit: 'timeUnit',
@@ -317,10 +318,18 @@ exports.Prisma.OrderProductScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.OrderToolScalarFieldEnum = {
+exports.Prisma.OrderMasterScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
+  masterid: 'masterid'
+};
+
+exports.Prisma.BasketScalarFieldEnum = {
+  id: 'id',
+  ownerId: 'ownerId',
+  professionId: 'professionId',
   toolId: 'toolId',
+  levelId: 'levelId',
   quantity: 'quantity',
   timeUnit: 'timeUnit',
   workingTime: 'workingTime',
@@ -476,7 +485,8 @@ exports.Prisma.ModelName = {
   ProfessionTool: 'ProfessionTool',
   Order: 'Order',
   OrderProduct: 'OrderProduct',
-  OrderTool: 'OrderTool',
+  OrderMaster: 'OrderMaster',
+  Basket: 'Basket',
   Comment: 'Comment',
   Contact: 'Contact',
   FAQ: 'FAQ',
