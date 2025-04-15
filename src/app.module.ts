@@ -18,11 +18,12 @@ import { SitemetadataModule } from './sitemetadata/sitemetadata.module';
 import { CompanyModule } from './company/company.module';
 import { AdminModule } from './admin/admin.module';
 import { UserModule } from './user/user.module';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, CompanyModule, AdminModule, UserModule],
+    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, CompanyModule, AdminModule, UserModule, ContactModule],
   controllers: [],
   providers: [EskizService],
 })

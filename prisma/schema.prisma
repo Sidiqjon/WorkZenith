@@ -115,7 +115,7 @@ model Power {
 }
 
 model Tool {
-  id             String   @id @default(uuid())
+  id             String     @id @default(uuid())
   nameUz         String
   nameRu         String?
   nameEn         String?
@@ -124,12 +124,12 @@ model Tool {
   descriptionEn  String?
   price          Decimal
   quantity       Int
-  code           String   @unique
+  code           String     @unique
   brandId        String?
   powerId        String?
   sizeId         String?
   img            String
-  isAvailable    Boolean  @default(true)
+  isAvailable    Boolean    @default(true)
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
 
