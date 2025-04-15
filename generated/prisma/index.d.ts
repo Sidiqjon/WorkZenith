@@ -3072,6 +3072,7 @@ export namespace Prisma {
     order: number
     contact: number
     basket: number
+    comment: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3080,6 +3081,7 @@ export namespace Prisma {
     order?: boolean | UserCountOutputTypeCountOrderArgs
     contact?: boolean | UserCountOutputTypeCountContactArgs
     basket?: boolean | UserCountOutputTypeCountBasketArgs
+    comment?: boolean | UserCountOutputTypeCountCommentArgs
   }
 
   // Custom InputTypes
@@ -3126,6 +3128,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountBasketArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BasketWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommentWhereInput
   }
 
 
@@ -4790,6 +4799,7 @@ export namespace Prisma {
     order?: boolean | User$orderArgs<ExtArgs>
     contact?: boolean | User$contactArgs<ExtArgs>
     basket?: boolean | User$basketArgs<ExtArgs>
+    comment?: boolean | User$commentArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4845,6 +4855,7 @@ export namespace Prisma {
     order?: boolean | User$orderArgs<ExtArgs>
     contact?: boolean | User$contactArgs<ExtArgs>
     basket?: boolean | User$basketArgs<ExtArgs>
+    comment?: boolean | User$commentArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4863,6 +4874,7 @@ export namespace Prisma {
       order: Prisma.$OrderPayload<ExtArgs>[]
       contact: Prisma.$ContactPayload<ExtArgs>[]
       basket: Prisma.$BasketPayload<ExtArgs>[]
+      comment: Prisma.$CommentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5276,6 +5288,7 @@ export namespace Prisma {
     order<T extends User$orderArgs<ExtArgs> = {}>(args?: Subset<T, User$orderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contact<T extends User$contactArgs<ExtArgs> = {}>(args?: Subset<T, User$contactArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     basket<T extends User$basketArgs<ExtArgs> = {}>(args?: Subset<T, User$basketArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BasketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comment<T extends User$commentArgs<ExtArgs> = {}>(args?: Subset<T, User$commentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5848,6 +5861,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BasketScalarFieldEnum | BasketScalarFieldEnum[]
+  }
+
+  /**
+   * User.comment
+   */
+  export type User$commentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    where?: CommentWhereInput
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    cursor?: CommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
   }
 
   /**
@@ -24797,6 +24834,7 @@ export namespace Prisma {
 
   export type CommentMinAggregateOutputType = {
     id: string | null
+    userId: string | null
     message: string | null
     orderId: string | null
     createdAt: Date | null
@@ -24805,6 +24843,7 @@ export namespace Prisma {
 
   export type CommentMaxAggregateOutputType = {
     id: string | null
+    userId: string | null
     message: string | null
     orderId: string | null
     createdAt: Date | null
@@ -24813,6 +24852,7 @@ export namespace Prisma {
 
   export type CommentCountAggregateOutputType = {
     id: number
+    userId: number
     message: number
     stars: number
     orderId: number
@@ -24824,6 +24864,7 @@ export namespace Prisma {
 
   export type CommentMinAggregateInputType = {
     id?: true
+    userId?: true
     message?: true
     orderId?: true
     createdAt?: true
@@ -24832,6 +24873,7 @@ export namespace Prisma {
 
   export type CommentMaxAggregateInputType = {
     id?: true
+    userId?: true
     message?: true
     orderId?: true
     createdAt?: true
@@ -24840,6 +24882,7 @@ export namespace Prisma {
 
   export type CommentCountAggregateInputType = {
     id?: true
+    userId?: true
     message?: true
     stars?: true
     orderId?: true
@@ -24922,6 +24965,7 @@ export namespace Prisma {
 
   export type CommentGroupByOutputType = {
     id: string
+    userId: string
     message: string
     stars: JsonValue
     orderId: string
@@ -24948,36 +24992,43 @@ export namespace Prisma {
 
   export type CommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     message?: boolean
     stars?: boolean
     orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     message?: boolean
     stars?: boolean
     orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
     message?: boolean
     stars?: boolean
     orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectScalar = {
     id?: boolean
+    userId?: boolean
     message?: boolean
     stars?: boolean
     orderId?: boolean
@@ -24985,24 +25036,29 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "message" | "stars" | "orderId" | "createdAt" | "updatedAt", ExtArgs["result"]["comment"]>
+  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "message" | "stars" | "orderId" | "createdAt" | "updatedAt", ExtArgs["result"]["comment"]>
   export type CommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
   }
   export type CommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
   }
   export type CommentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
   }
 
   export type $CommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Comment"
     objects: {
+      user: Prisma.$UserPayload<ExtArgs>
       order: Prisma.$OrderPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      userId: string
       message: string
       stars: Prisma.JsonValue
       orderId: string
@@ -25402,6 +25458,7 @@ export namespace Prisma {
    */
   export interface Prisma__CommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     order<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -25433,6 +25490,7 @@ export namespace Prisma {
    */
   interface CommentFieldRefs {
     readonly id: FieldRef<"Comment", 'String'>
+    readonly userId: FieldRef<"Comment", 'String'>
     readonly message: FieldRef<"Comment", 'String'>
     readonly stars: FieldRef<"Comment", 'Json'>
     readonly orderId: FieldRef<"Comment", 'String'>
@@ -31476,6 +31534,7 @@ export namespace Prisma {
 
   export const CommentScalarFieldEnum: {
     id: 'id',
+    userId: 'userId',
     message: 'message',
     stars: 'stars',
     orderId: 'orderId',
@@ -31854,6 +31913,7 @@ export namespace Prisma {
     order?: OrderListRelationFilter
     contact?: ContactListRelationFilter
     basket?: BasketListRelationFilter
+    comment?: CommentListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -31874,6 +31934,7 @@ export namespace Prisma {
     order?: OrderOrderByRelationAggregateInput
     contact?: ContactOrderByRelationAggregateInput
     basket?: BasketOrderByRelationAggregateInput
+    comment?: CommentOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -31897,6 +31958,7 @@ export namespace Prisma {
     order?: OrderListRelationFilter
     contact?: ContactListRelationFilter
     basket?: BasketListRelationFilter
+    comment?: CommentListRelationFilter
   }, "id" | "phoneNumber">
 
   export type UserOrderByWithAggregationInput = {
@@ -33263,21 +33325,25 @@ export namespace Prisma {
     OR?: CommentWhereInput[]
     NOT?: CommentWhereInput | CommentWhereInput[]
     id?: StringFilter<"Comment"> | string
+    userId?: StringFilter<"Comment"> | string
     message?: StringFilter<"Comment"> | string
     stars?: JsonFilter<"Comment">
     orderId?: StringFilter<"Comment"> | string
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
   }
 
   export type CommentOrderByWithRelationInput = {
     id?: SortOrder
+    userId?: SortOrder
     message?: SortOrder
     stars?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
     order?: OrderOrderByWithRelationInput
   }
 
@@ -33286,16 +33352,19 @@ export namespace Prisma {
     AND?: CommentWhereInput | CommentWhereInput[]
     OR?: CommentWhereInput[]
     NOT?: CommentWhereInput | CommentWhereInput[]
+    userId?: StringFilter<"Comment"> | string
     message?: StringFilter<"Comment"> | string
     stars?: JsonFilter<"Comment">
     orderId?: StringFilter<"Comment"> | string
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
   }, "id">
 
   export type CommentOrderByWithAggregationInput = {
     id?: SortOrder
+    userId?: SortOrder
     message?: SortOrder
     stars?: SortOrder
     orderId?: SortOrder
@@ -33311,6 +33380,7 @@ export namespace Prisma {
     OR?: CommentScalarWhereWithAggregatesInput[]
     NOT?: CommentScalarWhereWithAggregatesInput | CommentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Comment"> | string
+    userId?: StringWithAggregatesFilter<"Comment"> | string
     message?: StringWithAggregatesFilter<"Comment"> | string
     stars?: JsonWithAggregatesFilter<"Comment">
     orderId?: StringWithAggregatesFilter<"Comment"> | string
@@ -33780,6 +33850,7 @@ export namespace Prisma {
     order?: OrderCreateNestedManyWithoutOwnerInput
     contact?: ContactCreateNestedManyWithoutUserInput
     basket?: BasketCreateNestedManyWithoutOwnerInput
+    comment?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -33799,6 +33870,7 @@ export namespace Prisma {
     order?: OrderUncheckedCreateNestedManyWithoutOwnerInput
     contact?: ContactUncheckedCreateNestedManyWithoutUserInput
     basket?: BasketUncheckedCreateNestedManyWithoutOwnerInput
+    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -33818,6 +33890,7 @@ export namespace Prisma {
     order?: OrderUpdateManyWithoutOwnerNestedInput
     contact?: ContactUpdateManyWithoutUserNestedInput
     basket?: BasketUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -33837,6 +33910,7 @@ export namespace Prisma {
     order?: OrderUncheckedUpdateManyWithoutOwnerNestedInput
     contact?: ContactUncheckedUpdateManyWithoutUserNestedInput
     basket?: BasketUncheckedUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -35329,11 +35403,13 @@ export namespace Prisma {
     stars: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCommentInput
     order: OrderCreateNestedOneWithoutCommentsInput
   }
 
   export type CommentUncheckedCreateInput = {
     id?: string
+    userId: string
     message: string
     stars: JsonNullValueInput | InputJsonValue
     orderId: string
@@ -35347,11 +35423,13 @@ export namespace Prisma {
     stars?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCommentNestedInput
     order?: OrderUpdateOneRequiredWithoutCommentsNestedInput
   }
 
   export type CommentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     stars?: JsonNullValueInput | InputJsonValue
     orderId?: StringFieldUpdateOperationsInput | string
@@ -35361,6 +35439,7 @@ export namespace Prisma {
 
   export type CommentCreateManyInput = {
     id?: string
+    userId: string
     message: string
     stars: JsonNullValueInput | InputJsonValue
     orderId: string
@@ -35378,6 +35457,7 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     stars?: JsonNullValueInput | InputJsonValue
     orderId?: StringFieldUpdateOperationsInput | string
@@ -36007,6 +36087,12 @@ export namespace Prisma {
     none?: BasketWhereInput
   }
 
+  export type CommentListRelationFilter = {
+    every?: CommentWhereInput
+    some?: CommentWhereInput
+    none?: CommentWhereInput
+  }
+
   export type SessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -36024,6 +36110,10 @@ export namespace Prisma {
   }
 
   export type BasketOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -36832,16 +36922,6 @@ export namespace Prisma {
     not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
   }
 
-  export type CommentListRelationFilter = {
-    every?: CommentWhereInput
-    some?: CommentWhereInput
-    none?: CommentWhereInput
-  }
-
-  export type CommentOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type OrderCountOrderByAggregateInput = {
     id?: SortOrder
     ownerId?: SortOrder
@@ -37104,6 +37184,7 @@ export namespace Prisma {
 
   export type CommentCountOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     message?: SortOrder
     stars?: SortOrder
     orderId?: SortOrder
@@ -37113,6 +37194,7 @@ export namespace Prisma {
 
   export type CommentMaxOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     message?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
@@ -37121,6 +37203,7 @@ export namespace Prisma {
 
   export type CommentMinOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     message?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
@@ -37435,6 +37518,13 @@ export namespace Prisma {
     connect?: BasketWhereUniqueInput | BasketWhereUniqueInput[]
   }
 
+  export type CommentCreateNestedManyWithoutUserInput = {
+    create?: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput> | CommentCreateWithoutUserInput[] | CommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
+    createMany?: CommentCreateManyUserInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -37468,6 +37558,13 @@ export namespace Prisma {
     connectOrCreate?: BasketCreateOrConnectWithoutOwnerInput | BasketCreateOrConnectWithoutOwnerInput[]
     createMany?: BasketCreateManyOwnerInputEnvelope
     connect?: BasketWhereUniqueInput | BasketWhereUniqueInput[]
+  }
+
+  export type CommentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput> | CommentCreateWithoutUserInput[] | CommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
+    createMany?: CommentCreateManyUserInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
   export type EnumUserStatusFieldUpdateOperationsInput = {
@@ -37558,6 +37655,20 @@ export namespace Prisma {
     deleteMany?: BasketScalarWhereInput | BasketScalarWhereInput[]
   }
 
+  export type CommentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput> | CommentCreateWithoutUserInput[] | CommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutUserInput | CommentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CommentCreateManyUserInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutUserInput | CommentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutUserInput | CommentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -37626,6 +37737,20 @@ export namespace Prisma {
     update?: BasketUpdateWithWhereUniqueWithoutOwnerInput | BasketUpdateWithWhereUniqueWithoutOwnerInput[]
     updateMany?: BasketUpdateManyWithWhereWithoutOwnerInput | BasketUpdateManyWithWhereWithoutOwnerInput[]
     deleteMany?: BasketScalarWhereInput | BasketScalarWhereInput[]
+  }
+
+  export type CommentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput> | CommentCreateWithoutUserInput[] | CommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutUserInput | CommentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CommentCreateManyUserInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutUserInput | CommentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutUserInput | CommentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutCompaniesInput = {
@@ -38866,10 +38991,24 @@ export namespace Prisma {
     update?: XOR<XOR<LevelUpdateToOneWithWhereWithoutBasketInput, LevelUpdateWithoutBasketInput>, LevelUncheckedUpdateWithoutBasketInput>
   }
 
+  export type UserCreateNestedOneWithoutCommentInput = {
+    create?: XOR<UserCreateWithoutCommentInput, UserUncheckedCreateWithoutCommentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommentInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type OrderCreateNestedOneWithoutCommentsInput = {
     create?: XOR<OrderCreateWithoutCommentsInput, OrderUncheckedCreateWithoutCommentsInput>
     connectOrCreate?: OrderCreateOrConnectWithoutCommentsInput
     connect?: OrderWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutCommentNestedInput = {
+    create?: XOR<UserCreateWithoutCommentInput, UserUncheckedCreateWithoutCommentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommentInput
+    upsert?: UserUpsertWithoutCommentInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommentInput, UserUpdateWithoutCommentInput>, UserUncheckedUpdateWithoutCommentInput>
   }
 
   export type OrderUpdateOneRequiredWithoutCommentsNestedInput = {
@@ -39250,6 +39389,7 @@ export namespace Prisma {
     order?: OrderCreateNestedManyWithoutOwnerInput
     contact?: ContactCreateNestedManyWithoutUserInput
     basket?: BasketCreateNestedManyWithoutOwnerInput
+    comment?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRegionInput = {
@@ -39268,6 +39408,7 @@ export namespace Prisma {
     order?: OrderUncheckedCreateNestedManyWithoutOwnerInput
     contact?: ContactUncheckedCreateNestedManyWithoutUserInput
     basket?: BasketUncheckedCreateNestedManyWithoutOwnerInput
+    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRegionInput = {
@@ -39536,6 +39677,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CommentCreateWithoutUserInput = {
+    id?: string
+    message: string
+    stars: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    order: OrderCreateNestedOneWithoutCommentsInput
+  }
+
+  export type CommentUncheckedCreateWithoutUserInput = {
+    id?: string
+    message: string
+    stars: JsonNullValueInput | InputJsonValue
+    orderId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CommentCreateOrConnectWithoutUserInput = {
+    where: CommentWhereUniqueInput
+    create: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommentCreateManyUserInputEnvelope = {
+    data: CommentCreateManyUserInput | CommentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RegionUpsertWithoutUsersInput = {
     update: XOR<RegionUpdateWithoutUsersInput, RegionUncheckedUpdateWithoutUsersInput>
     create: XOR<RegionCreateWithoutUsersInput, RegionUncheckedCreateWithoutUsersInput>
@@ -39737,6 +39906,35 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Basket"> | Date | string
   }
 
+  export type CommentUpsertWithWhereUniqueWithoutUserInput = {
+    where: CommentWhereUniqueInput
+    update: XOR<CommentUpdateWithoutUserInput, CommentUncheckedUpdateWithoutUserInput>
+    create: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommentUpdateWithWhereUniqueWithoutUserInput = {
+    where: CommentWhereUniqueInput
+    data: XOR<CommentUpdateWithoutUserInput, CommentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CommentUpdateManyWithWhereWithoutUserInput = {
+    where: CommentScalarWhereInput
+    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CommentScalarWhereInput = {
+    AND?: CommentScalarWhereInput | CommentScalarWhereInput[]
+    OR?: CommentScalarWhereInput[]
+    NOT?: CommentScalarWhereInput | CommentScalarWhereInput[]
+    id?: StringFilter<"Comment"> | string
+    userId?: StringFilter<"Comment"> | string
+    message?: StringFilter<"Comment"> | string
+    stars?: JsonFilter<"Comment">
+    orderId?: StringFilter<"Comment"> | string
+    createdAt?: DateTimeFilter<"Comment"> | Date | string
+    updatedAt?: DateTimeFilter<"Comment"> | Date | string
+  }
+
   export type UserCreateWithoutCompaniesInput = {
     id?: string
     firstName: string
@@ -39753,6 +39951,7 @@ export namespace Prisma {
     order?: OrderCreateNestedManyWithoutOwnerInput
     contact?: ContactCreateNestedManyWithoutUserInput
     basket?: BasketCreateNestedManyWithoutOwnerInput
+    comment?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompaniesInput = {
@@ -39771,6 +39970,7 @@ export namespace Prisma {
     order?: OrderUncheckedCreateNestedManyWithoutOwnerInput
     contact?: ContactUncheckedCreateNestedManyWithoutUserInput
     basket?: BasketUncheckedCreateNestedManyWithoutOwnerInput
+    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompaniesInput = {
@@ -39805,6 +40005,7 @@ export namespace Prisma {
     order?: OrderUpdateManyWithoutOwnerNestedInput
     contact?: ContactUpdateManyWithoutUserNestedInput
     basket?: BasketUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompaniesInput = {
@@ -39823,6 +40024,7 @@ export namespace Prisma {
     order?: OrderUncheckedUpdateManyWithoutOwnerNestedInput
     contact?: ContactUncheckedUpdateManyWithoutUserNestedInput
     basket?: BasketUncheckedUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -39841,6 +40043,7 @@ export namespace Prisma {
     order?: OrderCreateNestedManyWithoutOwnerInput
     contact?: ContactCreateNestedManyWithoutUserInput
     basket?: BasketCreateNestedManyWithoutOwnerInput
+    comment?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -39859,6 +40062,7 @@ export namespace Prisma {
     order?: OrderUncheckedCreateNestedManyWithoutOwnerInput
     contact?: ContactUncheckedCreateNestedManyWithoutUserInput
     basket?: BasketUncheckedCreateNestedManyWithoutOwnerInput
+    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -39893,6 +40097,7 @@ export namespace Prisma {
     order?: OrderUpdateManyWithoutOwnerNestedInput
     contact?: ContactUpdateManyWithoutUserNestedInput
     basket?: BasketUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -39911,6 +40116,7 @@ export namespace Prisma {
     order?: OrderUncheckedUpdateManyWithoutOwnerNestedInput
     contact?: ContactUncheckedUpdateManyWithoutUserNestedInput
     basket?: BasketUncheckedUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ToolCreateWithoutBrandInput = {
@@ -41617,10 +41823,12 @@ export namespace Prisma {
     stars: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCommentInput
   }
 
   export type CommentUncheckedCreateWithoutOrderInput = {
     id?: string
+    userId: string
     message: string
     stars: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -41673,6 +41881,7 @@ export namespace Prisma {
     companies?: CompanyCreateNestedManyWithoutOwnerInput
     contact?: ContactCreateNestedManyWithoutUserInput
     basket?: BasketCreateNestedManyWithoutOwnerInput
+    comment?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOrderInput = {
@@ -41691,6 +41900,7 @@ export namespace Prisma {
     companies?: CompanyUncheckedCreateNestedManyWithoutOwnerInput
     contact?: ContactUncheckedCreateNestedManyWithoutUserInput
     basket?: BasketUncheckedCreateNestedManyWithoutOwnerInput
+    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOrderInput = {
@@ -41728,18 +41938,6 @@ export namespace Prisma {
   export type CommentUpdateManyWithWhereWithoutOrderInput = {
     where: CommentScalarWhereInput
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutOrderInput>
-  }
-
-  export type CommentScalarWhereInput = {
-    AND?: CommentScalarWhereInput | CommentScalarWhereInput[]
-    OR?: CommentScalarWhereInput[]
-    NOT?: CommentScalarWhereInput | CommentScalarWhereInput[]
-    id?: StringFilter<"Comment"> | string
-    message?: StringFilter<"Comment"> | string
-    stars?: JsonFilter<"Comment">
-    orderId?: StringFilter<"Comment"> | string
-    createdAt?: DateTimeFilter<"Comment"> | Date | string
-    updatedAt?: DateTimeFilter<"Comment"> | Date | string
   }
 
   export type OrderMasterUpsertWithWhereUniqueWithoutOrderInput = {
@@ -41785,6 +41983,7 @@ export namespace Prisma {
     companies?: CompanyUpdateManyWithoutOwnerNestedInput
     contact?: ContactUpdateManyWithoutUserNestedInput
     basket?: BasketUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrderInput = {
@@ -41803,6 +42002,7 @@ export namespace Prisma {
     companies?: CompanyUncheckedUpdateManyWithoutOwnerNestedInput
     contact?: ContactUncheckedUpdateManyWithoutUserNestedInput
     basket?: BasketUncheckedUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OrderCreateWithoutOrderProductsInput = {
@@ -42325,6 +42525,7 @@ export namespace Prisma {
     companies?: CompanyCreateNestedManyWithoutOwnerInput
     order?: OrderCreateNestedManyWithoutOwnerInput
     contact?: ContactCreateNestedManyWithoutUserInput
+    comment?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBasketInput = {
@@ -42343,6 +42544,7 @@ export namespace Prisma {
     companies?: CompanyUncheckedCreateNestedManyWithoutOwnerInput
     order?: OrderUncheckedCreateNestedManyWithoutOwnerInput
     contact?: ContactUncheckedCreateNestedManyWithoutUserInput
+    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBasketInput = {
@@ -42490,6 +42692,7 @@ export namespace Prisma {
     companies?: CompanyUpdateManyWithoutOwnerNestedInput
     order?: OrderUpdateManyWithoutOwnerNestedInput
     contact?: ContactUpdateManyWithoutUserNestedInput
+    comment?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBasketInput = {
@@ -42508,6 +42711,7 @@ export namespace Prisma {
     companies?: CompanyUncheckedUpdateManyWithoutOwnerNestedInput
     order?: OrderUncheckedUpdateManyWithoutOwnerNestedInput
     contact?: ContactUncheckedUpdateManyWithoutUserNestedInput
+    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProfessionUpsertWithoutBasketInput = {
@@ -42641,6 +42845,49 @@ export namespace Prisma {
     orderProductLevel?: OrderProductUncheckedUpdateManyWithoutLevelNestedInput
   }
 
+  export type UserCreateWithoutCommentInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    phoneNumber: string
+    password: string
+    status?: $Enums.UserStatus
+    role?: $Enums.UserRole
+    refreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    region?: RegionCreateNestedOneWithoutUsersInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    companies?: CompanyCreateNestedManyWithoutOwnerInput
+    order?: OrderCreateNestedManyWithoutOwnerInput
+    contact?: ContactCreateNestedManyWithoutUserInput
+    basket?: BasketCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserUncheckedCreateWithoutCommentInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    phoneNumber: string
+    password: string
+    regionId?: string | null
+    status?: $Enums.UserStatus
+    role?: $Enums.UserRole
+    refreshToken?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    companies?: CompanyUncheckedCreateNestedManyWithoutOwnerInput
+    order?: OrderUncheckedCreateNestedManyWithoutOwnerInput
+    contact?: ContactUncheckedCreateNestedManyWithoutUserInput
+    basket?: BasketUncheckedCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserCreateOrConnectWithoutCommentInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCommentInput, UserUncheckedCreateWithoutCommentInput>
+  }
+
   export type OrderCreateWithoutCommentsInput = {
     id?: string
     address: string
@@ -42682,6 +42929,55 @@ export namespace Prisma {
   export type OrderCreateOrConnectWithoutCommentsInput = {
     where: OrderWhereUniqueInput
     create: XOR<OrderCreateWithoutCommentsInput, OrderUncheckedCreateWithoutCommentsInput>
+  }
+
+  export type UserUpsertWithoutCommentInput = {
+    update: XOR<UserUpdateWithoutCommentInput, UserUncheckedUpdateWithoutCommentInput>
+    create: XOR<UserCreateWithoutCommentInput, UserUncheckedCreateWithoutCommentInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCommentInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCommentInput, UserUncheckedUpdateWithoutCommentInput>
+  }
+
+  export type UserUpdateWithoutCommentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    region?: RegionUpdateOneWithoutUsersNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    companies?: CompanyUpdateManyWithoutOwnerNestedInput
+    order?: OrderUpdateManyWithoutOwnerNestedInput
+    contact?: ContactUpdateManyWithoutUserNestedInput
+    basket?: BasketUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCommentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    regionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    companies?: CompanyUncheckedUpdateManyWithoutOwnerNestedInput
+    order?: OrderUncheckedUpdateManyWithoutOwnerNestedInput
+    contact?: ContactUncheckedUpdateManyWithoutUserNestedInput
+    basket?: BasketUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type OrderUpsertWithoutCommentsInput = {
@@ -42749,6 +43045,7 @@ export namespace Prisma {
     companies?: CompanyCreateNestedManyWithoutOwnerInput
     order?: OrderCreateNestedManyWithoutOwnerInput
     basket?: BasketCreateNestedManyWithoutOwnerInput
+    comment?: CommentCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutContactInput = {
@@ -42767,6 +43064,7 @@ export namespace Prisma {
     companies?: CompanyUncheckedCreateNestedManyWithoutOwnerInput
     order?: OrderUncheckedCreateNestedManyWithoutOwnerInput
     basket?: BasketUncheckedCreateNestedManyWithoutOwnerInput
+    comment?: CommentUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutContactInput = {
@@ -42801,6 +43099,7 @@ export namespace Prisma {
     companies?: CompanyUpdateManyWithoutOwnerNestedInput
     order?: OrderUpdateManyWithoutOwnerNestedInput
     basket?: BasketUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutContactInput = {
@@ -42819,6 +43118,7 @@ export namespace Prisma {
     companies?: CompanyUncheckedUpdateManyWithoutOwnerNestedInput
     order?: OrderUncheckedUpdateManyWithoutOwnerNestedInput
     basket?: BasketUncheckedUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyRegionInput = {
@@ -42850,6 +43150,7 @@ export namespace Prisma {
     order?: OrderUpdateManyWithoutOwnerNestedInput
     contact?: ContactUpdateManyWithoutUserNestedInput
     basket?: BasketUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRegionInput = {
@@ -42868,6 +43169,7 @@ export namespace Prisma {
     order?: OrderUncheckedUpdateManyWithoutOwnerNestedInput
     contact?: ContactUncheckedUpdateManyWithoutUserNestedInput
     basket?: BasketUncheckedUpdateManyWithoutOwnerNestedInput
+    comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutRegionInput = {
@@ -42951,6 +43253,15 @@ export namespace Prisma {
     timeUnit: $Enums.TimeUnit
     workingTime: number
     price: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CommentCreateManyUserInput = {
+    id?: string
+    message: string
+    stars: JsonNullValueInput | InputJsonValue
+    orderId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -43173,6 +43484,33 @@ export namespace Prisma {
     timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
     workingTime?: FloatFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stars?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    order?: OrderUpdateOneRequiredWithoutCommentsNestedInput
+  }
+
+  export type CommentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stars?: JsonNullValueInput | InputJsonValue
+    orderId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    stars?: JsonNullValueInput | InputJsonValue
+    orderId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44050,6 +44388,7 @@ export namespace Prisma {
 
   export type CommentCreateManyOrderInput = {
     id?: string
+    userId: string
     message: string
     stars: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -44106,10 +44445,12 @@ export namespace Prisma {
     stars?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     stars?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -44118,6 +44459,7 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateManyWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     stars?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

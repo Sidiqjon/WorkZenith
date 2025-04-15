@@ -43,6 +43,7 @@ model User {
   order     Order[]
   contact   Contact[]
   basket    Basket[]
+  comment   Comment[]
 }
 
 model Company {
@@ -304,6 +305,8 @@ model Basket {
 
 model Comment {
   id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   message   String
   stars     Json
   orderId   String

@@ -120,7 +120,14 @@ export class AdminService {
       const adminToDelete = await this.prisma.user.findUnique({ where: { id } });
       if (!adminToDelete) throw new NotFoundException('Admin not found!');
 
-      const deletedAdmin = await this.prisma.user.delete({ where: { id } });
+      let deletedAdmin = await this.prisma.user.delete({ where: { id } });
+
+      if (!deletedAdmin) {
+        throw new BadRequestException('Failed to delete admin');
+      }
+
+      const admin = { ...deletedAdmin, password: 'XXX', refreshToken: 'XXX' };
+
       return { message: 'Admin deleted successfully', admin: deletedAdmin };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;

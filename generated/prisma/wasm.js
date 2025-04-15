@@ -340,6 +340,7 @@ exports.Prisma.BasketScalarFieldEnum = {
 
 exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
   message: 'message',
   stars: 'stars',
   orderId: 'orderId',
