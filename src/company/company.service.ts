@@ -14,19 +14,15 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 export class CompanyService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(userId: string, dto: CreateCompanyDto) {
+  async create(dto: CreateCompanyDto) {
     try {
+      const userId = dto.ownerId;
       const existing = await this.prisma.company.findFirst({ where: { ownerId: userId } });
       if (existing) {
-        throw new ConflictException('Company already exists for this user');
+        throw new ConflictException('Company already exists for this user!');
       }
 
-      const data = await this.prisma.company.create({
-        data: {
-          ...dto,
-          ownerId: userId,
-        },
-      });
+      const data = await this.prisma.company.create({ data: dto });
 
       return { message: 'Company created successfully!', data };
     } catch (error) {
@@ -35,6 +31,7 @@ export class CompanyService {
   }
 
   async findAll(query?: {
+    userId: string;
     page?: number;
     limit?: number;
     search?: string;
@@ -69,12 +66,7 @@ export class CompanyService {
         take: limit,
         include: {
           owner: {
-            select: {
-              id: true,
-              firstName: true,
-              phoneNumber: true,
-              role: true,
-            },
+            omit: { password: true, refreshToken: true },
           },
         },
       });
@@ -97,23 +89,24 @@ export class CompanyService {
     }
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, userId: string, userRole: string) {
     try {
       const data = await this.prisma.company.findUnique({
         where: { id },
         include: {
           owner: {
-            select: {
-              id: true,
-              firstName: true,
-              phoneNumber: true,
-              role: true,
-            },
+            omit: { password: true, refreshToken: true },
           },
         },
       });
+      
+      if (!data) throw new NotFoundException("Company not found with the provided 'id'!");
 
-      if (!data) throw new NotFoundException("Company not found with the provided 'id'");
+      if (data.ownerId !== userId) {
+        if (['ADMIN', 'SUPERADMIN', 'VIEWERADMIN'].includes(userRole) === false) {
+          throw new ForbiddenException('Access denied!You are not allowed to view this company!');
+        }
+      }
 
       return { data };
     } catch (error) {
@@ -121,12 +114,17 @@ export class CompanyService {
     }
   }
 
-  async update(id: string, userId: string, dto: UpdateCompanyDto) {
+  async update(id: string, userId: string, userRole: string, dto: UpdateCompanyDto) {
     try {
       const company = await this.prisma.company.findUnique({ where: { id } });
 
       if (!company) throw new NotFoundException("Company not found with the provided 'id'");
-      if (company.ownerId !== userId) throw new ForbiddenException('Access denied');
+
+      if (company.ownerId !== userId) {
+        if (['ADMIN', 'SUPERADMIN'].includes(userRole) === false) {
+          throw new ForbiddenException('Access denied!You are not allowed to update this company!');
+        }
+      }
 
       const data = await this.prisma.company.update({
         where: { id },
@@ -139,12 +137,17 @@ export class CompanyService {
     }
   }
 
-  async remove(id: string, userId: string) {
+  async remove(id: string, userId: string, userRole: string) {
     try {
       const company = await this.prisma.company.findUnique({ where: { id } });
 
       if (!company) throw new NotFoundException("Company not found with the provided 'id'");
-      if (company.ownerId !== userId) throw new ForbiddenException('Access denied');
+
+      if (company.ownerId !== userId) {
+        if (['ADMIN'].includes(userRole) === false) {
+          throw new ForbiddenException('Access denied!You are not allowed to delete this company!');
+        }
+      }
 
       const data = await this.prisma.company.delete({ where: { id } });
 

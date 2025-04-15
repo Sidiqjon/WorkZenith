@@ -50,7 +50,7 @@ export class CreateCompanyDto {
   @IsString({ message: 'address must be a string' })
   address?: string;
 
-//   @ApiProperty({ example: 'uuid-of-user', description: 'User ID who owns the company' })
+  @ApiProperty({ example: 'uuid-of-user', description: 'User ID who owns the company' })
   @IsNotEmpty({ message: 'ownerId is required' })
   @IsString({ message: 'ownerId must be a string' })
   ownerId: string;

@@ -68,7 +68,7 @@ export class AuthService {
   
       const hashedPassword = await bcrypt.hash(password, 7);
   
-      await this.prisma.user.create({
+      let newUser = await this.prisma.user.create({
         data: {
           ...RegisterUser,
           password: hashedPassword,
@@ -76,6 +76,8 @@ export class AuthService {
       });
   
       const otp = totp.generate(this.OTP_SECRET + phoneNumber);
+
+      const newData = { id: newUser.id, firstName: newUser.firstName, lastName: newUser.lastName, role: newUser.role, regionId: newUser.regionId, phoneNumber: newUser.phoneNumber, status: newUser.status , createdAt: newUser.createdAt, updatedAt: newUser.updatedAt};
   
       // await this.eskizService.sendSMS(otp, phoneNumber);
   
@@ -83,6 +85,7 @@ export class AuthService {
         message:
           `Hello ${RegisterUser.firstName}.You registered successfully. An OTP code has been sent to your phone number. Please activate your account.`,
         otp, 
+        data: newData
       };
     } catch (error) {
       if (error instanceof HttpException) {
@@ -108,7 +111,7 @@ export class AuthService {
       }
   
       if (user.status === 'INACTIVE') {
-        throw new ForbiddenException('Your account is not active, please activateAccount it first!');
+        throw new ForbiddenException('Your account is not active, please activate your account first!');
       }
   
       if (user.status === 'BANNED') {

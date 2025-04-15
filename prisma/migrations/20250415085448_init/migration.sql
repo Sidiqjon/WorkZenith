@@ -16,7 +16,7 @@ CREATE TYPE "TimeUnit" AS ENUM ('HOURLY', 'DAILY');
 -- CreateTable
 CREATE TABLE "Region" (
     "id" TEXT NOT NULL,
-    "nameUz" TEXT,
+    "nameUz" TEXT NOT NULL,
     "nameRu" TEXT,
     "nameEn" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -45,7 +45,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Company" (
     "id" TEXT NOT NULL,
-    "nameUz" TEXT,
+    "nameUz" TEXT NOT NULL,
     "nameRu" TEXT,
     "nameEn" TEXT,
     "taxId" TEXT,
@@ -85,9 +85,11 @@ CREATE TABLE "Session" (
 -- CreateTable
 CREATE TABLE "Brand" (
     "id" TEXT NOT NULL,
-    "nameUz" TEXT,
+    "nameUz" TEXT NOT NULL,
     "nameRu" TEXT,
     "nameEn" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Brand_pkey" PRIMARY KEY ("id")
 );
@@ -95,9 +97,11 @@ CREATE TABLE "Brand" (
 -- CreateTable
 CREATE TABLE "Size" (
     "id" TEXT NOT NULL,
-    "nameUz" TEXT,
+    "nameUz" TEXT NOT NULL,
     "nameRu" TEXT,
     "nameEn" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Size_pkey" PRIMARY KEY ("id")
 );
@@ -105,9 +109,11 @@ CREATE TABLE "Size" (
 -- CreateTable
 CREATE TABLE "Power" (
     "id" TEXT NOT NULL,
-    "nameUz" TEXT,
+    "nameUz" TEXT NOT NULL,
     "nameRu" TEXT,
     "nameEn" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Power_pkey" PRIMARY KEY ("id")
 );
@@ -115,10 +121,10 @@ CREATE TABLE "Power" (
 -- CreateTable
 CREATE TABLE "Tool" (
     "id" TEXT NOT NULL,
-    "nameUz" TEXT,
+    "nameUz" TEXT NOT NULL,
     "nameRu" TEXT,
     "nameEn" TEXT,
-    "descriptionUz" TEXT,
+    "descriptionUz" TEXT NOT NULL,
     "descriptionRu" TEXT,
     "descriptionEn" TEXT,
     "price" DECIMAL(65,30) NOT NULL,
@@ -156,12 +162,14 @@ CREATE TABLE "Master" (
 CREATE TABLE "MasterProfession" (
     "id" TEXT NOT NULL,
     "professionId" TEXT,
-    "minWorkingHours" DOUBLE PRECISION,
+    "minWorkingHours" INTEGER,
     "levelId" TEXT,
     "priceHourly" DECIMAL(65,30) NOT NULL,
     "priceDaily" DECIMAL(65,30) NOT NULL,
     "experience" DOUBLE PRECISION NOT NULL,
     "masterId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "MasterProfession_pkey" PRIMARY KEY ("id")
 );
@@ -169,9 +177,11 @@ CREATE TABLE "MasterProfession" (
 -- CreateTable
 CREATE TABLE "Level" (
     "id" TEXT NOT NULL,
-    "nameUz" TEXT,
+    "nameUz" TEXT NOT NULL,
     "nameRu" TEXT,
     "nameEn" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Level_pkey" PRIMARY KEY ("id")
 );
@@ -179,13 +189,13 @@ CREATE TABLE "Level" (
 -- CreateTable
 CREATE TABLE "Profession" (
     "id" TEXT NOT NULL,
-    "nameUz" TEXT,
+    "nameUz" TEXT NOT NULL,
     "nameRu" TEXT,
     "nameEn" TEXT,
     "img" TEXT NOT NULL,
-    "minWorkingHours" DOUBLE PRECISION NOT NULL,
-    "priceHourly" DECIMAL(65,30) NOT NULL,
-    "priceDaily" DECIMAL(65,30) NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Profession_pkey" PRIMARY KEY ("id")
 );
@@ -195,6 +205,11 @@ CREATE TABLE "ProfessionLevel" (
     "id" TEXT NOT NULL,
     "professionId" TEXT NOT NULL,
     "levelId" TEXT NOT NULL,
+    "minWorkingHours" INTEGER NOT NULL,
+    "priceHourly" DECIMAL(65,30) NOT NULL,
+    "priceDaily" DECIMAL(65,30) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "ProfessionLevel_pkey" PRIMARY KEY ("id")
 );
@@ -204,6 +219,8 @@ CREATE TABLE "ProfessionTool" (
     "id" TEXT NOT NULL,
     "professionId" TEXT NOT NULL,
     "toolId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "ProfessionTool_pkey" PRIMARY KEY ("id")
 );
@@ -221,8 +238,7 @@ CREATE TABLE "Order" (
     "paymentType" "PaymentType" NOT NULL DEFAULT 'CASH',
     "withDelivery" BOOLEAN NOT NULL,
     "status" "OrderStatus" NOT NULL DEFAULT 'PENDING',
-    "comment" TEXT NOT NULL,
-    "masters" TEXT[],
+    "deliveryComment" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -233,7 +249,8 @@ CREATE TABLE "Order" (
 CREATE TABLE "OrderProduct" (
     "id" TEXT NOT NULL,
     "orderId" TEXT NOT NULL,
-    "professionId" TEXT NOT NULL,
+    "professionId" TEXT,
+    "toolId" TEXT,
     "levelId" TEXT,
     "quantity" INTEGER NOT NULL DEFAULT 1,
     "timeUnit" "TimeUnit" NOT NULL,
@@ -246,10 +263,21 @@ CREATE TABLE "OrderProduct" (
 );
 
 -- CreateTable
-CREATE TABLE "OrderTool" (
+CREATE TABLE "OrderMaster" (
     "id" TEXT NOT NULL,
     "orderId" TEXT NOT NULL,
+    "masterid" TEXT NOT NULL,
+
+    CONSTRAINT "OrderMaster_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Basket" (
+    "id" TEXT NOT NULL,
+    "ownerId" TEXT NOT NULL,
+    "professionId" TEXT,
     "toolId" TEXT,
+    "levelId" TEXT,
     "quantity" INTEGER NOT NULL DEFAULT 1,
     "timeUnit" "TimeUnit" NOT NULL,
     "workingTime" DOUBLE PRECISION NOT NULL,
@@ -257,7 +285,7 @@ CREATE TABLE "OrderTool" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "OrderTool_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Basket_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -280,6 +308,8 @@ CREATE TABLE "Contact" (
     "phoneNumber" TEXT NOT NULL,
     "address" TEXT NOT NULL,
     "message" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "Contact_pkey" PRIMARY KEY ("id")
@@ -288,12 +318,14 @@ CREATE TABLE "Contact" (
 -- CreateTable
 CREATE TABLE "FAQ" (
     "id" TEXT NOT NULL,
-    "questionUz" TEXT,
+    "questionUz" TEXT NOT NULL,
     "questionRu" TEXT,
     "questionEn" TEXT,
-    "answerUz" TEXT,
+    "answerUz" TEXT NOT NULL,
     "answerRu" TEXT,
     "answerEn" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "FAQ_pkey" PRIMARY KEY ("id")
 );
@@ -301,10 +333,10 @@ CREATE TABLE "FAQ" (
 -- CreateTable
 CREATE TABLE "Showcase" (
     "id" TEXT NOT NULL,
-    "nameUz" TEXT,
+    "nameUz" TEXT NOT NULL,
     "nameRu" TEXT,
     "nameEn" TEXT,
-    "descriptionUz" TEXT,
+    "descriptionUz" TEXT NOT NULL,
     "descriptionRu" TEXT,
     "descriptionEn" TEXT,
     "image" TEXT NOT NULL,
@@ -318,7 +350,7 @@ CREATE TABLE "Showcase" (
 -- CreateTable
 CREATE TABLE "Partner" (
     "id" TEXT NOT NULL,
-    "nameUz" TEXT,
+    "nameUz" TEXT NOT NULL,
     "nameRu" TEXT,
     "nameEn" TEXT,
     "image" TEXT NOT NULL,
@@ -331,15 +363,17 @@ CREATE TABLE "Partner" (
 -- CreateTable
 CREATE TABLE "SiteMetadata" (
     "id" TEXT NOT NULL,
-    "aboutUz" TEXT,
+    "aboutUz" TEXT NOT NULL,
     "aboutRu" TEXT,
     "aboutEn" TEXT,
-    "privacyPolicyUz" TEXT,
+    "privacyPolicyUz" TEXT NOT NULL,
     "privacyPolicyRu" TEXT,
     "privacyPolicyEn" TEXT,
     "email" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
     "socialMedia" JSONB NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "SiteMetadata_pkey" PRIMARY KEY ("id")
 );
@@ -399,13 +433,28 @@ ALTER TABLE "OrderProduct" ADD CONSTRAINT "OrderProduct_orderId_fkey" FOREIGN KE
 ALTER TABLE "OrderProduct" ADD CONSTRAINT "OrderProduct_professionId_fkey" FOREIGN KEY ("professionId") REFERENCES "Profession"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "OrderProduct" ADD CONSTRAINT "OrderProduct_toolId_fkey" FOREIGN KEY ("toolId") REFERENCES "Tool"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "OrderProduct" ADD CONSTRAINT "OrderProduct_levelId_fkey" FOREIGN KEY ("levelId") REFERENCES "Level"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "OrderTool" ADD CONSTRAINT "OrderTool_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "OrderMaster" ADD CONSTRAINT "OrderMaster_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "OrderTool" ADD CONSTRAINT "OrderTool_toolId_fkey" FOREIGN KEY ("toolId") REFERENCES "Tool"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "OrderMaster" ADD CONSTRAINT "OrderMaster_masterid_fkey" FOREIGN KEY ("masterid") REFERENCES "Master"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Basket" ADD CONSTRAINT "Basket_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Basket" ADD CONSTRAINT "Basket_professionId_fkey" FOREIGN KEY ("professionId") REFERENCES "Profession"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Basket" ADD CONSTRAINT "Basket_toolId_fkey" FOREIGN KEY ("toolId") REFERENCES "Tool"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Basket" ADD CONSTRAINT "Basket_levelId_fkey" FOREIGN KEY ("levelId") REFERENCES "Level"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
