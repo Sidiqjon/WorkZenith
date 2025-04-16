@@ -21,11 +21,12 @@ import { UserModule } from './user/user.module';
 import { ContactModule } from './contact/contact.module';
 import { ToolModule } from './tool/tool.module';
 import { ProfessionModule } from './profession/profession.module';
+import { MasterModule } from './master/master.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, CompanyModule, AdminModule, UserModule, ContactModule, ToolModule, ProfessionModule],
+    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, CompanyModule, AdminModule, UserModule, ContactModule, ToolModule, ProfessionModule, MasterModule],
   controllers: [],
   providers: [EskizService],
 })

@@ -160,7 +160,7 @@ model Master {
 }
 
 model MasterProfession {
-  id              String   @id @default(uuid())
+  id              String     @id @default(uuid())
   professionId    String?
   minWorkingHours Int?
   levelId         String?
@@ -168,9 +168,9 @@ model MasterProfession {
   priceDaily      Decimal
   experience      Float
   masterId        String?
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  profession      Profession? @relation(fields: [professionId], references: [id], onDelete: SetNull)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  profession      Profession? @relation(fields: [professionId], references: [id], onDelete: Cascade)
   level           Level?      @relation(fields: [levelId], references: [id], onDelete: SetNull)
   master          Master?     @relation(fields: [masterId], references: [id], onDelete: Cascade)
 }
