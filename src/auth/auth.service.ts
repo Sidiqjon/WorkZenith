@@ -329,11 +329,22 @@ export class AuthService {
       throw new BadRequestException(error?.message || 'Something went wrong during logout!');
     }
   }
-
+  
   async me(req: Request) {
     const user = req['user'];
-    
+  
     try {
+      const session = await this.prisma.session.findFirst({
+        where: {
+          userId: user.id,
+          ip: req.ip,
+        },
+      });
+  
+      if (!session) {
+        throw new UnauthorizedException('You are logged out! Please log in again.');
+      }
+  
       const data = await this.prisma.user.findUnique({
         where: { id: user.id },
         omit: { password: true, refreshToken: true },
@@ -344,7 +355,7 @@ export class AuthService {
           order: true,
           basket: true,
           contact: true,
-          comment: true
+          comment: true,
         },
       });
   
@@ -357,8 +368,76 @@ export class AuthService {
       throw new BadRequestException(error?.message || 'Something went wrong!');
     }
   }
-  
 
+
+  async deleteSession(sessionId: string, user: any) {
+    try {
+      const session = await this.prisma.session.findUnique({
+        where: { id: sessionId },
+      });
+  
+      if (!session) {
+        throw new NotFoundException('Session not found!');
+      }
+  
+      const userId = user.id;
+      const userRole = user.role;
+  
+      if (session.userId !== userId && !['ADMIN'].includes(userRole)) {
+        throw new ForbiddenException('You do not have permission to delete this session!');
+      }
+  
+      await this.prisma.session.delete({
+        where: { id: sessionId },
+      });
+  
+      return { message: 'Session deleted successfully!' };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new BadRequestException(error?.message || 'Failed to delete session!');
+    }
+  }
+
+  async mySessions(user: any) {
+    try {
+      const sessions = await this.prisma.session.findMany({
+        where: { userId: user.id },
+        orderBy: {
+          createdAt: 'desc', 
+        },
+      });
+  
+      if (!sessions.length) {
+        throw new NotFoundException('No sessions found for this user!');
+      }
+  
+      return { data: sessions };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new BadRequestException(error?.message || 'Failed to fetch sessions!');
+    }
+  }
+
+  async logoutAll(user: any) {
+    try {
+      await this.prisma.session.deleteMany({
+        where: {
+          userId: user.id,
+        },
+      });
+  
+      return { message: 'Successfully logged out from all devices' };
+    } catch (error) {
+      throw new BadRequestException(error?.message || 'Failed to logout from all sessions');
+    }
+  }
+  
+  
+  
   genAccessToken(payload: any) {
     
     return this.jwtServices.sign(payload, {

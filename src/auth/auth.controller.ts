@@ -7,6 +7,8 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
@@ -19,8 +21,11 @@ import {
   RefreshTokenDto,
 } from './dto/create-auth.dto';
 import { Request } from 'express';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../guard/jwt-auth.guard';
+import { Roles } from 'src/guard/roles.decorator';
+import { RolesGuard } from 'src/guard/roles.guard';
+import { UserRole } from '@prisma/client';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -93,4 +98,35 @@ export class AuthController {
   me(@Req() req: Request) {
     return this.authService.me(req);
   }
+
+  @Delete('logout-all')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Logout from all devices (delete all sessions)' })
+  async logoutAll(@Req() req: Request) {
+    const user = req['user']; 
+    return this.authService.logoutAll(user);
+  }
+  
+
+  @Delete('session/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.INDIVIDUAL, UserRole.COMPANY, UserRole.VIEWERADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Delete session by ID (Admin or session owner)' })
+  @ApiParam({ name: 'id', type: String, description: 'Session ID' })
+  deleteSession(@Param('id') id: string, @Req() req: Request) {
+    return this.authService.deleteSession(id, req['user']);
+  }
+
+  @Get('my-sessions')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.INDIVIDUAL, UserRole.COMPANY, UserRole.VIEWERADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get all sessions for the authenticated user' })
+  async mySessions(@Req() req: Request) {
+    return this.authService.mySessions(req['user']);
+  }
+
 }

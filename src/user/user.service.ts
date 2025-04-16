@@ -119,7 +119,7 @@ export class UserService {
       }
 
       if (user.id !== userId) {
-        if (['ADMIN', 'SUPERADMIN'].includes(userRole) === false) {
+        if (['ADMIN'].includes(userRole) === false) {
           throw new ForbiddenException('Access denied!You are not allowed to update this user!');
         }
       }

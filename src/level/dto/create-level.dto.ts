@@ -18,7 +18,7 @@ export class CreateLevelDto {
   })
   @IsOptional()
   @IsString({ message: 'nameRu must be a string' })
-  @Matches(/^[А-Яа-яЁё\s'-]+$/, {
+  @Matches(/^[А-Яа-яЁё0-9\s.,'"“”‘’!?()\-–—]+$/, {
     message: 'nameRu can only contain Cyrillic letters, spaces, apostrophes, and dashes',
   })
   nameRu?: string;
