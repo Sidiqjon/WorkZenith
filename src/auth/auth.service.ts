@@ -43,7 +43,7 @@ export class AuthService {
   ) {}
     
   async register(RegisterUser: RegisterDTO) {
-    const { phoneNumber, password, regionId, role } = RegisterUser;
+    const { phoneNumber, password, regionId, role, company } = RegisterUser;
   
     try {
       const existingUser = await this.prisma.user.findUnique({
@@ -66,14 +66,45 @@ export class AuthService {
         throw new NotFoundException('Region not found with the provided regionId!');
       }
   
-      const hashedPassword = await bcrypt.hash(password, 7);
+      if (role === 'COMPANY' && !company) {
+        throw new BadRequestException('Company details are required for COMPANY role.');
+      }
+
+      if (role === 'INDIVIDUAL' && company) {
+        throw new BadRequestException('Company details are not required for INDIVIDUAL role.');
+      }
   
-      let newUser = await this.prisma.user.create({
+      const hashedPassword = await bcrypt.hash(password, 7);
+
+      const newUser = await this.prisma.user.create({
         data: {
-          ...RegisterUser,
+          firstName: RegisterUser.firstName,
+          lastName: RegisterUser.lastName,
+          phoneNumber,
           password: hashedPassword,
+          regionId,
+          role,
         },
       });
+        
+      let newCompany = {};
+      if (role === 'COMPANY' && company) {
+        newCompany = await this.prisma.company.create({
+          data: {
+            nameUz: company.nameUz,
+            nameRu: company.nameRu,
+            nameEn: company.nameEn,
+            taxId: company.taxId,
+            bankCode: company.bankCode,
+            bankAccount: company.bankAccount,
+            bankName: company.bankName,
+            oked: company.oked,
+            address: company.address,
+            ownerId: newUser.id,
+          },
+        });
+      }
+  
   
       const otp = totp.generate(this.OTP_SECRET + phoneNumber);
 

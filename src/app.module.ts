@@ -15,7 +15,7 @@ import { FaqModule } from './faq/faq.module';
 import { ShowcaseModule } from './showcase/showcase.module';
 import { PartnerModule } from './partner/partner.module';
 import { SitemetadataModule } from './sitemetadata/sitemetadata.module';
-import { CompanyModule } from './company/company.module';
+// import { CompanyModule } from './company/company.module';
 import { AdminModule } from './admin/admin.module';
 import { UserModule } from './user/user.module';
 import { ContactModule } from './contact/contact.module';
@@ -27,7 +27,7 @@ import { OrderModule } from './order/order.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, CompanyModule, AdminModule, UserModule, ContactModule, ToolModule, ProfessionModule, MasterModule, OrderModule],
+    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, AdminModule, UserModule, ContactModule, ToolModule, ProfessionModule, MasterModule, OrderModule],
   controllers: [],
   providers: [EskizService],
 })

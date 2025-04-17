@@ -157,6 +157,7 @@ model Master {
 
   masterProfessions MasterProfession[]
   ordermasters  OrderMaster[]
+  masterRating  MasterRatings[]
 }
 
 model MasterProfession {
@@ -305,14 +306,26 @@ model Basket {
 
 model Comment {
   id        String   @id @default(uuid())
+  message   String
+
   userId    String   
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  message   String
-  stars     Json     
   orderId   String   
   order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  MasterRatings MasterRatings[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model MasterRatings {
+  id         String  @id @default(uuid())
+  star       Float
+  masterId   String
+  Master     Master  @relation(fields: [masterId], references: [id], onDelete: Cascade)
+  commentId  String
+  Comment    Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
 }
 
 model Contact {
