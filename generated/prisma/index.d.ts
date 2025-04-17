@@ -109,6 +109,11 @@ export type Basket = $Result.DefaultSelection<Prisma.$BasketPayload>
  */
 export type Comment = $Result.DefaultSelection<Prisma.$CommentPayload>
 /**
+ * Model MasterRatings
+ * 
+ */
+export type MasterRatings = $Result.DefaultSelection<Prisma.$MasterRatingsPayload>
+/**
  * Model Contact
  * 
  */
@@ -522,6 +527,16 @@ export class PrismaClient<
     * ```
     */
   get comment(): Prisma.CommentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.masterRatings`: Exposes CRUD operations for the **MasterRatings** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MasterRatings
+    * const masterRatings = await prisma.masterRatings.findMany()
+    * ```
+    */
+  get masterRatings(): Prisma.MasterRatingsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.contact`: Exposes CRUD operations for the **Contact** model.
@@ -1031,6 +1046,7 @@ export namespace Prisma {
     OrderMaster: 'OrderMaster',
     Basket: 'Basket',
     Comment: 'Comment',
+    MasterRatings: 'MasterRatings',
     Contact: 'Contact',
     FAQ: 'FAQ',
     Showcase: 'Showcase',
@@ -1054,7 +1070,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "region" | "user" | "company" | "session" | "brand" | "size" | "power" | "tool" | "master" | "masterProfession" | "level" | "profession" | "professionLevel" | "professionTool" | "order" | "orderProduct" | "orderMaster" | "basket" | "comment" | "contact" | "fAQ" | "showcase" | "partner" | "siteMetadata"
+      modelProps: "region" | "user" | "company" | "session" | "brand" | "size" | "power" | "tool" | "master" | "masterProfession" | "level" | "profession" | "professionLevel" | "professionTool" | "order" | "orderProduct" | "orderMaster" | "basket" | "comment" | "masterRatings" | "contact" | "fAQ" | "showcase" | "partner" | "siteMetadata"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2464,6 +2480,80 @@ export namespace Prisma {
           }
         }
       }
+      MasterRatings: {
+        payload: Prisma.$MasterRatingsPayload<ExtArgs>
+        fields: Prisma.MasterRatingsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MasterRatingsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MasterRatingsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload>
+          }
+          findFirst: {
+            args: Prisma.MasterRatingsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MasterRatingsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload>
+          }
+          findMany: {
+            args: Prisma.MasterRatingsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload>[]
+          }
+          create: {
+            args: Prisma.MasterRatingsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload>
+          }
+          createMany: {
+            args: Prisma.MasterRatingsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MasterRatingsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload>[]
+          }
+          delete: {
+            args: Prisma.MasterRatingsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload>
+          }
+          update: {
+            args: Prisma.MasterRatingsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload>
+          }
+          deleteMany: {
+            args: Prisma.MasterRatingsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MasterRatingsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MasterRatingsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload>[]
+          }
+          upsert: {
+            args: Prisma.MasterRatingsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MasterRatingsPayload>
+          }
+          aggregate: {
+            args: Prisma.MasterRatingsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMasterRatings>
+          }
+          groupBy: {
+            args: Prisma.MasterRatingsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MasterRatingsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MasterRatingsCountArgs<ExtArgs>
+            result: $Utils.Optional<MasterRatingsCountAggregateOutputType> | number
+          }
+        }
+      }
       Contact: {
         payload: Prisma.$ContactPayload<ExtArgs>
         fields: Prisma.ContactFieldRefs
@@ -2937,6 +3027,7 @@ export namespace Prisma {
     orderMaster?: OrderMasterOmit
     basket?: BasketOmit
     comment?: CommentOmit
+    masterRatings?: MasterRatingsOmit
     contact?: ContactOmit
     fAQ?: FAQOmit
     showcase?: ShowcaseOmit
@@ -3287,11 +3378,13 @@ export namespace Prisma {
   export type MasterCountOutputType = {
     masterProfessions: number
     ordermasters: number
+    masterRating: number
   }
 
   export type MasterCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     masterProfessions?: boolean | MasterCountOutputTypeCountMasterProfessionsArgs
     ordermasters?: boolean | MasterCountOutputTypeCountOrdermastersArgs
+    masterRating?: boolean | MasterCountOutputTypeCountMasterRatingArgs
   }
 
   // Custom InputTypes
@@ -3317,6 +3410,13 @@ export namespace Prisma {
    */
   export type MasterCountOutputTypeCountOrdermastersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderMasterWhereInput
+  }
+
+  /**
+   * MasterCountOutputType without action
+   */
+  export type MasterCountOutputTypeCountMasterRatingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MasterRatingsWhereInput
   }
 
 
@@ -3491,6 +3591,37 @@ export namespace Prisma {
    */
   export type OrderCountOutputTypeCountMastersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderMasterWhereInput
+  }
+
+
+  /**
+   * Count Type CommentCountOutputType
+   */
+
+  export type CommentCountOutputType = {
+    MasterRatings: number
+  }
+
+  export type CommentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    MasterRatings?: boolean | CommentCountOutputTypeCountMasterRatingsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CommentCountOutputType without action
+   */
+  export type CommentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommentCountOutputType
+     */
+    select?: CommentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CommentCountOutputType without action
+   */
+  export type CommentCountOutputTypeCountMasterRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MasterRatingsWhereInput
   }
 
 
@@ -13164,6 +13295,7 @@ export namespace Prisma {
     updatedAt?: boolean
     masterProfessions?: boolean | Master$masterProfessionsArgs<ExtArgs>
     ordermasters?: boolean | Master$ordermastersArgs<ExtArgs>
+    masterRating?: boolean | Master$masterRatingArgs<ExtArgs>
     _count?: boolean | MasterCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["master"]>
 
@@ -13213,6 +13345,7 @@ export namespace Prisma {
   export type MasterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     masterProfessions?: boolean | Master$masterProfessionsArgs<ExtArgs>
     ordermasters?: boolean | Master$ordermastersArgs<ExtArgs>
+    masterRating?: boolean | Master$masterRatingArgs<ExtArgs>
     _count?: boolean | MasterCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MasterIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -13223,6 +13356,7 @@ export namespace Prisma {
     objects: {
       masterProfessions: Prisma.$MasterProfessionPayload<ExtArgs>[]
       ordermasters: Prisma.$OrderMasterPayload<ExtArgs>[]
+      masterRating: Prisma.$MasterRatingsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13632,6 +13766,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     masterProfessions<T extends Master$masterProfessionsArgs<ExtArgs> = {}>(args?: Subset<T, Master$masterProfessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MasterProfessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ordermasters<T extends Master$ordermastersArgs<ExtArgs> = {}>(args?: Subset<T, Master$ordermastersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderMasterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    masterRating<T extends Master$masterRatingArgs<ExtArgs> = {}>(args?: Subset<T, Master$masterRatingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14105,6 +14240,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OrderMasterScalarFieldEnum | OrderMasterScalarFieldEnum[]
+  }
+
+  /**
+   * Master.masterRating
+   */
+  export type Master$masterRatingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    where?: MasterRatingsWhereInput
+    orderBy?: MasterRatingsOrderByWithRelationInput | MasterRatingsOrderByWithRelationInput[]
+    cursor?: MasterRatingsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MasterRatingsScalarFieldEnum | MasterRatingsScalarFieldEnum[]
   }
 
   /**
@@ -24834,8 +24993,8 @@ export namespace Prisma {
 
   export type CommentMinAggregateOutputType = {
     id: string | null
-    userId: string | null
     message: string | null
+    userId: string | null
     orderId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -24843,8 +25002,8 @@ export namespace Prisma {
 
   export type CommentMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
     message: string | null
+    userId: string | null
     orderId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -24852,9 +25011,8 @@ export namespace Prisma {
 
   export type CommentCountAggregateOutputType = {
     id: number
-    userId: number
     message: number
-    stars: number
+    userId: number
     orderId: number
     createdAt: number
     updatedAt: number
@@ -24864,8 +25022,8 @@ export namespace Prisma {
 
   export type CommentMinAggregateInputType = {
     id?: true
-    userId?: true
     message?: true
+    userId?: true
     orderId?: true
     createdAt?: true
     updatedAt?: true
@@ -24873,8 +25031,8 @@ export namespace Prisma {
 
   export type CommentMaxAggregateInputType = {
     id?: true
-    userId?: true
     message?: true
+    userId?: true
     orderId?: true
     createdAt?: true
     updatedAt?: true
@@ -24882,9 +25040,8 @@ export namespace Prisma {
 
   export type CommentCountAggregateInputType = {
     id?: true
-    userId?: true
     message?: true
-    stars?: true
+    userId?: true
     orderId?: true
     createdAt?: true
     updatedAt?: true
@@ -24965,9 +25122,8 @@ export namespace Prisma {
 
   export type CommentGroupByOutputType = {
     id: string
-    userId: string
     message: string
-    stars: JsonValue
+    userId: string
     orderId: string
     createdAt: Date
     updatedAt: Date
@@ -24992,21 +25148,21 @@ export namespace Prisma {
 
   export type CommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     message?: boolean
-    stars?: boolean
+    userId?: boolean
     orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
+    MasterRatings?: boolean | Comment$MasterRatingsArgs<ExtArgs>
+    _count?: boolean | CommentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     message?: boolean
-    stars?: boolean
+    userId?: boolean
     orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -25016,9 +25172,8 @@ export namespace Prisma {
 
   export type CommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     message?: boolean
-    stars?: boolean
+    userId?: boolean
     orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -25028,18 +25183,19 @@ export namespace Prisma {
 
   export type CommentSelectScalar = {
     id?: boolean
-    userId?: boolean
     message?: boolean
-    stars?: boolean
+    userId?: boolean
     orderId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "message" | "stars" | "orderId" | "createdAt" | "updatedAt", ExtArgs["result"]["comment"]>
+  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "message" | "userId" | "orderId" | "createdAt" | "updatedAt", ExtArgs["result"]["comment"]>
   export type CommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
+    MasterRatings?: boolean | Comment$MasterRatingsArgs<ExtArgs>
+    _count?: boolean | CommentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -25055,12 +25211,12 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       order: Prisma.$OrderPayload<ExtArgs>
+      MasterRatings: Prisma.$MasterRatingsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
       message: string
-      stars: Prisma.JsonValue
+      userId: string
       orderId: string
       createdAt: Date
       updatedAt: Date
@@ -25460,6 +25616,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     order<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    MasterRatings<T extends Comment$MasterRatingsArgs<ExtArgs> = {}>(args?: Subset<T, Comment$MasterRatingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25490,9 +25647,8 @@ export namespace Prisma {
    */
   interface CommentFieldRefs {
     readonly id: FieldRef<"Comment", 'String'>
-    readonly userId: FieldRef<"Comment", 'String'>
     readonly message: FieldRef<"Comment", 'String'>
-    readonly stars: FieldRef<"Comment", 'Json'>
+    readonly userId: FieldRef<"Comment", 'String'>
     readonly orderId: FieldRef<"Comment", 'String'>
     readonly createdAt: FieldRef<"Comment", 'DateTime'>
     readonly updatedAt: FieldRef<"Comment", 'DateTime'>
@@ -25892,6 +26048,30 @@ export namespace Prisma {
   }
 
   /**
+   * Comment.MasterRatings
+   */
+  export type Comment$MasterRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    where?: MasterRatingsWhereInput
+    orderBy?: MasterRatingsOrderByWithRelationInput | MasterRatingsOrderByWithRelationInput[]
+    cursor?: MasterRatingsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MasterRatingsScalarFieldEnum | MasterRatingsScalarFieldEnum[]
+  }
+
+  /**
    * Comment without action
    */
   export type CommentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -25907,6 +26087,1093 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CommentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MasterRatings
+   */
+
+  export type AggregateMasterRatings = {
+    _count: MasterRatingsCountAggregateOutputType | null
+    _avg: MasterRatingsAvgAggregateOutputType | null
+    _sum: MasterRatingsSumAggregateOutputType | null
+    _min: MasterRatingsMinAggregateOutputType | null
+    _max: MasterRatingsMaxAggregateOutputType | null
+  }
+
+  export type MasterRatingsAvgAggregateOutputType = {
+    star: number | null
+  }
+
+  export type MasterRatingsSumAggregateOutputType = {
+    star: number | null
+  }
+
+  export type MasterRatingsMinAggregateOutputType = {
+    id: string | null
+    star: number | null
+    masterId: string | null
+    commentId: string | null
+  }
+
+  export type MasterRatingsMaxAggregateOutputType = {
+    id: string | null
+    star: number | null
+    masterId: string | null
+    commentId: string | null
+  }
+
+  export type MasterRatingsCountAggregateOutputType = {
+    id: number
+    star: number
+    masterId: number
+    commentId: number
+    _all: number
+  }
+
+
+  export type MasterRatingsAvgAggregateInputType = {
+    star?: true
+  }
+
+  export type MasterRatingsSumAggregateInputType = {
+    star?: true
+  }
+
+  export type MasterRatingsMinAggregateInputType = {
+    id?: true
+    star?: true
+    masterId?: true
+    commentId?: true
+  }
+
+  export type MasterRatingsMaxAggregateInputType = {
+    id?: true
+    star?: true
+    masterId?: true
+    commentId?: true
+  }
+
+  export type MasterRatingsCountAggregateInputType = {
+    id?: true
+    star?: true
+    masterId?: true
+    commentId?: true
+    _all?: true
+  }
+
+  export type MasterRatingsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MasterRatings to aggregate.
+     */
+    where?: MasterRatingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MasterRatings to fetch.
+     */
+    orderBy?: MasterRatingsOrderByWithRelationInput | MasterRatingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MasterRatingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MasterRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MasterRatings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MasterRatings
+    **/
+    _count?: true | MasterRatingsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MasterRatingsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MasterRatingsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MasterRatingsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MasterRatingsMaxAggregateInputType
+  }
+
+  export type GetMasterRatingsAggregateType<T extends MasterRatingsAggregateArgs> = {
+        [P in keyof T & keyof AggregateMasterRatings]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMasterRatings[P]>
+      : GetScalarType<T[P], AggregateMasterRatings[P]>
+  }
+
+
+
+
+  export type MasterRatingsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MasterRatingsWhereInput
+    orderBy?: MasterRatingsOrderByWithAggregationInput | MasterRatingsOrderByWithAggregationInput[]
+    by: MasterRatingsScalarFieldEnum[] | MasterRatingsScalarFieldEnum
+    having?: MasterRatingsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MasterRatingsCountAggregateInputType | true
+    _avg?: MasterRatingsAvgAggregateInputType
+    _sum?: MasterRatingsSumAggregateInputType
+    _min?: MasterRatingsMinAggregateInputType
+    _max?: MasterRatingsMaxAggregateInputType
+  }
+
+  export type MasterRatingsGroupByOutputType = {
+    id: string
+    star: number
+    masterId: string
+    commentId: string
+    _count: MasterRatingsCountAggregateOutputType | null
+    _avg: MasterRatingsAvgAggregateOutputType | null
+    _sum: MasterRatingsSumAggregateOutputType | null
+    _min: MasterRatingsMinAggregateOutputType | null
+    _max: MasterRatingsMaxAggregateOutputType | null
+  }
+
+  type GetMasterRatingsGroupByPayload<T extends MasterRatingsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MasterRatingsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MasterRatingsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MasterRatingsGroupByOutputType[P]>
+            : GetScalarType<T[P], MasterRatingsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MasterRatingsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    star?: boolean
+    masterId?: boolean
+    commentId?: boolean
+    Master?: boolean | MasterDefaultArgs<ExtArgs>
+    Comment?: boolean | CommentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["masterRatings"]>
+
+  export type MasterRatingsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    star?: boolean
+    masterId?: boolean
+    commentId?: boolean
+    Master?: boolean | MasterDefaultArgs<ExtArgs>
+    Comment?: boolean | CommentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["masterRatings"]>
+
+  export type MasterRatingsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    star?: boolean
+    masterId?: boolean
+    commentId?: boolean
+    Master?: boolean | MasterDefaultArgs<ExtArgs>
+    Comment?: boolean | CommentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["masterRatings"]>
+
+  export type MasterRatingsSelectScalar = {
+    id?: boolean
+    star?: boolean
+    masterId?: boolean
+    commentId?: boolean
+  }
+
+  export type MasterRatingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "star" | "masterId" | "commentId", ExtArgs["result"]["masterRatings"]>
+  export type MasterRatingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Master?: boolean | MasterDefaultArgs<ExtArgs>
+    Comment?: boolean | CommentDefaultArgs<ExtArgs>
+  }
+  export type MasterRatingsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Master?: boolean | MasterDefaultArgs<ExtArgs>
+    Comment?: boolean | CommentDefaultArgs<ExtArgs>
+  }
+  export type MasterRatingsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Master?: boolean | MasterDefaultArgs<ExtArgs>
+    Comment?: boolean | CommentDefaultArgs<ExtArgs>
+  }
+
+  export type $MasterRatingsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MasterRatings"
+    objects: {
+      Master: Prisma.$MasterPayload<ExtArgs>
+      Comment: Prisma.$CommentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      star: number
+      masterId: string
+      commentId: string
+    }, ExtArgs["result"]["masterRatings"]>
+    composites: {}
+  }
+
+  type MasterRatingsGetPayload<S extends boolean | null | undefined | MasterRatingsDefaultArgs> = $Result.GetResult<Prisma.$MasterRatingsPayload, S>
+
+  type MasterRatingsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MasterRatingsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MasterRatingsCountAggregateInputType | true
+    }
+
+  export interface MasterRatingsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MasterRatings'], meta: { name: 'MasterRatings' } }
+    /**
+     * Find zero or one MasterRatings that matches the filter.
+     * @param {MasterRatingsFindUniqueArgs} args - Arguments to find a MasterRatings
+     * @example
+     * // Get one MasterRatings
+     * const masterRatings = await prisma.masterRatings.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MasterRatingsFindUniqueArgs>(args: SelectSubset<T, MasterRatingsFindUniqueArgs<ExtArgs>>): Prisma__MasterRatingsClient<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MasterRatings that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MasterRatingsFindUniqueOrThrowArgs} args - Arguments to find a MasterRatings
+     * @example
+     * // Get one MasterRatings
+     * const masterRatings = await prisma.masterRatings.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MasterRatingsFindUniqueOrThrowArgs>(args: SelectSubset<T, MasterRatingsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MasterRatingsClient<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MasterRatings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterRatingsFindFirstArgs} args - Arguments to find a MasterRatings
+     * @example
+     * // Get one MasterRatings
+     * const masterRatings = await prisma.masterRatings.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MasterRatingsFindFirstArgs>(args?: SelectSubset<T, MasterRatingsFindFirstArgs<ExtArgs>>): Prisma__MasterRatingsClient<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MasterRatings that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterRatingsFindFirstOrThrowArgs} args - Arguments to find a MasterRatings
+     * @example
+     * // Get one MasterRatings
+     * const masterRatings = await prisma.masterRatings.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MasterRatingsFindFirstOrThrowArgs>(args?: SelectSubset<T, MasterRatingsFindFirstOrThrowArgs<ExtArgs>>): Prisma__MasterRatingsClient<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MasterRatings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterRatingsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MasterRatings
+     * const masterRatings = await prisma.masterRatings.findMany()
+     * 
+     * // Get first 10 MasterRatings
+     * const masterRatings = await prisma.masterRatings.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const masterRatingsWithIdOnly = await prisma.masterRatings.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MasterRatingsFindManyArgs>(args?: SelectSubset<T, MasterRatingsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MasterRatings.
+     * @param {MasterRatingsCreateArgs} args - Arguments to create a MasterRatings.
+     * @example
+     * // Create one MasterRatings
+     * const MasterRatings = await prisma.masterRatings.create({
+     *   data: {
+     *     // ... data to create a MasterRatings
+     *   }
+     * })
+     * 
+     */
+    create<T extends MasterRatingsCreateArgs>(args: SelectSubset<T, MasterRatingsCreateArgs<ExtArgs>>): Prisma__MasterRatingsClient<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MasterRatings.
+     * @param {MasterRatingsCreateManyArgs} args - Arguments to create many MasterRatings.
+     * @example
+     * // Create many MasterRatings
+     * const masterRatings = await prisma.masterRatings.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MasterRatingsCreateManyArgs>(args?: SelectSubset<T, MasterRatingsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MasterRatings and returns the data saved in the database.
+     * @param {MasterRatingsCreateManyAndReturnArgs} args - Arguments to create many MasterRatings.
+     * @example
+     * // Create many MasterRatings
+     * const masterRatings = await prisma.masterRatings.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MasterRatings and only return the `id`
+     * const masterRatingsWithIdOnly = await prisma.masterRatings.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MasterRatingsCreateManyAndReturnArgs>(args?: SelectSubset<T, MasterRatingsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MasterRatings.
+     * @param {MasterRatingsDeleteArgs} args - Arguments to delete one MasterRatings.
+     * @example
+     * // Delete one MasterRatings
+     * const MasterRatings = await prisma.masterRatings.delete({
+     *   where: {
+     *     // ... filter to delete one MasterRatings
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MasterRatingsDeleteArgs>(args: SelectSubset<T, MasterRatingsDeleteArgs<ExtArgs>>): Prisma__MasterRatingsClient<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MasterRatings.
+     * @param {MasterRatingsUpdateArgs} args - Arguments to update one MasterRatings.
+     * @example
+     * // Update one MasterRatings
+     * const masterRatings = await prisma.masterRatings.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MasterRatingsUpdateArgs>(args: SelectSubset<T, MasterRatingsUpdateArgs<ExtArgs>>): Prisma__MasterRatingsClient<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MasterRatings.
+     * @param {MasterRatingsDeleteManyArgs} args - Arguments to filter MasterRatings to delete.
+     * @example
+     * // Delete a few MasterRatings
+     * const { count } = await prisma.masterRatings.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MasterRatingsDeleteManyArgs>(args?: SelectSubset<T, MasterRatingsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MasterRatings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterRatingsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MasterRatings
+     * const masterRatings = await prisma.masterRatings.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MasterRatingsUpdateManyArgs>(args: SelectSubset<T, MasterRatingsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MasterRatings and returns the data updated in the database.
+     * @param {MasterRatingsUpdateManyAndReturnArgs} args - Arguments to update many MasterRatings.
+     * @example
+     * // Update many MasterRatings
+     * const masterRatings = await prisma.masterRatings.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MasterRatings and only return the `id`
+     * const masterRatingsWithIdOnly = await prisma.masterRatings.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MasterRatingsUpdateManyAndReturnArgs>(args: SelectSubset<T, MasterRatingsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MasterRatings.
+     * @param {MasterRatingsUpsertArgs} args - Arguments to update or create a MasterRatings.
+     * @example
+     * // Update or create a MasterRatings
+     * const masterRatings = await prisma.masterRatings.upsert({
+     *   create: {
+     *     // ... data to create a MasterRatings
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MasterRatings we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MasterRatingsUpsertArgs>(args: SelectSubset<T, MasterRatingsUpsertArgs<ExtArgs>>): Prisma__MasterRatingsClient<$Result.GetResult<Prisma.$MasterRatingsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MasterRatings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterRatingsCountArgs} args - Arguments to filter MasterRatings to count.
+     * @example
+     * // Count the number of MasterRatings
+     * const count = await prisma.masterRatings.count({
+     *   where: {
+     *     // ... the filter for the MasterRatings we want to count
+     *   }
+     * })
+    **/
+    count<T extends MasterRatingsCountArgs>(
+      args?: Subset<T, MasterRatingsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MasterRatingsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MasterRatings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterRatingsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MasterRatingsAggregateArgs>(args: Subset<T, MasterRatingsAggregateArgs>): Prisma.PrismaPromise<GetMasterRatingsAggregateType<T>>
+
+    /**
+     * Group by MasterRatings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MasterRatingsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MasterRatingsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MasterRatingsGroupByArgs['orderBy'] }
+        : { orderBy?: MasterRatingsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MasterRatingsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMasterRatingsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MasterRatings model
+   */
+  readonly fields: MasterRatingsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MasterRatings.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MasterRatingsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Master<T extends MasterDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MasterDefaultArgs<ExtArgs>>): Prisma__MasterClient<$Result.GetResult<Prisma.$MasterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Comment<T extends CommentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommentDefaultArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MasterRatings model
+   */
+  interface MasterRatingsFieldRefs {
+    readonly id: FieldRef<"MasterRatings", 'String'>
+    readonly star: FieldRef<"MasterRatings", 'Float'>
+    readonly masterId: FieldRef<"MasterRatings", 'String'>
+    readonly commentId: FieldRef<"MasterRatings", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MasterRatings findUnique
+   */
+  export type MasterRatingsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    /**
+     * Filter, which MasterRatings to fetch.
+     */
+    where: MasterRatingsWhereUniqueInput
+  }
+
+  /**
+   * MasterRatings findUniqueOrThrow
+   */
+  export type MasterRatingsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    /**
+     * Filter, which MasterRatings to fetch.
+     */
+    where: MasterRatingsWhereUniqueInput
+  }
+
+  /**
+   * MasterRatings findFirst
+   */
+  export type MasterRatingsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    /**
+     * Filter, which MasterRatings to fetch.
+     */
+    where?: MasterRatingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MasterRatings to fetch.
+     */
+    orderBy?: MasterRatingsOrderByWithRelationInput | MasterRatingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MasterRatings.
+     */
+    cursor?: MasterRatingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MasterRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MasterRatings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MasterRatings.
+     */
+    distinct?: MasterRatingsScalarFieldEnum | MasterRatingsScalarFieldEnum[]
+  }
+
+  /**
+   * MasterRatings findFirstOrThrow
+   */
+  export type MasterRatingsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    /**
+     * Filter, which MasterRatings to fetch.
+     */
+    where?: MasterRatingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MasterRatings to fetch.
+     */
+    orderBy?: MasterRatingsOrderByWithRelationInput | MasterRatingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MasterRatings.
+     */
+    cursor?: MasterRatingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MasterRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MasterRatings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MasterRatings.
+     */
+    distinct?: MasterRatingsScalarFieldEnum | MasterRatingsScalarFieldEnum[]
+  }
+
+  /**
+   * MasterRatings findMany
+   */
+  export type MasterRatingsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    /**
+     * Filter, which MasterRatings to fetch.
+     */
+    where?: MasterRatingsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MasterRatings to fetch.
+     */
+    orderBy?: MasterRatingsOrderByWithRelationInput | MasterRatingsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MasterRatings.
+     */
+    cursor?: MasterRatingsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MasterRatings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MasterRatings.
+     */
+    skip?: number
+    distinct?: MasterRatingsScalarFieldEnum | MasterRatingsScalarFieldEnum[]
+  }
+
+  /**
+   * MasterRatings create
+   */
+  export type MasterRatingsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MasterRatings.
+     */
+    data: XOR<MasterRatingsCreateInput, MasterRatingsUncheckedCreateInput>
+  }
+
+  /**
+   * MasterRatings createMany
+   */
+  export type MasterRatingsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MasterRatings.
+     */
+    data: MasterRatingsCreateManyInput | MasterRatingsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MasterRatings createManyAndReturn
+   */
+  export type MasterRatingsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * The data used to create many MasterRatings.
+     */
+    data: MasterRatingsCreateManyInput | MasterRatingsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MasterRatings update
+   */
+  export type MasterRatingsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MasterRatings.
+     */
+    data: XOR<MasterRatingsUpdateInput, MasterRatingsUncheckedUpdateInput>
+    /**
+     * Choose, which MasterRatings to update.
+     */
+    where: MasterRatingsWhereUniqueInput
+  }
+
+  /**
+   * MasterRatings updateMany
+   */
+  export type MasterRatingsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MasterRatings.
+     */
+    data: XOR<MasterRatingsUpdateManyMutationInput, MasterRatingsUncheckedUpdateManyInput>
+    /**
+     * Filter which MasterRatings to update
+     */
+    where?: MasterRatingsWhereInput
+    /**
+     * Limit how many MasterRatings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MasterRatings updateManyAndReturn
+   */
+  export type MasterRatingsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * The data used to update MasterRatings.
+     */
+    data: XOR<MasterRatingsUpdateManyMutationInput, MasterRatingsUncheckedUpdateManyInput>
+    /**
+     * Filter which MasterRatings to update
+     */
+    where?: MasterRatingsWhereInput
+    /**
+     * Limit how many MasterRatings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MasterRatings upsert
+   */
+  export type MasterRatingsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MasterRatings to update in case it exists.
+     */
+    where: MasterRatingsWhereUniqueInput
+    /**
+     * In case the MasterRatings found by the `where` argument doesn't exist, create a new MasterRatings with this data.
+     */
+    create: XOR<MasterRatingsCreateInput, MasterRatingsUncheckedCreateInput>
+    /**
+     * In case the MasterRatings was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MasterRatingsUpdateInput, MasterRatingsUncheckedUpdateInput>
+  }
+
+  /**
+   * MasterRatings delete
+   */
+  export type MasterRatingsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
+    /**
+     * Filter which MasterRatings to delete.
+     */
+    where: MasterRatingsWhereUniqueInput
+  }
+
+  /**
+   * MasterRatings deleteMany
+   */
+  export type MasterRatingsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MasterRatings to delete
+     */
+    where?: MasterRatingsWhereInput
+    /**
+     * Limit how many MasterRatings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MasterRatings without action
+   */
+  export type MasterRatingsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MasterRatings
+     */
+    select?: MasterRatingsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MasterRatings
+     */
+    omit?: MasterRatingsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MasterRatingsInclude<ExtArgs> | null
   }
 
 
@@ -31534,15 +32801,24 @@ export namespace Prisma {
 
   export const CommentScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
     message: 'message',
-    stars: 'stars',
+    userId: 'userId',
     orderId: 'orderId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+  export const MasterRatingsScalarFieldEnum: {
+    id: 'id',
+    star: 'star',
+    masterId: 'masterId',
+    commentId: 'commentId'
+  };
+
+  export type MasterRatingsScalarFieldEnum = (typeof MasterRatingsScalarFieldEnum)[keyof typeof MasterRatingsScalarFieldEnum]
 
 
   export const ContactScalarFieldEnum: {
@@ -32524,6 +33800,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Master"> | Date | string
     masterProfessions?: MasterProfessionListRelationFilter
     ordermasters?: OrderMasterListRelationFilter
+    masterRating?: MasterRatingsListRelationFilter
   }
 
   export type MasterOrderByWithRelationInput = {
@@ -32540,6 +33817,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     masterProfessions?: MasterProfessionOrderByRelationAggregateInput
     ordermasters?: OrderMasterOrderByRelationAggregateInput
+    masterRating?: MasterRatingsOrderByRelationAggregateInput
   }
 
   export type MasterWhereUniqueInput = Prisma.AtLeast<{
@@ -32559,6 +33837,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Master"> | Date | string
     masterProfessions?: MasterProfessionListRelationFilter
     ordermasters?: OrderMasterListRelationFilter
+    masterRating?: MasterRatingsListRelationFilter
   }, "id">
 
   export type MasterOrderByWithAggregationInput = {
@@ -33325,26 +34604,26 @@ export namespace Prisma {
     OR?: CommentWhereInput[]
     NOT?: CommentWhereInput | CommentWhereInput[]
     id?: StringFilter<"Comment"> | string
-    userId?: StringFilter<"Comment"> | string
     message?: StringFilter<"Comment"> | string
-    stars?: JsonFilter<"Comment">
+    userId?: StringFilter<"Comment"> | string
     orderId?: StringFilter<"Comment"> | string
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    MasterRatings?: MasterRatingsListRelationFilter
   }
 
   export type CommentOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
     message?: SortOrder
-    stars?: SortOrder
+    userId?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     order?: OrderOrderByWithRelationInput
+    MasterRatings?: MasterRatingsOrderByRelationAggregateInput
   }
 
   export type CommentWhereUniqueInput = Prisma.AtLeast<{
@@ -33352,21 +34631,20 @@ export namespace Prisma {
     AND?: CommentWhereInput | CommentWhereInput[]
     OR?: CommentWhereInput[]
     NOT?: CommentWhereInput | CommentWhereInput[]
-    userId?: StringFilter<"Comment"> | string
     message?: StringFilter<"Comment"> | string
-    stars?: JsonFilter<"Comment">
+    userId?: StringFilter<"Comment"> | string
     orderId?: StringFilter<"Comment"> | string
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    MasterRatings?: MasterRatingsListRelationFilter
   }, "id">
 
   export type CommentOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
     message?: SortOrder
-    stars?: SortOrder
+    userId?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33380,12 +34658,66 @@ export namespace Prisma {
     OR?: CommentScalarWhereWithAggregatesInput[]
     NOT?: CommentScalarWhereWithAggregatesInput | CommentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Comment"> | string
-    userId?: StringWithAggregatesFilter<"Comment"> | string
     message?: StringWithAggregatesFilter<"Comment"> | string
-    stars?: JsonWithAggregatesFilter<"Comment">
+    userId?: StringWithAggregatesFilter<"Comment"> | string
     orderId?: StringWithAggregatesFilter<"Comment"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
+  }
+
+  export type MasterRatingsWhereInput = {
+    AND?: MasterRatingsWhereInput | MasterRatingsWhereInput[]
+    OR?: MasterRatingsWhereInput[]
+    NOT?: MasterRatingsWhereInput | MasterRatingsWhereInput[]
+    id?: StringFilter<"MasterRatings"> | string
+    star?: FloatFilter<"MasterRatings"> | number
+    masterId?: StringFilter<"MasterRatings"> | string
+    commentId?: StringFilter<"MasterRatings"> | string
+    Master?: XOR<MasterScalarRelationFilter, MasterWhereInput>
+    Comment?: XOR<CommentScalarRelationFilter, CommentWhereInput>
+  }
+
+  export type MasterRatingsOrderByWithRelationInput = {
+    id?: SortOrder
+    star?: SortOrder
+    masterId?: SortOrder
+    commentId?: SortOrder
+    Master?: MasterOrderByWithRelationInput
+    Comment?: CommentOrderByWithRelationInput
+  }
+
+  export type MasterRatingsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MasterRatingsWhereInput | MasterRatingsWhereInput[]
+    OR?: MasterRatingsWhereInput[]
+    NOT?: MasterRatingsWhereInput | MasterRatingsWhereInput[]
+    star?: FloatFilter<"MasterRatings"> | number
+    masterId?: StringFilter<"MasterRatings"> | string
+    commentId?: StringFilter<"MasterRatings"> | string
+    Master?: XOR<MasterScalarRelationFilter, MasterWhereInput>
+    Comment?: XOR<CommentScalarRelationFilter, CommentWhereInput>
+  }, "id">
+
+  export type MasterRatingsOrderByWithAggregationInput = {
+    id?: SortOrder
+    star?: SortOrder
+    masterId?: SortOrder
+    commentId?: SortOrder
+    _count?: MasterRatingsCountOrderByAggregateInput
+    _avg?: MasterRatingsAvgOrderByAggregateInput
+    _max?: MasterRatingsMaxOrderByAggregateInput
+    _min?: MasterRatingsMinOrderByAggregateInput
+    _sum?: MasterRatingsSumOrderByAggregateInput
+  }
+
+  export type MasterRatingsScalarWhereWithAggregatesInput = {
+    AND?: MasterRatingsScalarWhereWithAggregatesInput | MasterRatingsScalarWhereWithAggregatesInput[]
+    OR?: MasterRatingsScalarWhereWithAggregatesInput[]
+    NOT?: MasterRatingsScalarWhereWithAggregatesInput | MasterRatingsScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MasterRatings"> | string
+    star?: FloatWithAggregatesFilter<"MasterRatings"> | number
+    masterId?: StringWithAggregatesFilter<"MasterRatings"> | string
+    commentId?: StringWithAggregatesFilter<"MasterRatings"> | string
   }
 
   export type ContactWhereInput = {
@@ -34554,6 +35886,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     masterProfessions?: MasterProfessionCreateNestedManyWithoutMasterInput
     ordermasters?: OrderMasterCreateNestedManyWithoutMasterInput
+    masterRating?: MasterRatingsCreateNestedManyWithoutMasterInput
   }
 
   export type MasterUncheckedCreateInput = {
@@ -34570,6 +35903,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     masterProfessions?: MasterProfessionUncheckedCreateNestedManyWithoutMasterInput
     ordermasters?: OrderMasterUncheckedCreateNestedManyWithoutMasterInput
+    masterRating?: MasterRatingsUncheckedCreateNestedManyWithoutMasterInput
   }
 
   export type MasterUpdateInput = {
@@ -34586,6 +35920,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     masterProfessions?: MasterProfessionUpdateManyWithoutMasterNestedInput
     ordermasters?: OrderMasterUpdateManyWithoutMasterNestedInput
+    masterRating?: MasterRatingsUpdateManyWithoutMasterNestedInput
   }
 
   export type MasterUncheckedUpdateInput = {
@@ -34602,6 +35937,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     masterProfessions?: MasterProfessionUncheckedUpdateManyWithoutMasterNestedInput
     ordermasters?: OrderMasterUncheckedUpdateManyWithoutMasterNestedInput
+    masterRating?: MasterRatingsUncheckedUpdateManyWithoutMasterNestedInput
   }
 
   export type MasterCreateManyInput = {
@@ -35400,48 +36736,47 @@ export namespace Prisma {
   export type CommentCreateInput = {
     id?: string
     message: string
-    stars: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCommentInput
     order: OrderCreateNestedOneWithoutCommentsInput
+    MasterRatings?: MasterRatingsCreateNestedManyWithoutCommentInput
   }
 
   export type CommentUncheckedCreateInput = {
     id?: string
-    userId: string
     message: string
-    stars: JsonNullValueInput | InputJsonValue
+    userId: string
     orderId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    MasterRatings?: MasterRatingsUncheckedCreateNestedManyWithoutCommentInput
   }
 
   export type CommentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    stars?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCommentNestedInput
     order?: OrderUpdateOneRequiredWithoutCommentsNestedInput
+    MasterRatings?: MasterRatingsUpdateManyWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    stars?: JsonNullValueInput | InputJsonValue
+    userId?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    MasterRatings?: MasterRatingsUncheckedUpdateManyWithoutCommentNestedInput
   }
 
   export type CommentCreateManyInput = {
     id?: string
-    userId: string
     message: string
-    stars: JsonNullValueInput | InputJsonValue
+    userId: string
     orderId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35450,19 +36785,64 @@ export namespace Prisma {
   export type CommentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    stars?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CommentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    stars?: JsonNullValueInput | InputJsonValue
+    userId?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MasterRatingsCreateInput = {
+    id?: string
+    star: number
+    Master: MasterCreateNestedOneWithoutMasterRatingInput
+    Comment: CommentCreateNestedOneWithoutMasterRatingsInput
+  }
+
+  export type MasterRatingsUncheckedCreateInput = {
+    id?: string
+    star: number
+    masterId: string
+    commentId: string
+  }
+
+  export type MasterRatingsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    star?: FloatFieldUpdateOperationsInput | number
+    Master?: MasterUpdateOneRequiredWithoutMasterRatingNestedInput
+    Comment?: CommentUpdateOneRequiredWithoutMasterRatingsNestedInput
+  }
+
+  export type MasterRatingsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    star?: FloatFieldUpdateOperationsInput | number
+    masterId?: StringFieldUpdateOperationsInput | string
+    commentId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MasterRatingsCreateManyInput = {
+    id?: string
+    star: number
+    masterId: string
+    commentId: string
+  }
+
+  export type MasterRatingsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    star?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type MasterRatingsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    star?: FloatFieldUpdateOperationsInput | number
+    masterId?: StringFieldUpdateOperationsInput | string
+    commentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ContactCreateInput = {
@@ -36574,11 +37954,21 @@ export namespace Prisma {
     none?: OrderMasterWhereInput
   }
 
+  export type MasterRatingsListRelationFilter = {
+    every?: MasterRatingsWhereInput
+    some?: MasterRatingsWhereInput
+    none?: MasterRatingsWhereInput
+  }
+
   export type MasterProfessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type OrderMasterOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MasterRatingsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -37158,35 +38548,11 @@ export namespace Prisma {
     workingTime?: SortOrder
     price?: SortOrder
   }
-  export type JsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type CommentCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     message?: SortOrder
-    stars?: SortOrder
+    userId?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -37194,8 +38560,8 @@ export namespace Prisma {
 
   export type CommentMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     message?: SortOrder
+    userId?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -37203,37 +38569,45 @@ export namespace Prisma {
 
   export type CommentMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     message?: SortOrder
+    userId?: SortOrder
     orderId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
+  export type CommentScalarRelationFilter = {
+    is?: CommentWhereInput
+    isNot?: CommentWhereInput
+  }
+
+  export type MasterRatingsCountOrderByAggregateInput = {
+    id?: SortOrder
+    star?: SortOrder
+    masterId?: SortOrder
+    commentId?: SortOrder
+  }
+
+  export type MasterRatingsAvgOrderByAggregateInput = {
+    star?: SortOrder
+  }
+
+  export type MasterRatingsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    star?: SortOrder
+    masterId?: SortOrder
+    commentId?: SortOrder
+  }
+
+  export type MasterRatingsMinOrderByAggregateInput = {
+    id?: SortOrder
+    star?: SortOrder
+    masterId?: SortOrder
+    commentId?: SortOrder
+  }
+
+  export type MasterRatingsSumOrderByAggregateInput = {
+    star?: SortOrder
   }
 
   export type ContactCountOrderByAggregateInput = {
@@ -37379,6 +38753,29 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type SiteMetadataCountOrderByAggregateInput = {
     id?: SortOrder
@@ -37421,6 +38818,32 @@ export namespace Prisma {
     phoneNumber?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type UserCreateNestedManyWithoutRegionInput = {
@@ -38119,6 +39542,13 @@ export namespace Prisma {
     connect?: OrderMasterWhereUniqueInput | OrderMasterWhereUniqueInput[]
   }
 
+  export type MasterRatingsCreateNestedManyWithoutMasterInput = {
+    create?: XOR<MasterRatingsCreateWithoutMasterInput, MasterRatingsUncheckedCreateWithoutMasterInput> | MasterRatingsCreateWithoutMasterInput[] | MasterRatingsUncheckedCreateWithoutMasterInput[]
+    connectOrCreate?: MasterRatingsCreateOrConnectWithoutMasterInput | MasterRatingsCreateOrConnectWithoutMasterInput[]
+    createMany?: MasterRatingsCreateManyMasterInputEnvelope
+    connect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+  }
+
   export type MasterProfessionUncheckedCreateNestedManyWithoutMasterInput = {
     create?: XOR<MasterProfessionCreateWithoutMasterInput, MasterProfessionUncheckedCreateWithoutMasterInput> | MasterProfessionCreateWithoutMasterInput[] | MasterProfessionUncheckedCreateWithoutMasterInput[]
     connectOrCreate?: MasterProfessionCreateOrConnectWithoutMasterInput | MasterProfessionCreateOrConnectWithoutMasterInput[]
@@ -38131,6 +39561,13 @@ export namespace Prisma {
     connectOrCreate?: OrderMasterCreateOrConnectWithoutMasterInput | OrderMasterCreateOrConnectWithoutMasterInput[]
     createMany?: OrderMasterCreateManyMasterInputEnvelope
     connect?: OrderMasterWhereUniqueInput | OrderMasterWhereUniqueInput[]
+  }
+
+  export type MasterRatingsUncheckedCreateNestedManyWithoutMasterInput = {
+    create?: XOR<MasterRatingsCreateWithoutMasterInput, MasterRatingsUncheckedCreateWithoutMasterInput> | MasterRatingsCreateWithoutMasterInput[] | MasterRatingsUncheckedCreateWithoutMasterInput[]
+    connectOrCreate?: MasterRatingsCreateOrConnectWithoutMasterInput | MasterRatingsCreateOrConnectWithoutMasterInput[]
+    createMany?: MasterRatingsCreateManyMasterInputEnvelope
+    connect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
   }
 
   export type MasterProfessionUpdateManyWithoutMasterNestedInput = {
@@ -38161,6 +39598,20 @@ export namespace Prisma {
     deleteMany?: OrderMasterScalarWhereInput | OrderMasterScalarWhereInput[]
   }
 
+  export type MasterRatingsUpdateManyWithoutMasterNestedInput = {
+    create?: XOR<MasterRatingsCreateWithoutMasterInput, MasterRatingsUncheckedCreateWithoutMasterInput> | MasterRatingsCreateWithoutMasterInput[] | MasterRatingsUncheckedCreateWithoutMasterInput[]
+    connectOrCreate?: MasterRatingsCreateOrConnectWithoutMasterInput | MasterRatingsCreateOrConnectWithoutMasterInput[]
+    upsert?: MasterRatingsUpsertWithWhereUniqueWithoutMasterInput | MasterRatingsUpsertWithWhereUniqueWithoutMasterInput[]
+    createMany?: MasterRatingsCreateManyMasterInputEnvelope
+    set?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    disconnect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    delete?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    connect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    update?: MasterRatingsUpdateWithWhereUniqueWithoutMasterInput | MasterRatingsUpdateWithWhereUniqueWithoutMasterInput[]
+    updateMany?: MasterRatingsUpdateManyWithWhereWithoutMasterInput | MasterRatingsUpdateManyWithWhereWithoutMasterInput[]
+    deleteMany?: MasterRatingsScalarWhereInput | MasterRatingsScalarWhereInput[]
+  }
+
   export type MasterProfessionUncheckedUpdateManyWithoutMasterNestedInput = {
     create?: XOR<MasterProfessionCreateWithoutMasterInput, MasterProfessionUncheckedCreateWithoutMasterInput> | MasterProfessionCreateWithoutMasterInput[] | MasterProfessionUncheckedCreateWithoutMasterInput[]
     connectOrCreate?: MasterProfessionCreateOrConnectWithoutMasterInput | MasterProfessionCreateOrConnectWithoutMasterInput[]
@@ -38187,6 +39638,20 @@ export namespace Prisma {
     update?: OrderMasterUpdateWithWhereUniqueWithoutMasterInput | OrderMasterUpdateWithWhereUniqueWithoutMasterInput[]
     updateMany?: OrderMasterUpdateManyWithWhereWithoutMasterInput | OrderMasterUpdateManyWithWhereWithoutMasterInput[]
     deleteMany?: OrderMasterScalarWhereInput | OrderMasterScalarWhereInput[]
+  }
+
+  export type MasterRatingsUncheckedUpdateManyWithoutMasterNestedInput = {
+    create?: XOR<MasterRatingsCreateWithoutMasterInput, MasterRatingsUncheckedCreateWithoutMasterInput> | MasterRatingsCreateWithoutMasterInput[] | MasterRatingsUncheckedCreateWithoutMasterInput[]
+    connectOrCreate?: MasterRatingsCreateOrConnectWithoutMasterInput | MasterRatingsCreateOrConnectWithoutMasterInput[]
+    upsert?: MasterRatingsUpsertWithWhereUniqueWithoutMasterInput | MasterRatingsUpsertWithWhereUniqueWithoutMasterInput[]
+    createMany?: MasterRatingsCreateManyMasterInputEnvelope
+    set?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    disconnect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    delete?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    connect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    update?: MasterRatingsUpdateWithWhereUniqueWithoutMasterInput | MasterRatingsUpdateWithWhereUniqueWithoutMasterInput[]
+    updateMany?: MasterRatingsUpdateManyWithWhereWithoutMasterInput | MasterRatingsUpdateManyWithWhereWithoutMasterInput[]
+    deleteMany?: MasterRatingsScalarWhereInput | MasterRatingsScalarWhereInput[]
   }
 
   export type ProfessionCreateNestedOneWithoutMasterProfessionsInput = {
@@ -39003,6 +40468,20 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput
   }
 
+  export type MasterRatingsCreateNestedManyWithoutCommentInput = {
+    create?: XOR<MasterRatingsCreateWithoutCommentInput, MasterRatingsUncheckedCreateWithoutCommentInput> | MasterRatingsCreateWithoutCommentInput[] | MasterRatingsUncheckedCreateWithoutCommentInput[]
+    connectOrCreate?: MasterRatingsCreateOrConnectWithoutCommentInput | MasterRatingsCreateOrConnectWithoutCommentInput[]
+    createMany?: MasterRatingsCreateManyCommentInputEnvelope
+    connect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+  }
+
+  export type MasterRatingsUncheckedCreateNestedManyWithoutCommentInput = {
+    create?: XOR<MasterRatingsCreateWithoutCommentInput, MasterRatingsUncheckedCreateWithoutCommentInput> | MasterRatingsCreateWithoutCommentInput[] | MasterRatingsUncheckedCreateWithoutCommentInput[]
+    connectOrCreate?: MasterRatingsCreateOrConnectWithoutCommentInput | MasterRatingsCreateOrConnectWithoutCommentInput[]
+    createMany?: MasterRatingsCreateManyCommentInputEnvelope
+    connect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+  }
+
   export type UserUpdateOneRequiredWithoutCommentNestedInput = {
     create?: XOR<UserCreateWithoutCommentInput, UserUncheckedCreateWithoutCommentInput>
     connectOrCreate?: UserCreateOrConnectWithoutCommentInput
@@ -39017,6 +40496,62 @@ export namespace Prisma {
     upsert?: OrderUpsertWithoutCommentsInput
     connect?: OrderWhereUniqueInput
     update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutCommentsInput, OrderUpdateWithoutCommentsInput>, OrderUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type MasterRatingsUpdateManyWithoutCommentNestedInput = {
+    create?: XOR<MasterRatingsCreateWithoutCommentInput, MasterRatingsUncheckedCreateWithoutCommentInput> | MasterRatingsCreateWithoutCommentInput[] | MasterRatingsUncheckedCreateWithoutCommentInput[]
+    connectOrCreate?: MasterRatingsCreateOrConnectWithoutCommentInput | MasterRatingsCreateOrConnectWithoutCommentInput[]
+    upsert?: MasterRatingsUpsertWithWhereUniqueWithoutCommentInput | MasterRatingsUpsertWithWhereUniqueWithoutCommentInput[]
+    createMany?: MasterRatingsCreateManyCommentInputEnvelope
+    set?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    disconnect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    delete?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    connect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    update?: MasterRatingsUpdateWithWhereUniqueWithoutCommentInput | MasterRatingsUpdateWithWhereUniqueWithoutCommentInput[]
+    updateMany?: MasterRatingsUpdateManyWithWhereWithoutCommentInput | MasterRatingsUpdateManyWithWhereWithoutCommentInput[]
+    deleteMany?: MasterRatingsScalarWhereInput | MasterRatingsScalarWhereInput[]
+  }
+
+  export type MasterRatingsUncheckedUpdateManyWithoutCommentNestedInput = {
+    create?: XOR<MasterRatingsCreateWithoutCommentInput, MasterRatingsUncheckedCreateWithoutCommentInput> | MasterRatingsCreateWithoutCommentInput[] | MasterRatingsUncheckedCreateWithoutCommentInput[]
+    connectOrCreate?: MasterRatingsCreateOrConnectWithoutCommentInput | MasterRatingsCreateOrConnectWithoutCommentInput[]
+    upsert?: MasterRatingsUpsertWithWhereUniqueWithoutCommentInput | MasterRatingsUpsertWithWhereUniqueWithoutCommentInput[]
+    createMany?: MasterRatingsCreateManyCommentInputEnvelope
+    set?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    disconnect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    delete?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    connect?: MasterRatingsWhereUniqueInput | MasterRatingsWhereUniqueInput[]
+    update?: MasterRatingsUpdateWithWhereUniqueWithoutCommentInput | MasterRatingsUpdateWithWhereUniqueWithoutCommentInput[]
+    updateMany?: MasterRatingsUpdateManyWithWhereWithoutCommentInput | MasterRatingsUpdateManyWithWhereWithoutCommentInput[]
+    deleteMany?: MasterRatingsScalarWhereInput | MasterRatingsScalarWhereInput[]
+  }
+
+  export type MasterCreateNestedOneWithoutMasterRatingInput = {
+    create?: XOR<MasterCreateWithoutMasterRatingInput, MasterUncheckedCreateWithoutMasterRatingInput>
+    connectOrCreate?: MasterCreateOrConnectWithoutMasterRatingInput
+    connect?: MasterWhereUniqueInput
+  }
+
+  export type CommentCreateNestedOneWithoutMasterRatingsInput = {
+    create?: XOR<CommentCreateWithoutMasterRatingsInput, CommentUncheckedCreateWithoutMasterRatingsInput>
+    connectOrCreate?: CommentCreateOrConnectWithoutMasterRatingsInput
+    connect?: CommentWhereUniqueInput
+  }
+
+  export type MasterUpdateOneRequiredWithoutMasterRatingNestedInput = {
+    create?: XOR<MasterCreateWithoutMasterRatingInput, MasterUncheckedCreateWithoutMasterRatingInput>
+    connectOrCreate?: MasterCreateOrConnectWithoutMasterRatingInput
+    upsert?: MasterUpsertWithoutMasterRatingInput
+    connect?: MasterWhereUniqueInput
+    update?: XOR<XOR<MasterUpdateToOneWithWhereWithoutMasterRatingInput, MasterUpdateWithoutMasterRatingInput>, MasterUncheckedUpdateWithoutMasterRatingInput>
+  }
+
+  export type CommentUpdateOneRequiredWithoutMasterRatingsNestedInput = {
+    create?: XOR<CommentCreateWithoutMasterRatingsInput, CommentUncheckedCreateWithoutMasterRatingsInput>
+    connectOrCreate?: CommentCreateOrConnectWithoutMasterRatingsInput
+    upsert?: CommentUpsertWithoutMasterRatingsInput
+    connect?: CommentWhereUniqueInput
+    update?: XOR<XOR<CommentUpdateToOneWithWhereWithoutMasterRatingsInput, CommentUpdateWithoutMasterRatingsInput>, CommentUncheckedUpdateWithoutMasterRatingsInput>
   }
 
   export type UserCreateNestedOneWithoutContactInput = {
@@ -39680,19 +41215,19 @@ export namespace Prisma {
   export type CommentCreateWithoutUserInput = {
     id?: string
     message: string
-    stars: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     order: OrderCreateNestedOneWithoutCommentsInput
+    MasterRatings?: MasterRatingsCreateNestedManyWithoutCommentInput
   }
 
   export type CommentUncheckedCreateWithoutUserInput = {
     id?: string
     message: string
-    stars: JsonNullValueInput | InputJsonValue
     orderId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    MasterRatings?: MasterRatingsUncheckedCreateNestedManyWithoutCommentInput
   }
 
   export type CommentCreateOrConnectWithoutUserInput = {
@@ -39927,9 +41462,8 @@ export namespace Prisma {
     OR?: CommentScalarWhereInput[]
     NOT?: CommentScalarWhereInput | CommentScalarWhereInput[]
     id?: StringFilter<"Comment"> | string
-    userId?: StringFilter<"Comment"> | string
     message?: StringFilter<"Comment"> | string
-    stars?: JsonFilter<"Comment">
+    userId?: StringFilter<"Comment"> | string
     orderId?: StringFilter<"Comment"> | string
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
@@ -40734,6 +42268,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MasterRatingsCreateWithoutMasterInput = {
+    id?: string
+    star: number
+    Comment: CommentCreateNestedOneWithoutMasterRatingsInput
+  }
+
+  export type MasterRatingsUncheckedCreateWithoutMasterInput = {
+    id?: string
+    star: number
+    commentId: string
+  }
+
+  export type MasterRatingsCreateOrConnectWithoutMasterInput = {
+    where: MasterRatingsWhereUniqueInput
+    create: XOR<MasterRatingsCreateWithoutMasterInput, MasterRatingsUncheckedCreateWithoutMasterInput>
+  }
+
+  export type MasterRatingsCreateManyMasterInputEnvelope = {
+    data: MasterRatingsCreateManyMasterInput | MasterRatingsCreateManyMasterInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MasterProfessionUpsertWithWhereUniqueWithoutMasterInput = {
     where: MasterProfessionWhereUniqueInput
     update: XOR<MasterProfessionUpdateWithoutMasterInput, MasterProfessionUncheckedUpdateWithoutMasterInput>
@@ -40789,6 +42345,32 @@ export namespace Prisma {
     id?: StringFilter<"OrderMaster"> | string
     orderId?: StringFilter<"OrderMaster"> | string
     masterid?: StringFilter<"OrderMaster"> | string
+  }
+
+  export type MasterRatingsUpsertWithWhereUniqueWithoutMasterInput = {
+    where: MasterRatingsWhereUniqueInput
+    update: XOR<MasterRatingsUpdateWithoutMasterInput, MasterRatingsUncheckedUpdateWithoutMasterInput>
+    create: XOR<MasterRatingsCreateWithoutMasterInput, MasterRatingsUncheckedCreateWithoutMasterInput>
+  }
+
+  export type MasterRatingsUpdateWithWhereUniqueWithoutMasterInput = {
+    where: MasterRatingsWhereUniqueInput
+    data: XOR<MasterRatingsUpdateWithoutMasterInput, MasterRatingsUncheckedUpdateWithoutMasterInput>
+  }
+
+  export type MasterRatingsUpdateManyWithWhereWithoutMasterInput = {
+    where: MasterRatingsScalarWhereInput
+    data: XOR<MasterRatingsUpdateManyMutationInput, MasterRatingsUncheckedUpdateManyWithoutMasterInput>
+  }
+
+  export type MasterRatingsScalarWhereInput = {
+    AND?: MasterRatingsScalarWhereInput | MasterRatingsScalarWhereInput[]
+    OR?: MasterRatingsScalarWhereInput[]
+    NOT?: MasterRatingsScalarWhereInput | MasterRatingsScalarWhereInput[]
+    id?: StringFilter<"MasterRatings"> | string
+    star?: FloatFilter<"MasterRatings"> | number
+    masterId?: StringFilter<"MasterRatings"> | string
+    commentId?: StringFilter<"MasterRatings"> | string
   }
 
   export type ProfessionCreateWithoutMasterProfessionsInput = {
@@ -40868,6 +42450,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     ordermasters?: OrderMasterCreateNestedManyWithoutMasterInput
+    masterRating?: MasterRatingsCreateNestedManyWithoutMasterInput
   }
 
   export type MasterUncheckedCreateWithoutMasterProfessionsInput = {
@@ -40883,6 +42466,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     ordermasters?: OrderMasterUncheckedCreateNestedManyWithoutMasterInput
+    masterRating?: MasterRatingsUncheckedCreateNestedManyWithoutMasterInput
   }
 
   export type MasterCreateOrConnectWithoutMasterProfessionsInput = {
@@ -40990,6 +42574,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ordermasters?: OrderMasterUpdateManyWithoutMasterNestedInput
+    masterRating?: MasterRatingsUpdateManyWithoutMasterNestedInput
   }
 
   export type MasterUncheckedUpdateWithoutMasterProfessionsInput = {
@@ -41005,6 +42590,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ordermasters?: OrderMasterUncheckedUpdateManyWithoutMasterNestedInput
+    masterRating?: MasterRatingsUncheckedUpdateManyWithoutMasterNestedInput
   }
 
   export type MasterProfessionCreateWithoutLevelInput = {
@@ -41820,19 +43406,19 @@ export namespace Prisma {
   export type CommentCreateWithoutOrderInput = {
     id?: string
     message: string
-    stars: JsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCommentInput
+    MasterRatings?: MasterRatingsCreateNestedManyWithoutCommentInput
   }
 
   export type CommentUncheckedCreateWithoutOrderInput = {
     id?: string
-    userId: string
     message: string
-    stars: JsonNullValueInput | InputJsonValue
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    MasterRatings?: MasterRatingsUncheckedCreateNestedManyWithoutCommentInput
   }
 
   export type CommentCreateOrConnectWithoutOrderInput = {
@@ -42397,6 +43983,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     masterProfessions?: MasterProfessionCreateNestedManyWithoutMasterInput
+    masterRating?: MasterRatingsCreateNestedManyWithoutMasterInput
   }
 
   export type MasterUncheckedCreateWithoutOrdermastersInput = {
@@ -42412,6 +43999,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     masterProfessions?: MasterProfessionUncheckedCreateNestedManyWithoutMasterInput
+    masterRating?: MasterRatingsUncheckedCreateNestedManyWithoutMasterInput
   }
 
   export type MasterCreateOrConnectWithoutOrdermastersInput = {
@@ -42492,6 +44080,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     masterProfessions?: MasterProfessionUpdateManyWithoutMasterNestedInput
+    masterRating?: MasterRatingsUpdateManyWithoutMasterNestedInput
   }
 
   export type MasterUncheckedUpdateWithoutOrdermastersInput = {
@@ -42507,6 +44096,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     masterProfessions?: MasterProfessionUncheckedUpdateManyWithoutMasterNestedInput
+    masterRating?: MasterRatingsUncheckedUpdateManyWithoutMasterNestedInput
   }
 
   export type UserCreateWithoutBasketInput = {
@@ -42931,6 +44521,28 @@ export namespace Prisma {
     create: XOR<OrderCreateWithoutCommentsInput, OrderUncheckedCreateWithoutCommentsInput>
   }
 
+  export type MasterRatingsCreateWithoutCommentInput = {
+    id?: string
+    star: number
+    Master: MasterCreateNestedOneWithoutMasterRatingInput
+  }
+
+  export type MasterRatingsUncheckedCreateWithoutCommentInput = {
+    id?: string
+    star: number
+    masterId: string
+  }
+
+  export type MasterRatingsCreateOrConnectWithoutCommentInput = {
+    where: MasterRatingsWhereUniqueInput
+    create: XOR<MasterRatingsCreateWithoutCommentInput, MasterRatingsUncheckedCreateWithoutCommentInput>
+  }
+
+  export type MasterRatingsCreateManyCommentInputEnvelope = {
+    data: MasterRatingsCreateManyCommentInput | MasterRatingsCreateManyCommentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutCommentInput = {
     update: XOR<UserUpdateWithoutCommentInput, UserUncheckedUpdateWithoutCommentInput>
     create: XOR<UserCreateWithoutCommentInput, UserUncheckedCreateWithoutCommentInput>
@@ -43027,6 +44639,154 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderProducts?: OrderProductUncheckedUpdateManyWithoutOrderNestedInput
     masters?: OrderMasterUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type MasterRatingsUpsertWithWhereUniqueWithoutCommentInput = {
+    where: MasterRatingsWhereUniqueInput
+    update: XOR<MasterRatingsUpdateWithoutCommentInput, MasterRatingsUncheckedUpdateWithoutCommentInput>
+    create: XOR<MasterRatingsCreateWithoutCommentInput, MasterRatingsUncheckedCreateWithoutCommentInput>
+  }
+
+  export type MasterRatingsUpdateWithWhereUniqueWithoutCommentInput = {
+    where: MasterRatingsWhereUniqueInput
+    data: XOR<MasterRatingsUpdateWithoutCommentInput, MasterRatingsUncheckedUpdateWithoutCommentInput>
+  }
+
+  export type MasterRatingsUpdateManyWithWhereWithoutCommentInput = {
+    where: MasterRatingsScalarWhereInput
+    data: XOR<MasterRatingsUpdateManyMutationInput, MasterRatingsUncheckedUpdateManyWithoutCommentInput>
+  }
+
+  export type MasterCreateWithoutMasterRatingInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    phoneNumber: string
+    isActive?: boolean
+    birthYear: number
+    img: string
+    passportImg: string
+    about: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    masterProfessions?: MasterProfessionCreateNestedManyWithoutMasterInput
+    ordermasters?: OrderMasterCreateNestedManyWithoutMasterInput
+  }
+
+  export type MasterUncheckedCreateWithoutMasterRatingInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    phoneNumber: string
+    isActive?: boolean
+    birthYear: number
+    img: string
+    passportImg: string
+    about: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    masterProfessions?: MasterProfessionUncheckedCreateNestedManyWithoutMasterInput
+    ordermasters?: OrderMasterUncheckedCreateNestedManyWithoutMasterInput
+  }
+
+  export type MasterCreateOrConnectWithoutMasterRatingInput = {
+    where: MasterWhereUniqueInput
+    create: XOR<MasterCreateWithoutMasterRatingInput, MasterUncheckedCreateWithoutMasterRatingInput>
+  }
+
+  export type CommentCreateWithoutMasterRatingsInput = {
+    id?: string
+    message: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCommentInput
+    order: OrderCreateNestedOneWithoutCommentsInput
+  }
+
+  export type CommentUncheckedCreateWithoutMasterRatingsInput = {
+    id?: string
+    message: string
+    userId: string
+    orderId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CommentCreateOrConnectWithoutMasterRatingsInput = {
+    where: CommentWhereUniqueInput
+    create: XOR<CommentCreateWithoutMasterRatingsInput, CommentUncheckedCreateWithoutMasterRatingsInput>
+  }
+
+  export type MasterUpsertWithoutMasterRatingInput = {
+    update: XOR<MasterUpdateWithoutMasterRatingInput, MasterUncheckedUpdateWithoutMasterRatingInput>
+    create: XOR<MasterCreateWithoutMasterRatingInput, MasterUncheckedCreateWithoutMasterRatingInput>
+    where?: MasterWhereInput
+  }
+
+  export type MasterUpdateToOneWithWhereWithoutMasterRatingInput = {
+    where?: MasterWhereInput
+    data: XOR<MasterUpdateWithoutMasterRatingInput, MasterUncheckedUpdateWithoutMasterRatingInput>
+  }
+
+  export type MasterUpdateWithoutMasterRatingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    birthYear?: IntFieldUpdateOperationsInput | number
+    img?: StringFieldUpdateOperationsInput | string
+    passportImg?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    masterProfessions?: MasterProfessionUpdateManyWithoutMasterNestedInput
+    ordermasters?: OrderMasterUpdateManyWithoutMasterNestedInput
+  }
+
+  export type MasterUncheckedUpdateWithoutMasterRatingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    birthYear?: IntFieldUpdateOperationsInput | number
+    img?: StringFieldUpdateOperationsInput | string
+    passportImg?: StringFieldUpdateOperationsInput | string
+    about?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    masterProfessions?: MasterProfessionUncheckedUpdateManyWithoutMasterNestedInput
+    ordermasters?: OrderMasterUncheckedUpdateManyWithoutMasterNestedInput
+  }
+
+  export type CommentUpsertWithoutMasterRatingsInput = {
+    update: XOR<CommentUpdateWithoutMasterRatingsInput, CommentUncheckedUpdateWithoutMasterRatingsInput>
+    create: XOR<CommentCreateWithoutMasterRatingsInput, CommentUncheckedCreateWithoutMasterRatingsInput>
+    where?: CommentWhereInput
+  }
+
+  export type CommentUpdateToOneWithWhereWithoutMasterRatingsInput = {
+    where?: CommentWhereInput
+    data: XOR<CommentUpdateWithoutMasterRatingsInput, CommentUncheckedUpdateWithoutMasterRatingsInput>
+  }
+
+  export type CommentUpdateWithoutMasterRatingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCommentNestedInput
+    order?: OrderUpdateOneRequiredWithoutCommentsNestedInput
+  }
+
+  export type CommentUncheckedUpdateWithoutMasterRatingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateWithoutContactInput = {
@@ -43260,7 +45020,6 @@ export namespace Prisma {
   export type CommentCreateManyUserInput = {
     id?: string
     message: string
-    stars: JsonNullValueInput | InputJsonValue
     orderId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -43491,25 +45250,24 @@ export namespace Prisma {
   export type CommentUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    stars?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     order?: OrderUpdateOneRequiredWithoutCommentsNestedInput
+    MasterRatings?: MasterRatingsUpdateManyWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    stars?: JsonNullValueInput | InputJsonValue
     orderId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    MasterRatings?: MasterRatingsUncheckedUpdateManyWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    stars?: JsonNullValueInput | InputJsonValue
     orderId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43910,6 +45668,12 @@ export namespace Prisma {
     orderId: string
   }
 
+  export type MasterRatingsCreateManyMasterInput = {
+    id?: string
+    star: number
+    commentId: string
+  }
+
   export type MasterProfessionUpdateWithoutMasterInput = {
     id?: StringFieldUpdateOperationsInput | string
     minWorkingHours?: NullableIntFieldUpdateOperationsInput | number | null
@@ -43959,6 +45723,24 @@ export namespace Prisma {
   export type OrderMasterUncheckedUpdateManyWithoutMasterInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MasterRatingsUpdateWithoutMasterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    star?: FloatFieldUpdateOperationsInput | number
+    Comment?: CommentUpdateOneRequiredWithoutMasterRatingsNestedInput
+  }
+
+  export type MasterRatingsUncheckedUpdateWithoutMasterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    star?: FloatFieldUpdateOperationsInput | number
+    commentId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MasterRatingsUncheckedUpdateManyWithoutMasterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    star?: FloatFieldUpdateOperationsInput | number
+    commentId?: StringFieldUpdateOperationsInput | string
   }
 
   export type MasterProfessionCreateManyLevelInput = {
@@ -44388,9 +46170,8 @@ export namespace Prisma {
 
   export type CommentCreateManyOrderInput = {
     id?: string
-    userId: string
     message: string
-    stars: JsonNullValueInput | InputJsonValue
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -44442,26 +46223,25 @@ export namespace Prisma {
   export type CommentUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    stars?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCommentNestedInput
+    MasterRatings?: MasterRatingsUpdateManyWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    stars?: JsonNullValueInput | InputJsonValue
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    MasterRatings?: MasterRatingsUncheckedUpdateManyWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateManyWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    stars?: JsonNullValueInput | InputJsonValue
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44479,6 +46259,30 @@ export namespace Prisma {
   export type OrderMasterUncheckedUpdateManyWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     masterid?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MasterRatingsCreateManyCommentInput = {
+    id?: string
+    star: number
+    masterId: string
+  }
+
+  export type MasterRatingsUpdateWithoutCommentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    star?: FloatFieldUpdateOperationsInput | number
+    Master?: MasterUpdateOneRequiredWithoutMasterRatingNestedInput
+  }
+
+  export type MasterRatingsUncheckedUpdateWithoutCommentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    star?: FloatFieldUpdateOperationsInput | number
+    masterId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MasterRatingsUncheckedUpdateManyWithoutCommentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    star?: FloatFieldUpdateOperationsInput | number
+    masterId?: StringFieldUpdateOperationsInput | string
   }
 
 

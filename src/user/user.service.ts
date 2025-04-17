@@ -124,10 +124,10 @@ export class UserService {
         }
       }
 
-      const { firstName, lastName, regionId, status } = updateUserDto;
+      const { firstName, lastName, regionId, status, company } = updateUserDto;
 
       if (status && !['ADMIN', 'SUPERADMIN'].includes(userRole)) {
-        throw new ForbiddenException('Only admins or super admins can update user status!');
+        throw new ForbiddenException('Only admins can update user status!');
       }
 
       if (regionId) {
@@ -139,10 +139,18 @@ export class UserService {
         }
       }
 
+      if (company && userRole !== 'COMPANY') {
+        throw new ForbiddenException(
+          'Only company users can update their company!',
+        )
+      }
+
+      // company comes as an object
+
       const updatedUser = await this.prisma.user.update({
         where: { id },
         data: {
-          firstName,
+          firstName,  
           lastName,
           regionId,
           status: status || user.status,
@@ -152,6 +160,24 @@ export class UserService {
       if (!updatedUser) {
         throw new BadRequestException('Error updating user!');
       }
+
+
+      if ( company) { 
+        let foundCompany = await this.prisma.company.findFirst({
+          where: {
+            ownerId: user.id,
+          },
+        });
+
+        if (!foundCompany) {
+          throw new NotFoundException('Company not found!');
+        }
+
+        const updatedCompany = await this.prisma.company.update({
+          where: { id: foundCompany.id },
+          data: company,
+        });
+       }
 
       let newUser = {  
         id: updatedUser.id,

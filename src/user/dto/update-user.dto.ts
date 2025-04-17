@@ -1,6 +1,38 @@
-import { IsOptional, IsString, IsEnum, IsUUID, Matches } from 'class-validator';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, IsString, IsEnum, IsUUID, Matches, ValidateIf, IsNotEmpty } from 'class-validator';
+import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { UserStatus } from '@prisma/client';
+import { CreateCompanyDto } from '../../auth/dto/create-auth.dto';
+
+
+export class UpdateCompanyDto extends PartialType(CreateCompanyDto) {
+  @ApiPropertyOptional({ example: 'Kompaniya yangilangan nomi', description: 'Updated name in Uzbek' })
+  nameUz?: string;
+
+  @ApiPropertyOptional({ example: 'Компания', description: 'Updated name in Russian' })
+  nameRu?: string;
+
+  @ApiPropertyOptional({ example: 'Company Name', description: 'Updated name in English' })
+  nameEn?: string;
+
+  @ApiPropertyOptional({ example: '123456789', description: 'Updated tax ID' })
+  taxId?: string;
+
+  @ApiPropertyOptional({ example: '01001', description: 'Updated bank code' })
+  bankCode?: string;
+
+  @ApiPropertyOptional({ example: '1234567890123456', description: 'Updated bank account' })
+  bankAccount?: string;
+
+  @ApiPropertyOptional({ example: 'NBU', description: 'Updated bank name' })
+  bankName?: string;
+
+  @ApiPropertyOptional({ example: '12345', description: 'Updated OKED' })
+  oked?: string;
+
+  @ApiPropertyOptional({ example: 'Chilonzor, Tashkent', description: 'Updated address' })
+  address?: string;
+}
+
 
 export class UpdateUserDto {
   @ApiPropertyOptional({
@@ -37,4 +69,14 @@ export class UpdateUserDto {
   @IsOptional()
   @IsEnum(UserStatus, { message: 'status must be a valid user status' })
   status?: UserStatus;
+  
+  @ApiPropertyOptional({
+    type: UpdateCompanyDto,
+    required: false,
+    description: 'Updated company details (required if role is COMPANY)',
+  })
+  @ValidateIf((dto) => dto.role === 'COMPANY') 
+  @IsOptional()
+  company?: UpdateCompanyDto;
+
 }

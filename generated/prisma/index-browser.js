@@ -340,12 +340,18 @@ exports.Prisma.BasketScalarFieldEnum = {
 
 exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   message: 'message',
-  stars: 'stars',
+  userId: 'userId',
   orderId: 'orderId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MasterRatingsScalarFieldEnum = {
+  id: 'id',
+  star: 'star',
+  masterId: 'masterId',
+  commentId: 'commentId'
 };
 
 exports.Prisma.ContactScalarFieldEnum = {
@@ -489,6 +495,7 @@ exports.Prisma.ModelName = {
   OrderMaster: 'OrderMaster',
   Basket: 'Basket',
   Comment: 'Comment',
+  MasterRatings: 'MasterRatings',
   Contact: 'Contact',
   FAQ: 'FAQ',
   Showcase: 'Showcase',
