@@ -39,6 +39,11 @@ import {
     @IsNumber()
     @ApiProperty({ description: 'Working time (in hours/days)', example: 8 })
     workingTime: number;
+
+    @IsNotEmpty()
+    @IsNumber()
+    @ApiProperty({ description: 'Price', example: 100.0 })
+    price: number;
   }
   
   export class CreateOrderDto {
@@ -62,6 +67,16 @@ import {
     @IsString()
     @ApiProperty({ description: 'Date of order', example: '2023-10-15T10:00:00Z' })
     date: string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    @ApiProperty({ description: 'Total Price', example: 100.0 })
+    totalPrice: number;
+
+    @IsNotEmpty()
+    @IsEnum(PaymentType)
+    @ApiProperty({ example: 'CASH', enum: PaymentType, description: 'Payment type (CASH, CLICK, PAYME)' })
+    paymentType: PaymentType;
   
     @IsNotEmpty()
     @IsBoolean()

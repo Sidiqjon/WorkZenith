@@ -78,20 +78,20 @@ export class OrderService {
       }
 
       // Calculate total price
-      let totalPrice = 0;
-      for (const product of orderProducts) {
-        const price =
-          product.timeUnit === 'HOURLY'
-            ? product.workingTime * (product.professionId ? validProfessions.find(p => p.id === product.professionId)?.priceHourly : validTools.find(t => t.id === product.toolId)?.price)
-            : product.workingTime * (product.professionId ? validProfessions.find(p => p.id === product.professionId)?.priceDaily : validTools.find(t => t.id === product.toolId)?.price);
-        totalPrice += price * product.quantity;
-      }
+      // let totalPrice = 0;
+      // for (const product of orderProducts) {
+      //   const price =
+      //     product.timeUnit === 'HOURLY'
+      //       ? product.workingTime * (product.professionId ? validProfessions.find(p => p.id === product.professionId)?.priceHourly : validTools.find(t => t.id === product.toolId)?.price)
+      //       : product.workingTime * (product.professionId ? validProfessions.find(p => p.id === product.professionId)?.priceDaily : validTools.find(t => t.id === product.toolId)?.price);
+      //   totalPrice += price * product.quantity;
+      // }
 
       // Create Order record
       const order = await this.prisma.order.create({
         data: {
           ...body,
-          totalPrice,
+          ownerId: userId,
         },
       });
 
@@ -104,16 +104,8 @@ export class OrderService {
         quantity: product.quantity,
         timeUnit: product.timeUnit,
         workingTime: product.workingTime,
-        price:
-          product.timeUnit === 'HOURLY'
-            ? product.workingTime *
-              (product.professionId
-                ? validProfessions.find(p => p.id === product.professionId)?.priceHourly
-                : validTools.find(t => t.id === product.toolId)?.price)
-            : product.workingTime *
-              (product.professionId
-                ? validProfessions.find(p => p.id === product.professionId)?.priceDaily
-                : validTools.find(t => t.id === product.toolId)?.price),
+        price: product.price
+
       }));
       await this.prisma.orderProduct.createMany({ data: orderProductData });
 
@@ -128,8 +120,8 @@ export class OrderService {
       const { page = 1, limit = 10, search, sortBy = 'createdAt', sortOrder = 'desc', status } = params;
 
       const where: any = {};
-      if (!isAdmin && userId) {
-        where.ownerId = userId; // Restrict to user's orders
+      if ((userRole === UserRole.INDIVIDUAL || userRole === UserRole.COMPANY) && userId) {
+        where.ownerId = userId;
       }
       if (search) {
         where.OR = [
@@ -144,7 +136,7 @@ export class OrderService {
       const [data, total] = await this.prisma.$transaction([
         this.prisma.order.findMany({
           where,
-          include: { orderProducts: true, masters: true },
+          include: { user: { omit: { password: true, refreshToken: true } }, orderProducts: true, masters: true } as any,
           orderBy: { [sortBy]: sortOrder },
           skip: (page - 1) * limit,
           take: +limit,
@@ -152,31 +144,27 @@ export class OrderService {
         this.prisma.order.count({ where }),
       ]);
 
-      if (!data.length) {
-        throw new NotFoundException('Orders not found.');
-      }
-
       return {
-        data,
         total,
         currentPage: +page,
         totalPages: Math.ceil(total / +limit),
+        data,
       };
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  async findOne(id: string, userId?: string, isAdmin?: string) {
+  async findOne(id: string, userId?: string, userRole?: string) {
     try {
       const where: any = { id };
-      if (!isAdmin && userId) {
-        where.ownerId = userId; // Restrict to user's orders
+      if ((userRole === UserRole.INDIVIDUAL || userRole === UserRole.COMPANY) && userId) {
+        where.ownerId = userId; 
       }
 
       const order = await this.prisma.order.findUnique({
         where,
-        include: { orderProducts: true, masters: true },
+        include: { user: { omit: { password: true, refreshToken: true } }, orderProducts: true, masters: true } as any,
       });
 
       if (!order) {
@@ -189,64 +177,66 @@ export class OrderService {
     }
   }
 
-  async update(id: string, dto: UpdateOrderDto, isAdmin = false) {
+  async update(id: string, dto: UpdateOrderDto, userId: string, userRole: string) {
     try {
       const existing = await this.prisma.order.findUnique({ where: { id } });
       if (!existing) {
         throw new NotFoundException('Order not found.');
       }
 
-      const { orderProducts, masterIds, ...body } = dto;
+      const { masterIds, status, ...body } = dto;
 
       // Update orderProducts if provided
-      if (orderProducts?.length) {
-        // Delete old orderProducts
-        await this.prisma.orderProduct.deleteMany({ where: { orderId: id } });
+      // if (orderProducts?.length) {
+      //   // Delete old orderProducts
+      //   // await this.prisma.orderProduct.deleteMany({ where: { orderId: id } });
 
-        // Validate and create new orderProducts
-        const professionIds = orderProducts
-          .filter(op => op.professionId)
-          .map(op => op.professionId);
-        const toolIds = orderProducts.filter(op => op.toolId).map(op => op.toolId);
+      //   const orderProductsIds = orderProducts.map(op => op.id);
 
-        const validProfessions = await this.prisma.profession.findMany({
-          where: { id: { in: professionIds } },
-        });
-        if (validProfessions.length !== professionIds.length) {
-          throw new BadRequestException('One or more profession IDs are invalid.');
-        }
+      //   // Validate and create new orderProducts
+      //   const professionIds = orderProducts
+      //     .filter(op => op.professionId)
+      //     .map(op => op.professionId);
+      //   const toolIds = orderProducts.filter(op => op.toolId).map(op => op.toolId);
 
-        const validTools = await this.prisma.tool.findMany({
-          where: { id: { in: toolIds } },
-        });
-        if (validTools.length !== toolIds.length) {
-          throw new BadRequestException('One or more tool IDs are invalid.');
-        }
+      //   const validProfessions = await this.prisma.profession.findMany({
+      //     where: { id: { in: professionIds } },
+      //   });
+      //   if (validProfessions.length !== professionIds.length) {
+      //     throw new BadRequestException('One or more profession IDs are invalid.');
+      //   }
 
-        const orderProductData = orderProducts.map(product => ({
-          orderId: id,
-          professionId: product.professionId,
-          toolId: product.toolId,
-          levelId: product.levelId,
-          quantity: product.quantity,
-          timeUnit: product.timeUnit,
-          workingTime: product.workingTime,
-          price:
-            product.timeUnit === 'HOURLY'
-              ? product.workingTime *
-                (product.professionId
-                  ? validProfessions.find(p => p.id === product.professionId)?.priceHourly
-                  : validTools.find(t => t.id === product.toolId)?.price)
-              : product.workingTime *
-                (product.professionId
-                  ? validProfessions.find(p => p.id === product.professionId)?.priceDaily
-                  : validTools.find(t => t.id === product.toolId)?.price),
-        }));
-        await this.prisma.orderProduct.createMany({ data: orderProductData });
-      }
+      //   const validTools = await this.prisma.tool.findMany({
+      //     where: { id: { in: toolIds } },
+      //   });
+      //   if (validTools.length !== toolIds.length) {
+      //     throw new BadRequestException('One or more tool IDs are invalid.');
+      //   }
+
+      //   const orderProductData = orderProducts.map(product => ({
+      //     orderId: id,
+      //     professionId: product.professionId,
+      //     toolId: product.toolId,
+      //     levelId: product.levelId,
+      //     quantity: product.quantity,
+      //     timeUnit: product.timeUnit,
+      //     workingTime: product.workingTime,
+      //     price:
+      //       product.timeUnit === 'HOURLY'
+      //         ? product.workingTime *
+      //           (product.professionId
+      //             ? validProfessions.find(p => p.id === product.professionId)?.priceHourly
+      //             : validTools.find(t => t.id === product.toolId)?.price)
+      //         : product.workingTime *
+      //           (product.professionId
+      //             ? validProfessions.find(p => p.id === product.professionId)?.priceDaily
+      //             : validTools.find(t => t.id === product.toolId)?.price),
+      //   }));
+      //   await this.prisma.orderProduct.createMany({ data: orderProductData });
+      // }
 
       // Assign masters if provided (only ADMIN/SUPERADMIN)
-      if (masterIds?.length && isAdmin) {
+      if (masterIds?.length) {
         const validMasters = await this.prisma.master.findMany({
           where: { id: { in: masterIds } },
         });
@@ -276,10 +266,6 @@ export class OrderService {
 
   async remove(id: string, isAdmin = false) {
     try {
-      if (!isAdmin) {
-        throw new BadRequestException('Users cannot delete orders.');
-      }
-
       const existing = await this.prisma.order.findUnique({ where: { id } });
       if (!existing) {
         throw new NotFoundException('Order not found.');

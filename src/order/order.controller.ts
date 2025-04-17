@@ -78,10 +78,13 @@ export class OrderController {
   @Roles(UserRole.ADMIN, UserRole.SUPERADMIN)
   @ApiOperation({ summary: 'Update order (ADMIN or SUPERADMIN only)' })
   update(
+    @Req() req: any,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateOrderDto,
   ) {
-    return this.orderService.update(id, dto);
+    const userId = req.user.id;
+    const userRole = req.user.role;
+    return this.orderService.update(id, dto, userId, userRole);
   }
 
   @Delete(':id')
