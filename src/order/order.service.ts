@@ -11,10 +11,15 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { UserRole } from '../guard/role-enum';
+import { TelegramBotService } from 'src/telegram-bot/telegram-bot.service';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService,
+
+  private telegramBotService: TelegramBotService, 
+){}
+
 
   async create(dto: CreateOrderDto, userId: string) {
     try {
@@ -109,7 +114,9 @@ export class OrderService {
       }));
       await this.prisma.orderProduct.createMany({ data: orderProductData });
 
-      return { message: 'Order created successfully!', data: order };
+      this.telegramBotService.notifyNewOrder(order, orderProducts);
+
+      return { data: order };
     } catch (error) {
       this.handleError(error);
     }
@@ -136,7 +143,7 @@ export class OrderService {
       const [data, total] = await this.prisma.$transaction([
         this.prisma.order.findMany({
           where,
-          include: { user: { omit: { password: true, refreshToken: true } }, orderProducts: true, masters: true } as any,
+          include: { owner: { omit: { password: true, refreshToken: true } }, orderProducts: true, masters: true } as any,
           orderBy: { [sortBy]: sortOrder },
           skip: (page - 1) * limit,
           take: +limit,
@@ -164,7 +171,7 @@ export class OrderService {
 
       const order = await this.prisma.order.findUnique({
         where,
-        include: { user: { omit: { password: true, refreshToken: true } }, orderProducts: true, masters: true } as any,
+        include: { owner: { omit: { password: true, refreshToken: true } }, orderProducts: true, masters: true } as any,
       });
 
       if (!order) {

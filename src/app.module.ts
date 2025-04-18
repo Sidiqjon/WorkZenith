@@ -26,10 +26,14 @@ import { OrderModule } from './order/order.module';
 import { CommentModule } from './comment/comment.module';
 import { BasketModule } from './basket/basket.module';
 
+import { ScheduleModule } from '@nestjs/schedule';
+import { scheduled } from 'rxjs';
+import { TelegramBotModule } from './telegram-bot/telegram-bot.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, AdminModule, UserModule, ContactModule, ToolModule, ProfessionModule, MasterModule, OrderModule, CommentModule, BasketModule],
+    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, AdminModule, UserModule, ContactModule, ToolModule, ProfessionModule, MasterModule, OrderModule, CommentModule, BasketModule, ScheduleModule.forRoot(), TelegramBotModule],
   controllers: [],
   providers: [EskizService],
 })

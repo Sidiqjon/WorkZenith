@@ -1,7 +1,8 @@
-import { IsOptional, IsString, IsEnum, IsUUID, Matches, ValidateIf, IsNotEmpty } from 'class-validator';
+import { IsOptional, IsString, IsEnum, IsUUID, Matches, ValidateIf, IsNotEmpty, ValidateNested } from 'class-validator';
 import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { UserStatus } from '@prisma/client';
 import { CreateCompanyDto } from '../../auth/dto/create-auth.dto';
+import { Type } from 'class-transformer';
 
 
 export class UpdateCompanyDto extends PartialType(CreateCompanyDto) {
@@ -75,6 +76,8 @@ export class UpdateUserDto {
     required: false,
     description: 'Updated company details (required if role is COMPANY)',
   })
+  @Type(() => UpdateCompanyDto)
+  @ValidateNested()
   @ValidateIf((dto) => dto.role === 'COMPANY') 
   @IsOptional()
   company?: UpdateCompanyDto;

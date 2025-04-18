@@ -1,4 +1,5 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsOptional,
@@ -7,6 +8,7 @@ import {
   MaxLength,
   MinLength,
   ValidateIf,
+  ValidateNested,
 } from 'class-validator';
 
 export class CreateCompanyDto {
@@ -114,6 +116,8 @@ export class RegisterDTO {
     required: false,
     description: 'Company details (required if role is COMPANY)',
   })
+  @Type(() => CreateCompanyDto)
+  @ValidateNested()
   @ValidateIf((dto) => dto.role === 'COMPANY') 
   @IsNotEmpty({ message: 'Company details are required for COMPANY role' })
   company?: CreateCompanyDto;
