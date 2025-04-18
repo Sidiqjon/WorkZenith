@@ -23,11 +23,13 @@ import { ToolModule } from './tool/tool.module';
 import { ProfessionModule } from './profession/profession.module';
 import { MasterModule } from './master/master.module';
 import { OrderModule } from './order/order.module';
+import { CommentModule } from './comment/comment.module';
+import { BasketModule } from './basket/basket.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, AdminModule, UserModule, ContactModule, ToolModule, ProfessionModule, MasterModule, OrderModule],
+    PrismaModule, RegionModule, AuthModule, UploadModule, BrandModule, SizeModule, PowerModule, LevelModule, FaqModule, ShowcaseModule, PartnerModule, SitemetadataModule, AdminModule, UserModule, ContactModule, ToolModule, ProfessionModule, MasterModule, OrderModule, CommentModule, BasketModule],
   controllers: [],
   providers: [EskizService],
 })
