@@ -19,7 +19,7 @@ export class FaqService {
         data: createFaqDto,
       });
 
-      return { message: 'FAQ created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -67,12 +67,11 @@ export class FaqService {
 
       const total = await this.prisma.fAQ.count({ where });
 
-      if (!data.length) {
-        throw new NotFoundException('No FAQs found!');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('No FAQs found!');
+      // }
 
       return {
-        message: 'FAQs fetched successfully!',
         meta: {
           total,
           page,
@@ -111,7 +110,7 @@ export class FaqService {
         data: updateFaqDto,
       });
 
-      return { message: 'FAQ updated successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -127,7 +126,7 @@ export class FaqService {
 
       const data = await this.prisma.fAQ.delete({ where: { id } });
 
-      return { message: 'FAQ deleted successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }

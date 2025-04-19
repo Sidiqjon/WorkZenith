@@ -27,7 +27,7 @@ export class LevelService {
         data: createLevelDto,
       });
 
-      return { message: 'Level created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -70,12 +70,11 @@ export class LevelService {
 
       const total = await this.prisma.level.count({ where });
 
-      if (!data.length) {
-        throw new NotFoundException('No levels found!');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('No levels found!');
+      // }
 
       return {
-        message: 'Levels fetched successfully!',
         meta: {
           total,
           page,
@@ -135,7 +134,7 @@ export class LevelService {
         data: updateLevelDto,
       });
 
-      return { message: 'Level updated successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -151,7 +150,7 @@ export class LevelService {
 
       const data = await this.prisma.level.delete({ where: { id } });
 
-      return { message: 'Level deleted successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
