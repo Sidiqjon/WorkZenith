@@ -45,6 +45,7 @@ export class MasterService {
           .filter(id => id !== undefined) as string[];
 
         levelIds = Array.from(new Set(levelIds));
+
         if (levelIds.length) {
           const validLevels = await this.prisma.level.findMany({
             where: { id: { in: levelIds } },
@@ -55,19 +56,25 @@ export class MasterService {
         }
       }
 
-      // Create Master record
       const master = await this.prisma.master.create({ data: body });
 
-      // Create related MasterProfession records
       if (masterProfessions?.length) {
         const masterProfessionData = masterProfessions.map(mp => ({
           masterId: master.id,
           ...mp,
         }));
-        await this.prisma.masterProfession.createMany({ data: masterProfessionData });
+        const createdmasterProfessions = await this.prisma.masterProfession.createMany({ data: masterProfessionData });
+        // if (  createdmasterProfessions.count !== masterProfessionData.length) {
+        //   throw new BadRequestException('Failed to create MasterProfession records.');
+        // }
+
+        if (  createdmasterProfessions.count !== 0 ) {
+          master['masterProfessions'] = createdmasterProfessions
+        } 
+
       }
 
-      return { message: 'Master created successfully!', data: master };
+      return { data: master };
     } catch (error) {
       this.handleError(error);
     }
@@ -114,9 +121,9 @@ export class MasterService {
         this.prisma.master.count({ where }),
       ]);
 
-      if (!data.length) {
-        throw new NotFoundException('Masters not found.');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('Masters not found.');
+      // }
 
       return {
           total,
@@ -160,6 +167,15 @@ export class MasterService {
         await this.removeImage(existing.passportImg);
       }
 
+      const updated = await this.prisma.master.update({
+        where: { id },
+        data: {
+          ...body,
+          img: img ?? existing.img,
+          passportImg: passportImg ?? existing.passportImg,
+        },
+      });
+
       // Validate masterProfessions
       if (masterProfessions?.length) {
         let professionIds = masterProfessions.map(mp => mp.professionId).filter(id => id !== undefined);
@@ -198,20 +214,14 @@ export class MasterService {
           priceDaily: mp.priceDaily ?? 400000, 
           experience: mp.experience ?? 2.5,
         }));
-        await this.prisma.masterProfession.createMany({ data: masterProfessionData });
+        const createdmasterProfessions = await this.prisma.masterProfession.createMany({ data: masterProfessionData });
+
+        if (createdmasterProfessions.count !== 0) {
+          updated['masterProfessions'] = createdmasterProfessions;
+        }
       }
 
-      // Update the master record
-      const updated = await this.prisma.master.update({
-        where: { id },
-        data: {
-          ...body,
-          img: img ?? existing.img,
-          passportImg: passportImg ?? existing.passportImg,
-        },
-      });
-
-      return { message: 'Master updated successfully', data: updated };
+      return { data: updated };
     } catch (error) {
       this.handleError(error);
     }
@@ -236,7 +246,7 @@ export class MasterService {
         throw new BadRequestException('Failed to delete master.');
       }
 
-      return { message: 'Master deleted successfully', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }

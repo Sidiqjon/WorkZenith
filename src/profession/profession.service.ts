@@ -192,9 +192,11 @@ export class ProfessionService {
         this.prisma.profession.count({ where }),
       ]);
 
-      if (!data.length) {
-        throw new NotFoundException('Professions not found.');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('Professions not found.');
+      // }
+
+      if ( data )
 
       return {
         data,

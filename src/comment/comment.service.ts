@@ -50,7 +50,13 @@ export class CommentService {
         masterId: rating.masterId,
         commentId: comment.id,
       }));
-      await this.prisma.masterRatings.createMany({ data: masterRatingData });
+      const createdRating = await this.prisma.masterRatings.createMany({ data: masterRatingData });
+
+      if ( createdRating.count !== masterRatingData.length) {
+        throw new BadRequestException('Failed to create master ratings.');
+      }
+
+      comment['masterRatings'] = createdRating;
 
       return { data: comment };
     } catch (error) {
