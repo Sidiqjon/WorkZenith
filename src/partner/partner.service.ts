@@ -29,7 +29,7 @@ export class PartnerService {
         data: createPartnerDto,
       });
 
-      return { message: 'Partner created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -72,12 +72,11 @@ export class PartnerService {
 
       const total = await this.prisma.partner.count({ where });
 
-      if (!data.length) {
-        throw new NotFoundException('No partners found!');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('No partners found!');
+      // }
 
       return {
-        message: 'Partners fetched successfully!',
         meta: {
           total,
           page,
@@ -137,7 +136,7 @@ export class PartnerService {
         data: updatePartnerDto,
       });
 
-      return { message: 'Partner updated successfully!', data };
+      return {data };
     } catch (error) {
       this.handleError(error);
     }
@@ -158,7 +157,7 @@ export class PartnerService {
 
       const data = await this.prisma.partner.delete({ where: { id } });
 
-      return { message: 'Partner deleted successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }

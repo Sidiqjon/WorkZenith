@@ -398,6 +398,7 @@ exports.Prisma.PartnerScalarFieldEnum = {
   nameRu: 'nameRu',
   nameEn: 'nameEn',
   image: 'image',
+  link: 'link',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

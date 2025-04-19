@@ -27,7 +27,7 @@ export class RegionService {
         data: createRegionDto,
       });
 
-      return { message: 'Region created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -72,12 +72,12 @@ export class RegionService {
   
       const total = await this.prisma.region.count({ where });
   
-      if (!data.length) {
-        throw new NotFoundException('No regions found!');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('No regions found!');
+      // }
   
       return {
-        message: 'Regions fetched successfully!',
+        // message: 'Regions fetched successfully!',
         meta: {
           total,
           page,
@@ -133,7 +133,7 @@ export class RegionService {
         data: updateRegionDto,
       });
 
-      return { message: 'Region updated successfully'!, data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -149,7 +149,7 @@ export class RegionService {
 
       const data = await this.prisma.region.delete({ where: { id } });
 
-      return { message: 'Region deleted successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }

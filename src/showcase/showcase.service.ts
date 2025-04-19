@@ -27,7 +27,7 @@ export class ShowcaseService {
 
       const data = await this.prisma.showcase.create({ data: dto });
 
-      return { message: 'Showcase created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -70,12 +70,12 @@ export class ShowcaseService {
 
       const total = await this.prisma.showcase.count({ where });
 
-      if (!data.length) {
-        throw new NotFoundException('No showcases found!');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('No showcases found!');
+      // }
 
       return {
-        message: 'Showcases fetched successfully!',
+        // message: 'Showcases fetched successfully!',
         meta: { total, page, lastPage: Math.ceil(total / limit) },
         data,
       };
@@ -129,7 +129,7 @@ export class ShowcaseService {
         data: dto,
       });
 
-      return { message: 'Showcase updated successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -148,7 +148,7 @@ export class ShowcaseService {
 
       const data = await this.prisma.showcase.delete({ where: { id } });
 
-      return { message: 'Showcase deleted successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }

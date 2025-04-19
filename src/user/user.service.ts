@@ -66,12 +66,12 @@ export class UserService {
 
       const total = await this.prisma.user.count({ where });
 
-      if (!data.length) {
-        throw new NotFoundException('No users found!');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('No users found!');
+      // }
 
       return {
-        message: 'Users fetched successfully!',
+        // message: 'Users fetched successfully!',
         meta: {
           total,
           page,
@@ -112,6 +112,7 @@ export class UserService {
 
   async update(id: string, updateUserDto: UpdateUserDto, userId: string, userRole: UserRole) {
     try {
+
       const user = await this.prisma.user.findUnique({ where: { id } });
 
       if (!user) {
@@ -147,7 +148,7 @@ export class UserService {
 
       // company comes as an object
 
-      const updatedUser = await this.prisma.user.update({
+      let updatedUser = await this.prisma.user.update({
         where: { id },
         data: {
           firstName,  
@@ -173,10 +174,13 @@ export class UserService {
           throw new NotFoundException('Company not found!');
         }
 
-        const updatedCompany = await this.prisma.company.update({
+        let updatedCompany = await this.prisma.company.update({
           where: { id: foundCompany.id },
           data: company,
         });
+
+        updatedUser['company'] = updatedCompany
+
        }
 
       let newUser = {  
@@ -189,9 +193,10 @@ export class UserService {
         status: updatedUser.status,
         createdAt: updatedUser.createdAt,
         updatedAt: updatedUser.updatedAt,
+        company: (updatedUser as any).company
       }; 
 
-      return { message: 'User updated successfully!', data: newUser };
+      return { data: newUser };
     } catch (error) {
       this.handleError(error);
     }
@@ -219,7 +224,7 @@ export class UserService {
 
       deletedUser  = { ...deletedUser, password: 'XXX', refreshToken: 'XXX'};
 
-      return { message: 'User deleted successfully!', data: deletedUser };
+      return { data: deletedUser };
     } catch (error) {
       this.handleError(error);
     }

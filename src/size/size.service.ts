@@ -22,7 +22,7 @@ export class SizeService {
         data: createSizeDto,
       });
 
-      return { message: 'Size created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -67,12 +67,12 @@ export class SizeService {
 
       const total = await this.prisma.size.count({ where });
 
-      if (!data.length) {
-        throw new NotFoundException('No sizes found!');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('No sizes found!');
+      // }
 
       return {
-        message: 'Sizes fetched successfully!',
+        // message: 'Sizes fetched successfully!',
         meta: {
           total,
           page,
@@ -126,7 +126,7 @@ export class SizeService {
         data: updateSizeDto,
       });
 
-      return { message: 'Size updated successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -142,7 +142,7 @@ export class SizeService {
 
       const data = await this.prisma.size.delete({ where: { id } });
 
-      return { message: 'Size deleted successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }

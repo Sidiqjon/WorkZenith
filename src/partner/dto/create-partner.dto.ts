@@ -24,4 +24,9 @@ export class CreatePartnerDto {
   @IsNotEmpty()
   @IsString()
   image: string;
+
+  @ApiProperty({ description: 'Web-Site link of a partner', example:'https://erp.student.najottalim.uz' })
+  @IsOptional()
+  @IsString()
+  link?: string
 }

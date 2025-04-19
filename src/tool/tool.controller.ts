@@ -46,8 +46,8 @@ export class ToolController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
+  @UseGuards(JwtAuthGuard)
+  // @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
   @ApiBearerAuth()
   findOne(@Param('id') id: string) {
     return this.toolService.findOne(id);

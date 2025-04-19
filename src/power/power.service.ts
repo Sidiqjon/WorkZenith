@@ -27,7 +27,7 @@ export class PowerService {
         data: createPowerDto,
       });
 
-      return { message: 'Power created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -72,12 +72,12 @@ export class PowerService {
 
       const total = await this.prisma.power.count({ where });
 
-      if (!data.length) {
-        throw new NotFoundException('No power records found!');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('No power records found!');
+      // }
 
       return {
-        message: 'Power list fetched successfully!',
+        // message: 'Power list fetched successfully!',
         meta: {
           total,
           page,
@@ -130,7 +130,7 @@ export class PowerService {
         data: updatePowerDto,
       });
 
-      return { message: 'Power updated successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -146,7 +146,7 @@ export class PowerService {
 
       const data = await this.prisma.power.delete({ where: { id } });
 
-      return { message: 'Power deleted successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }

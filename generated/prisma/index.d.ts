@@ -30423,6 +30423,7 @@ export namespace Prisma {
     nameRu: string | null
     nameEn: string | null
     image: string | null
+    link: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -30433,6 +30434,7 @@ export namespace Prisma {
     nameRu: string | null
     nameEn: string | null
     image: string | null
+    link: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -30443,6 +30445,7 @@ export namespace Prisma {
     nameRu: number
     nameEn: number
     image: number
+    link: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -30455,6 +30458,7 @@ export namespace Prisma {
     nameRu?: true
     nameEn?: true
     image?: true
+    link?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -30465,6 +30469,7 @@ export namespace Prisma {
     nameRu?: true
     nameEn?: true
     image?: true
+    link?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -30475,6 +30480,7 @@ export namespace Prisma {
     nameRu?: true
     nameEn?: true
     image?: true
+    link?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -30558,6 +30564,7 @@ export namespace Prisma {
     nameRu: string | null
     nameEn: string | null
     image: string
+    link: string | null
     createdAt: Date
     updatedAt: Date
     _count: PartnerCountAggregateOutputType | null
@@ -30585,6 +30592,7 @@ export namespace Prisma {
     nameRu?: boolean
     nameEn?: boolean
     image?: boolean
+    link?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["partner"]>
@@ -30595,6 +30603,7 @@ export namespace Prisma {
     nameRu?: boolean
     nameEn?: boolean
     image?: boolean
+    link?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["partner"]>
@@ -30605,6 +30614,7 @@ export namespace Prisma {
     nameRu?: boolean
     nameEn?: boolean
     image?: boolean
+    link?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["partner"]>
@@ -30615,11 +30625,12 @@ export namespace Prisma {
     nameRu?: boolean
     nameEn?: boolean
     image?: boolean
+    link?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PartnerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nameUz" | "nameRu" | "nameEn" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["partner"]>
+  export type PartnerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nameUz" | "nameRu" | "nameEn" | "image" | "link" | "createdAt" | "updatedAt", ExtArgs["result"]["partner"]>
 
   export type $PartnerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Partner"
@@ -30630,6 +30641,7 @@ export namespace Prisma {
       nameRu: string | null
       nameEn: string | null
       image: string
+      link: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["partner"]>
@@ -31060,6 +31072,7 @@ export namespace Prisma {
     readonly nameRu: FieldRef<"Partner", 'String'>
     readonly nameEn: FieldRef<"Partner", 'String'>
     readonly image: FieldRef<"Partner", 'String'>
+    readonly link: FieldRef<"Partner", 'String'>
     readonly createdAt: FieldRef<"Partner", 'DateTime'>
     readonly updatedAt: FieldRef<"Partner", 'DateTime'>
   }
@@ -32874,6 +32887,7 @@ export namespace Prisma {
     nameRu: 'nameRu',
     nameEn: 'nameEn',
     image: 'image',
+    link: 'link',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -34958,6 +34972,7 @@ export namespace Prisma {
     nameRu?: StringNullableFilter<"Partner"> | string | null
     nameEn?: StringNullableFilter<"Partner"> | string | null
     image?: StringFilter<"Partner"> | string
+    link?: StringNullableFilter<"Partner"> | string | null
     createdAt?: DateTimeFilter<"Partner"> | Date | string
     updatedAt?: DateTimeFilter<"Partner"> | Date | string
   }
@@ -34968,6 +34983,7 @@ export namespace Prisma {
     nameRu?: SortOrderInput | SortOrder
     nameEn?: SortOrderInput | SortOrder
     image?: SortOrder
+    link?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34981,6 +34997,7 @@ export namespace Prisma {
     nameRu?: StringNullableFilter<"Partner"> | string | null
     nameEn?: StringNullableFilter<"Partner"> | string | null
     image?: StringFilter<"Partner"> | string
+    link?: StringNullableFilter<"Partner"> | string | null
     createdAt?: DateTimeFilter<"Partner"> | Date | string
     updatedAt?: DateTimeFilter<"Partner"> | Date | string
   }, "id">
@@ -34991,6 +35008,7 @@ export namespace Prisma {
     nameRu?: SortOrderInput | SortOrder
     nameEn?: SortOrderInput | SortOrder
     image?: SortOrder
+    link?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PartnerCountOrderByAggregateInput
@@ -35007,6 +35025,7 @@ export namespace Prisma {
     nameRu?: StringNullableWithAggregatesFilter<"Partner"> | string | null
     nameEn?: StringNullableWithAggregatesFilter<"Partner"> | string | null
     image?: StringWithAggregatesFilter<"Partner"> | string
+    link?: StringNullableWithAggregatesFilter<"Partner"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Partner"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Partner"> | Date | string
   }
@@ -37116,6 +37135,7 @@ export namespace Prisma {
     nameRu?: string | null
     nameEn?: string | null
     image: string
+    link?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -37126,6 +37146,7 @@ export namespace Prisma {
     nameRu?: string | null
     nameEn?: string | null
     image: string
+    link?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -37136,6 +37157,7 @@ export namespace Prisma {
     nameRu?: NullableStringFieldUpdateOperationsInput | string | null
     nameEn?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37146,6 +37168,7 @@ export namespace Prisma {
     nameRu?: NullableStringFieldUpdateOperationsInput | string | null
     nameEn?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37156,6 +37179,7 @@ export namespace Prisma {
     nameRu?: string | null
     nameEn?: string | null
     image: string
+    link?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -37166,6 +37190,7 @@ export namespace Prisma {
     nameRu?: NullableStringFieldUpdateOperationsInput | string | null
     nameEn?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37176,6 +37201,7 @@ export namespace Prisma {
     nameRu?: NullableStringFieldUpdateOperationsInput | string | null
     nameEn?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38730,6 +38756,7 @@ export namespace Prisma {
     nameRu?: SortOrder
     nameEn?: SortOrder
     image?: SortOrder
+    link?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -38740,6 +38767,7 @@ export namespace Prisma {
     nameRu?: SortOrder
     nameEn?: SortOrder
     image?: SortOrder
+    link?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -38750,6 +38778,7 @@ export namespace Prisma {
     nameRu?: SortOrder
     nameEn?: SortOrder
     image?: SortOrder
+    link?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }

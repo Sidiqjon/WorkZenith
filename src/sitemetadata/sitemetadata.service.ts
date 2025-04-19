@@ -22,7 +22,7 @@ export class SiteMetadataService {
 
       const data = await this.prisma.siteMetadata.create({ data: dto });
 
-      return { message: 'Site metadata created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -35,7 +35,7 @@ export class SiteMetadataService {
         throw new NotFoundException('No site metadata found!');
       }
 
-      return { message: 'Site metadata fetched successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -53,7 +53,7 @@ export class SiteMetadataService {
         data: dto,
       });
 
-      return { message: 'Site metadata updated successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -68,7 +68,7 @@ export class SiteMetadataService {
 
       const data = await this.prisma.siteMetadata.delete({ where: { id } });
 
-      return { message: 'Site metadata deleted successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }

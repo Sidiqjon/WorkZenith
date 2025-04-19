@@ -41,7 +41,7 @@ export class ToolService {
       }
 
       const data = await this.prisma.tool.create({ data: { ...dto, code } });
-      return { message: 'Tool created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -81,10 +81,10 @@ export class ToolService {
 
       const total = await this.prisma.tool.count({ where });
 
-      if (!data.length) throw new NotFoundException('No tools found!');
+      // if (!data.length) throw new NotFoundException('No tools found!');
 
       return {
-        message: 'Tools fetched successfully!',
+        // message: 'Tools fetched successfully!',
         meta: { total, page, lastPage: Math.ceil(total / limit) },
         data,
       };
@@ -140,7 +140,7 @@ export class ToolService {
         data: dto,
       });
 
-      return { message: 'Tool updated successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -159,7 +159,7 @@ export class ToolService {
 
       const data = await this.prisma.tool.delete({ where: { id } });
 
-      return { message: 'Tool deleted successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
