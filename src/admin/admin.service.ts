@@ -47,7 +47,7 @@ export class AdminService {
 
       const admin = { id: newAdmin.id, firstName: newAdmin.firstName, lastName: newAdmin.lastName, role: newAdmin.role, regionId: newAdmin.regionId, phoneNumber: newAdmin.phoneNumber, status: newAdmin.status , createdAt: newAdmin.createdAt, updatedAt: newAdmin.updatedAt};
 
-      return { message: 'Admin created successfully!', admin };
+      return { admin };
     } catch (error) {
       if (error instanceof ConflictException) throw error;
       throw new BadRequestException(error?.message || 'Failed to create admin');
@@ -97,12 +97,11 @@ export class AdminService {
 
       const total = await this.prisma.user.count({ where });
 
-      if (!data.length) {
-        throw new NotFoundException('No admins found!');
-      }
+      // if (!data.length) {
+      //   throw new NotFoundException('No admins found!');
+      // }
 
       return {
-        message: 'Admins fetched successfully!',
         meta: {
           total,
           page,
@@ -128,7 +127,7 @@ export class AdminService {
 
       const admin = { ...deletedAdmin, password: 'XXX', refreshToken: 'XXX' };
 
-      return { message: 'Admin deleted successfully', admin: deletedAdmin };
+      return { admin: deletedAdmin };
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new BadRequestException(error?.message || 'Failed to delete admin');

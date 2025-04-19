@@ -24,7 +24,7 @@ export class ContactService {
         data: { ...dto, userId },
       });
 
-      return { message: 'Contact created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -37,7 +37,7 @@ export class ContactService {
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
     [key: string]: any;
-  }) {
+  }, userId: string, userRole: string) {
     try {
       const {
         page = 1,
@@ -49,6 +49,12 @@ export class ContactService {
       } = query;
 
       const where: any = { ...filters };
+
+      const isAdmin = userRole === UserRole.ADMIN || userRole === UserRole.SUPERADMIN || userRole === UserRole.VIEWERADMIN;
+
+      if (!isAdmin && userId) {
+        where.userId = userId; 
+      }
 
       if (search) {
         where.OR = [
@@ -69,7 +75,6 @@ export class ContactService {
       const total = await this.prisma.contact.count({ where });
 
       return {
-        message: 'Contacts fetched successfully!',
         meta: {
           total,
           page: +page,
@@ -111,7 +116,7 @@ export class ContactService {
         data: dto,
       });
 
-      return { message: 'Contact updated successfully!', data: updated };
+      return { data: updated };
     } catch (error) {
       this.handleError(error);
     }
@@ -124,7 +129,7 @@ export class ContactService {
 
       const deleted = await this.prisma.contact.delete({ where: { id } });
 
-      return { message: 'Contact deleted successfully!', data: deleted };
+      return { data: deleted };
     } catch (error) {
       this.handleError(error);
     }

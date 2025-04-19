@@ -31,7 +31,7 @@ export class BrandService {
         data: createBrandDto,
       });
 
-      return { message: 'Brand created successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -81,7 +81,6 @@ export class BrandService {
       }
 
       return {
-        message: 'Brands fetched successfully!',
         meta: {
           total,
           page,
@@ -137,7 +136,7 @@ export class BrandService {
         data: updateBrandDto,
       });
 
-      return { message: 'Brand updated successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
@@ -153,7 +152,7 @@ export class BrandService {
 
       const data = await this.prisma.brand.delete({ where: { id } });
 
-      return { message: 'Brand deleted successfully!', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }

@@ -3,6 +3,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBasketDto } from './dto/create-basket.dto';
@@ -15,6 +16,12 @@ export class BasketService {
 
   async create(dto: CreateBasketDto, userId: string, userRole: UserRole) {
     try {
+
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (!user) {
+        throw new NotFoundException('User not found.');
+      }
+
       if (!dto.professionId && !dto.toolId) {
         throw new BadRequestException(
           'Either professionId or toolId must be provided.',
@@ -39,6 +46,11 @@ export class BasketService {
 
       // Validate toolId if provided
       if (dto.toolId) {
+
+        if (dto.levelId || dto.timeUnit || dto.workingTime) {
+          throw new BadRequestException('LevelId, timeUnit and workingTime cannot be provided with toolId.');
+        }
+
         const tool = await this.prisma.tool.findUnique({
           where: { id: dto.toolId },
         });
@@ -77,14 +89,57 @@ export class BasketService {
     }
   }
 
-  async findAll(userId?: string, userRole?: string) {
+  // async findAll(userId?: string, userRole?: string) {
+  //   const isAdmin = userRole === UserRole.ADMIN;
+  //   try {
+  //     const where: any = {};
+  //     if (!isAdmin && userId) {
+  //       where.ownerId = userId; 
+  //     }
+
+  //     const baskets = await this.prisma.basket.findMany({
+  //       where,
+  //       include: {
+  //         profession: true,
+  //         tool: true,
+  //         level: true,
+  //       },
+  //     });
+
+  //     // if (!baskets.length) {
+  //     //   throw new NotFoundException('Basket items not found.');
+  //     // }
+
+  //     return baskets;
+  //   } catch (error) {
+  //     this.handleError(error);
+  //   }
+  // }
+
+  async findAll(
+    userId?: string,
+    userRole?: string,
+    page: number = 1, 
+    limit: number = 10,     
+    sortBy: 'price' | 'createdAt' | 'updatedAt' = 'createdAt',   
+    sortOrder: 'asc' | 'desc' = 'desc',    
+  ) {
     const isAdmin = userRole === UserRole.ADMIN;
     try {
       const where: any = {};
       if (!isAdmin && userId) {
         where.ownerId = userId; 
       }
-
+  
+      // Pagination parameters
+      const skip = (page - 1) * limit;
+      const take = limit;
+  
+      // Sorting parameters
+      const orderBy = {
+        [sortBy]: sortOrder, 
+      };
+  
       const baskets = await this.prisma.basket.findMany({
         where,
         include: {
@@ -92,13 +147,23 @@ export class BasketService {
           tool: true,
           level: true,
         },
+        skip,
+        take,
+        orderBy,
       });
-
-      // if (!baskets.length) {
-      //   throw new NotFoundException('Basket items not found.');
-      // }
-
-      return baskets;
+  
+      // Count total records for pagination metadata
+      const total = await this.prisma.basket.count({ where });
+  
+      return {
+        meta: {
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+          data: baskets,
+        },
+      };
     } catch (error) {
       this.handleError(error);
     }
@@ -134,6 +199,12 @@ export class BasketService {
   async update(id: string, dto: UpdateBasketDto, userId?: string, userRole?: string) {
     const isAdmin = userRole === UserRole.ADMIN;
     try {
+
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (!user) {
+        throw new NotFoundException('User not found.');
+      }
+
       const existing = await this.prisma.basket.findUnique({ where: { id } });
       if (!existing) {
         throw new NotFoundException('Basket item not found.');
@@ -141,6 +212,18 @@ export class BasketService {
 
       if (!isAdmin && existing.ownerId !== userId) {
         throw new BadRequestException('You are not authorized to update this basket item.');
+      }
+
+      if (!dto.professionId && !dto.toolId) {
+        throw new BadRequestException(
+          'Either professionId or toolId must be provided.',
+        );
+      }
+
+      if (dto.professionId && dto.toolId) {
+        throw new BadRequestException(
+          'Only one of professionId or toolId can be provided.',
+        );
       }
 
       // Validate professionId if provided
@@ -155,6 +238,11 @@ export class BasketService {
 
       // Validate toolId if provided
       if (dto.toolId) {
+
+        if (dto.levelId || dto.timeUnit || dto.workingTime) {
+          throw new BadRequestException('LevelId, timeUnit and workingTime cannot be provided with toolId.');
+        }
+
         const tool = await this.prisma.tool.findUnique({
           where: { id: dto.toolId },
         });

@@ -9,8 +9,10 @@ import {
   Delete,
   UseGuards,
   Req,
+  ParseIntPipe,
+  ValidationPipe,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import { RolesGuard } from '../guard/roles.guard';
 import { Roles } from '../guard/roles.decorator';
@@ -38,10 +40,20 @@ export class BasketController {
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get all basket items (ADMIN or USER)' })
-  findAll(@Req() req: any) {
+  @ApiQuery({ name: 'page', required: false, description: 'Page number (default: 1)' })
+  @ApiQuery({ name: 'limit', required: false, description: 'Items per page (default: 10)' })
+  @ApiQuery({ name: 'sortBy', required: false, description: 'Field to sort by (price, createdAt, updatedAt)', enum: ['price', 'createdAt', 'updatedAt'] })
+  @ApiQuery({ name: 'sortOrder', required: false, description: 'Sort order (asc or desc)', enum: ['asc', 'desc'] })
+  findAll(
+    @Req() req: any,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Query('sortBy') sortBy?: 'price' | 'createdAt' | 'updatedAt',
+    @Query('sortOrder') sortOrder?: 'asc' | 'desc',
+  ) {
     const userId = req.user.id;
     const userRole = req.user.role;
-    return this.basketService.findAll(userId, userRole);
+    return this.basketService.findAll(userId, userRole, page, limit, sortBy, sortOrder);
   }
 
   @Get(':id')

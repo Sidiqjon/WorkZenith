@@ -10,17 +10,17 @@ import {
   import { ApiProperty } from '@nestjs/swagger';
   
   export class CreateBasketDto {
-    @ApiProperty({ example: 'uuid-of-profession', required: false })
+    @ApiProperty({ example: 'ProfessionID', required: false })
     @IsOptional()
     @IsString()
     professionId?: string;
   
-    @ApiProperty({ example: 'uuid-of-tool', required: false })
+    @ApiProperty({ example: 'ToolID', required: false })
     @IsOptional()
     @IsString()
     toolId?: string;
   
-    @ApiProperty({ example: 'uuid-of-level', required: false })
+    @ApiProperty({ example: 'LevelID', required: false })
     @IsOptional()
     @IsString()
     levelId?: string;
@@ -30,13 +30,13 @@ import {
     @Min(1)
     quantity: number;
   
-    @ApiProperty({ enum: TimeUnit, example: 'HOURLY', description: 'Time unit' })
+    @ApiProperty({ enum: TimeUnit, example: 'HOURLY or DAILY', description: 'Time unit' })
     @IsEnum(TimeUnit)
     timeUnit: TimeUnit;
   
     @ApiProperty({ example: 8, description: 'Working time in hours/days' })
     @IsNumber()
-    @Min(0)
+    @Min(1)
     workingTime: number;
   
     @ApiProperty({ example: 100.5, description: 'Price' })

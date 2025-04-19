@@ -109,6 +109,10 @@ export class AuthService {
       const otp = totp.generate(this.OTP_SECRET + phoneNumber);
 
       const newData = { id: newUser.id, firstName: newUser.firstName, lastName: newUser.lastName, role: newUser.role, regionId: newUser.regionId, phoneNumber: newUser.phoneNumber, status: newUser.status , createdAt: newUser.createdAt, updatedAt: newUser.updatedAt};
+
+      if (role === 'COMPANY') {
+        newData['company'] = newCompany;
+      }
   
       // await this.eskizService.sendSMS(otp, phoneNumber);
   
@@ -188,7 +192,6 @@ export class AuthService {
       });
   
       return {
-        message: 'Login successful!',
         accessToken,
         refreshToken,
       };
@@ -214,7 +217,6 @@ export class AuthService {
       // await this.eskizService.sendSMS(otp, phoneNumber)
   
       return {
-        message: 'OTP has been sent to the provided phone number!',
         otp,
       };
     } catch (error) {

@@ -25,16 +25,17 @@ export class ContactController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'search', required: false })
   @ApiQuery({ name: 'sortBy', required: false })
   @ApiQuery({ name: 'sortOrder', required: false })
-  findAll(@Query() query: any) {
-    return this.contactService.findAll(query);
+  findAll(@Query() query: any, @Req() req) {
+    const userId = req.user.id;
+    const userRole = req.user.role;
+    return this.contactService.findAll(query, userId, userRole);
   }
 
   @Get(':id')

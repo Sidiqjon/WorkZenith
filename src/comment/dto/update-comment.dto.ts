@@ -11,7 +11,7 @@ import {
   import { ApiProperty } from '@nestjs/swagger';
   
   export class UpdateMasterRatingDto {
-    @ApiProperty({ example: 'uuid-of-master', required: false, description: 'ID of an existing master' })
+    @ApiProperty({ example: 'MasterID', required: false, description: 'ID of an existing master' })
     @IsOptional()
     @IsString()
     masterId?: string;

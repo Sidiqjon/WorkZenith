@@ -10,7 +10,7 @@ import {
   UseGuards,
   Req,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import { RolesGuard } from '../guard/roles.guard';
 import { Roles } from '../guard/roles.decorator';
@@ -38,10 +38,20 @@ export class CommentController {
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get all comments' })
-  findAll(@Req() req:any) {  
+  @ApiQuery({ name: 'page', required: false, description: 'Page number (default: 1)' })
+  @ApiQuery({ name: 'limit', required: false, description: 'Items per page (default: 10)' })
+  @ApiQuery({ name: 'sortBy', required: false, description: 'Field to sort by (createdAt, updatedAt)', enum: ['createdAt', 'updatedAt'] })
+  @ApiQuery({ name: 'sortOrder', required: false, description: 'Sort order (asc or desc)', enum: ['asc', 'desc'] })
+  findAll(
+    @Req() req: any,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Query('sortBy') sortBy?: 'createdAt' | 'updatedAt',
+    @Query('sortOrder') sortOrder?: 'asc' | 'desc',
+  ) {
     const userId = req.user.id;
     const userRole = req.user.role;
-    return this.commentService.findAll(userId, userRole);
+    return this.commentService.findAll(userId, userRole, page, limit, sortBy, sortOrder);
   }
 
   @Get(':id')
@@ -56,7 +66,7 @@ export class CommentController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.INDIVIDUAL, UserRole.COMPANY)
-  @ApiOperation({ summary: 'Update a comment (ADMIN only)' })
+  @ApiOperation({ summary: 'Update a comment' })
   update(@Param('id') id: string, @Body() dto: UpdateCommentDto) {
     return this.commentService.update(id, dto);
   }

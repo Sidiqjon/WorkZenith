@@ -22,7 +22,7 @@ export class CommentService {
       if (!order) {
         throw new NotFoundException('Order not found.');
       }
-      if (order.ownerId !== userId && userRole !== UserRole.ADMIN) {
+      if (order.ownerId !== userId) {
         throw new BadRequestException('You are not authorized to comment on this order.');
       }
       if (order.status !== 'COMPLETED') {
@@ -58,23 +58,71 @@ export class CommentService {
     }
   }
 
-  async findAll(userId?: string, userRole?: string) {
+  // async findAll(userId?: string, userRole?: string) {
+  //   try {
+  //     const where: any = {};
+  //     if (userRole !== UserRole.ADMIN && userId) {
+  //       where.userId = userId; 
+  //     }
+
+  //     const comments = await this.prisma.comment.findMany({
+  //       where,
+  //       include: { MasterRatings: true },
+  //     });
+
+  //     // if (!comments.length) {
+  //     //   throw new NotFoundException('Comments not found.');
+  //     // }
+
+  //     return comments;
+  //   } catch (error) {
+  //     this.handleError(error);
+  //   }
+  // }
+
+  async findAll(
+    userId?: string,
+    userRole?: string,
+    page: number = 1, // Default to page 1
+    limit: number = 10, // Default to 10 items per page
+    sortBy: 'createdAt' | 'updatedAt' = 'createdAt', // Default sort by createdAt
+    sortOrder: 'asc' | 'desc' = 'desc', // Default sort order is descending
+  ) {
     try {
       const where: any = {};
       if (userRole !== UserRole.ADMIN && userId) {
         where.userId = userId; 
       }
-
+  
+      // Pagination parameters
+      const skip = (page - 1) * limit;
+      const take = limit;
+  
+      // Sorting parameters
+      const orderBy = {
+        [sortBy]: sortOrder, // Dynamically set sortBy and sortOrder
+      };
+  
       const comments = await this.prisma.comment.findMany({
         where,
         include: { MasterRatings: true },
+        skip, // Skip records based on pagination
+        take, // Limit the number of records returned
+        orderBy, // Apply sorting
       });
-
-      // if (!comments.length) {
-      //   throw new NotFoundException('Comments not found.');
-      // }
-
-      return comments;
+  
+      // Count total records for pagination metadata
+      const total = await this.prisma.comment.count({ where });
+  
+      return {
+        data: comments,
+        meta: {
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+        },
+      };
     } catch (error) {
       this.handleError(error);
     }

@@ -11,7 +11,7 @@ import {
   import { ApiProperty } from '@nestjs/swagger';
   
   export class CreateMasterRatingDto {
-    @ApiProperty({ example: 'uuid-of-master', description: 'ID of an existing master' })
+    @ApiProperty({ example: 'MasterID', description: 'ID of an existing master' })
     @IsString()
     @IsNotEmpty()
     masterId: string;
@@ -29,7 +29,7 @@ import {
     @IsNotEmpty()
     message: string;
   
-    @ApiProperty({ example: 'uuid-of-order', description: 'ID of an existing order' })
+    @ApiProperty({ example: 'OrderID', description: 'ID of an existing order' })
     @IsString()
     @IsNotEmpty()
     orderId: string;

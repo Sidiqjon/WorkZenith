@@ -40,8 +40,8 @@ export class EskizService {
         },
       );
     } catch (error) {
-    //   await this.auth();
-    //   await this.sendSMS(message, phone);
+      // await this.auth();
+      // await this.sendSMS(message, phone);
       throw new BadRequestException(error.message);
     }
   }
