@@ -1,1 +1,3 @@
-"SERVER_URL"
+SERVER_URL = "http://3.67.113.48:3000/api#/"
+TELEGRAM_BOT = "@Work_Zenith_Bot"
+Work_Zenith_Team_Group = "https://t.me/+n3w3mox2HfU3MWU6"
