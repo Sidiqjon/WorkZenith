@@ -365,6 +365,8 @@ export class AuthService {
   
   async me(req: Request) {
     const user = req['user'];
+    const userId = user.id;
+    const userRole = user.role;
   
     try {
       const session = await this.prisma.session.findFirst({
@@ -377,21 +379,35 @@ export class AuthService {
       if (!session) {
         throw new UnauthorizedException('You are logged out! Please log in again.');
       }
+
+      let data;
   
-      const data = await this.prisma.user.findUnique({
-        where: { id: user.id },
-        omit: { password: true, refreshToken: true },
-        include: {
-          region: true,
-          companies: true,
-          sessions: true,
-          order: true,
-          basket: true,
-          contact: true,
-          comment: true,
-        },
-      });
+      if ( userRole === 'INDIVIDUAL' || userRole === 'COMPANY') {
+        data = await this.prisma.user.findUnique({
+          where: { id: user.id },
+          omit: { password: true, refreshToken: true },
+          include: {
+            region: true,
+            companies: true,
+            sessions: true,
+            order: true,
+            basket: true,
+            contact: true,
+            comment: true,
+          },
+        });
+      }
   
+      if ( userRole === 'ADMIN' || userRole === 'SUPERADMIN' || userRole === 'VIEWERADMIN') {
+        data = await this.prisma.user.findUnique({
+          where: { id: user.id },
+          omit: { password: true, refreshToken: true },
+          include: {
+            region: true,
+            sessions: true,
+          },
+        });
+      }
       if (!data) {
         throw new NotFoundException('User not found!');
       }
