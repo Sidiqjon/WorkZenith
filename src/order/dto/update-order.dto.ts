@@ -82,7 +82,7 @@ import {
   
     @IsOptional()
     @IsEnum(OrderStatus)
-    @ApiProperty({ example: 'ACTIVE', enum: OrderStatus, description: 'Order status', required: false })
+    @ApiProperty({ example: 'COMPLETED', enum: OrderStatus, description: 'Order status', required: false })
     status?: OrderStatus;
   
     // @IsOptional()

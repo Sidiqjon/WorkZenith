@@ -385,7 +385,7 @@ export class OrderService {
       // Update the order
       const updated = await this.prisma.order.update({
         where: { id },
-        data: body,
+        data: { status, ...body },
       });
 
 
