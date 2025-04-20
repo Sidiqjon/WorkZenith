@@ -11,6 +11,7 @@ import { UpdateMasterDto } from './dto/update-master.dto';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { Prisma } from '@prisma/client';
+import { QueryMasterDto, SearchMasterDto } from './dto/search-master.dto';
 
 @Injectable()
 export class MasterService {
@@ -24,7 +25,7 @@ export class MasterService {
         where: { phoneNumber: body.phoneNumber },
       });
       if (exists) {
-        throw new ConflictException('Master with this phone number already exists.');
+        throw new ConflictException('Master with this phoneNumber number already exists.');
       }
 
       // Validate masterProfessions
@@ -69,7 +70,12 @@ export class MasterService {
         // }
 
         if (  createdmasterProfessions.count !== 0 ) {
-          master['masterProfessions'] = createdmasterProfessions
+          const masterProfessions = await this.prisma.masterProfession.findMany({
+            where: { masterId: master.id },
+            include: { profession: true, level: true },
+          });
+
+          master['masterProfessions'] = masterProfessions;
         } 
 
       }
@@ -80,61 +86,206 @@ export class MasterService {
     }
   }
 
-  async findAll(params: {
-    page?: number;
-    limit?: number;
-    search?: string;
-    sortBy?: string;
-    sortOrder?: 'asc' | 'desc';
-    isActive?: boolean;
-  }) {
-    try {
-      const {
-        page = 1,
-        limit = 10,
-        search,
-        sortBy = 'createdAt',
-        sortOrder = 'desc',
-        isActive,
-      } = params;
 
-      const where: any = {};
-      if (search) {
-        where.OR = [
-          { firstName: { contains: search, mode: 'insensitive' } },
-          { lastName: { contains: search, mode: 'insensitive' } },
-          { phoneNumber: { contains: search, mode: 'insensitive' } },
-        ];
-      }
-      if (typeof isActive === 'boolean') {
-        where.isActive = isActive;
-      }
-
-      const [data, total] = await this.prisma.$transaction([
-        this.prisma.master.findMany({
-          where,
-          include: { masterProfessions: true },
-          orderBy: { [sortBy]: sortOrder },
-          skip: (page - 1) * limit,
-          take: +limit,
-        }),
-        this.prisma.master.count({ where }),
-      ]);
-
-      // if (!data.length) {
-      //   throw new NotFoundException('Masters not found.');
-      // }
-
-      return {
-          total,
-          currentPage: +page,
-          totalPages: Math.ceil(total / +limit),
-          data,
-      };
-    } catch (error) {
-      this.handleError(error);
+  async findAll(query: QueryMasterDto) {
+    const {
+      page = 1,
+      limit = 10,
+      orderBy = 'asc',
+      sortBy = 'firstName',
+      firstName,
+      lastName,
+      phoneNumber,
+      isActive,
+      birthYear,
+      maxYear,
+      minYear,
+    } = query;
+  
+    const where: any = {};
+  
+    if (firstName || lastName) {
+      where.OR = [
+        { firstName: { contains: firstName, mode: 'insensitive' } },
+        { lastName: { contains: lastName, mode: 'insensitive' } },
+      ];
     }
+  
+    if (phoneNumber) {
+      where.phoneNumber = { contains: phoneNumber, mode: 'insensitive' };
+    }
+  
+    if (isActive === 'true') {
+      where.isActive = true;
+    } else if (isActive === 'false') {
+      where.isActive = false;
+    }
+  
+    if (birthYear || maxYear || minYear) {
+      where.birthYear = {
+        ...(minYear && { gte: new Date(minYear).getFullYear() }),
+        ...(maxYear && { lte: new Date(maxYear).getFullYear() }),
+        ...(birthYear && { equals: new Date(birthYear).getFullYear() }),
+      };
+    }
+  
+    const [data, total] = await this.prisma.$transaction([
+      this.prisma.master.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { [sortBy]: orderBy },
+        include: { masterProfessions: true },
+      }),
+      this.prisma.master.count({ where }),
+    ]);
+  
+    return {
+      total,
+      currentPage: +page,
+      totalPages: Math.ceil(total / +limit),
+      data,
+    };
   }
+  
+  async search(query: SearchMasterDto) {
+    const {
+      page = 1,
+      limit = 10,
+      orderBy = 'asc',
+      sortBy = 'experience',
+      levelId,
+      professionId,
+      minWorkingHours,
+      gteMinWorkingHours,
+      lteMinWorkingHours,
+      priceHourly,
+      gtePriceHourly,
+      ltePriceHourly,
+      priceDaily,
+      gtePriceDaily,
+      ltePriceDaily,
+      experience,
+      gteExperience,
+      lteExperience,
+    } = query;
+  
+    const where: any = {};
+  
+    if (levelId) {
+      where.levelId = levelId;
+    }
+  
+    if (professionId) {
+      where.professionId = professionId;
+    }
+  
+    if (minWorkingHours || gteMinWorkingHours || lteMinWorkingHours) {
+      where.minWorkingHours = {
+        ...(gteMinWorkingHours && { gte: gteMinWorkingHours }),
+        ...(lteMinWorkingHours && { lte: lteMinWorkingHours }),
+        ...(minWorkingHours && { equals: minWorkingHours }),
+      };
+    }
+  
+    if (priceHourly || gtePriceHourly || ltePriceHourly) {
+      where.priceHourly = {
+        ...(gtePriceHourly && { gte: gtePriceHourly }),
+        ...(ltePriceHourly && { lte: ltePriceHourly }),
+        ...(priceHourly && { equals: priceHourly }),
+      };
+    }
+  
+    if (priceDaily || gtePriceDaily || ltePriceDaily) {
+      where.priceDaily = {
+        ...(gtePriceDaily && { gte: gtePriceDaily }),
+        ...(ltePriceDaily && { lte: ltePriceDaily }),
+        ...(priceDaily && { equals: priceDaily }),
+      };
+    }
+  
+    if (experience || gteExperience || lteExperience) {
+      where.experience = {
+        ...(gteExperience && { gte: gteExperience }),
+        ...(lteExperience && { lte: lteExperience }),
+        ...(experience && { equals: experience }),
+      };
+    }
+  
+    const [data, total] = await this.prisma.$transaction([
+      this.prisma.masterProfession.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { [sortBy]: orderBy },
+        include: { master: true },
+      }),
+      this.prisma.masterProfession.count({ where }),
+    ]);
+  
+    return {
+      total,
+      currentPage: +page,
+      totalPages: Math.ceil(total / +limit),
+      data: data.map((item) => ({ ...item.master, ...item })),
+    };
+  }
+
+  // async findAll(params: {
+  //   page?: number;
+  //   limit?: number;
+  //   search?: string;
+  //   sortBy?: string;
+  //   sortOrder?: 'asc' | 'desc';
+  //   isActive?: boolean;
+  // }) {
+  //   try {
+  //     const {
+  //       page = 1,
+  //       limit = 10,
+  //       search,
+  //       sortBy = 'createdAt',
+  //       sortOrder = 'desc',
+  //       isActive,
+  //     } = params;
+
+  //     const where: any = {};
+  //     if (search) {
+  //       where.OR = [
+  //         { firstName: { contains: search, mode: 'insensitive' } },
+  //         { lastName: { contains: search, mode: 'insensitive' } },
+  //         { phoneNumber: { contains: search, mode: 'insensitive' } },
+  //       ];
+  //     }
+  //     if (typeof isActive === 'boolean') {
+  //       where.isActive = isActive;
+  //     }
+
+  //     const [data, total] = await this.prisma.$transaction([
+  //       this.prisma.master.findMany({
+  //         where,
+  //         include: { masterProfessions: true },
+  //         orderBy: { [sortBy]: sortOrder },
+  //         skip: (page - 1) * limit,
+  //         take: +limit,
+  //       }),
+  //       this.prisma.master.count({ where }),
+  //     ]);
+
+  //     // if (!data.length) {
+  //     //   throw new NotFoundException('Masters not found.');
+  //     // }
+
+  //     return {
+  //         total,
+  //         currentPage: +page,
+  //         totalPages: Math.ceil(total / +limit),
+  //         data,
+  //     };
+  //   } catch (error) {
+  //     this.handleError(error);
+  //   }
+  // }
 
   async findOne(id: string) {
     try {
@@ -217,7 +368,12 @@ export class MasterService {
         const createdmasterProfessions = await this.prisma.masterProfession.createMany({ data: masterProfessionData });
 
         if (createdmasterProfessions.count !== 0) {
-          updated['masterProfessions'] = createdmasterProfessions;
+          const masterProfessions = await this.prisma.masterProfession.findMany({
+            where: { masterId: id },
+            include: { profession: true, level: true },
+          })
+
+          updated['masterProfessions'] = masterProfessions;
         }
       }
 

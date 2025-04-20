@@ -18,6 +18,7 @@ import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import { RolesGuard } from '../guard/roles.guard';
 import { Roles } from '../guard/roles.decorator';
 import { UserRole } from '../guard/role-enum';
+import { QueryMasterDto, SearchMasterDto, SearchSort, Sort } from './dto/search-master.dto';
 
 @ApiTags('Masters')
 @ApiBearerAuth()
@@ -34,32 +35,72 @@ export class MasterController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
-  @ApiOperation({ summary: 'Get all masters with filters' })
-  @ApiQuery({ name: 'page', required: false, example: 1, description: 'Page number for pagination' })
-  @ApiQuery({ name: 'limit', required: false, example: 10, description: 'Number of items per page' })
-  @ApiQuery({ name: 'search', required: false, example: 'John', description: 'Search term for name or phone' })
-  @ApiQuery({ name: 'sortBy', required: false, example: 'createdAt', description: 'Field to sort by' })
-  @ApiQuery({ name: 'sortOrder', required: false, example: 'asc', description: 'Sort order (asc or desc)' })
-  @ApiQuery({ name: 'isActive', required: false, example: true, description: 'Filter by isActive' })
-  findAll(
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
-    @Query('search') search?: string,
-    @Query('sortBy') sortBy?: string,
-    @Query('sortOrder') sortOrder?: 'asc' | 'desc',
-    @Query('isActive') isActive?: boolean,
-  ) {
-    return this.masterService.findAll({
-      page: page ?? 1,
-      limit: limit ?? 10,
-      search,
-      sortBy,
-      sortOrder: sortOrder ?? 'asc',
-      isActive,
-    });
+  @ApiQuery({ name: 'orderBy', required: false, enum: ['asc', 'desc'] })
+  @ApiQuery({ name: 'sortBy', required: false, enum: Sort })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'isActive', required: false, enum: ['true', 'false'] })
+  @ApiQuery({ name: 'minYear', required: false, type: Number })
+  @ApiQuery({ name: 'maxYear', required: false, type: Number })
+  @ApiQuery({ name: 'birthYear', required: false, type: Number })
+  @ApiQuery({ name: 'phoneNumber', required: false, type: String })
+  @ApiQuery({ name: 'firstName', required: false, type: String })
+  @ApiQuery({ name: 'lastName', required: false, type: String })
+
+  findAll(@Query() query: QueryMasterDto) {
+    return this.masterService.findAll(query);
   }
+
+  @Get('search')
+  @ApiQuery({ name: 'orderBy', required: false, enum: ['asc', 'desc'] })
+  @ApiQuery({ name: 'sortBy', required: false, enum: SearchSort })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'lteExperience', required: false, type: Number })
+  @ApiQuery({ name: 'gteExperience', required: false, type: Number })
+  @ApiQuery({ name: 'experience', required: false, type: Number })
+  @ApiQuery({ name: 'ltePriceDaily', required: false, type: Number })
+  @ApiQuery({ name: 'gtePriceDaily', required: false, type: Number })
+  @ApiQuery({ name: 'priceDaily', required: false, type: Number })
+  @ApiQuery({ name: 'ltePriceHourly', required: false, type: Number })
+  @ApiQuery({ name: 'gtePriceHourly', required: false, type: Number })
+  @ApiQuery({ name: 'priceHourly', required: false, type: Number })
+  @ApiQuery({ name: 'lteMinWorkingHours', required: false, type: Number })
+  @ApiQuery({ name: 'gteMinWorkingHours', required: false, type: Number })
+  @ApiQuery({ name: 'minWorkingHours', required: false, type: Number })
+  @ApiQuery({ name: 'professionId', required: false, type: String })
+  @ApiQuery({ name: 'levelId', required: false, type: String })
+  search(@Query() query: SearchMasterDto) {
+    return this.masterService.search(query);
+  }
+
+  // @Get()
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
+  // @ApiOperation({ summary: 'Get all masters with filters' })
+  // @ApiQuery({ name: 'page', required: false, example: 1, description: 'Page number for pagination' })
+  // @ApiQuery({ name: 'limit', required: false, example: 10, description: 'Number of items per page' })
+  // @ApiQuery({ name: 'search', required: false, example: 'John', description: 'Search term for name or phone' })
+  // @ApiQuery({ name: 'sortBy', required: false, example: 'createdAt', description: 'Field to sort by' })
+  // @ApiQuery({ name: 'sortOrder', required: false, example: 'asc', description: 'Sort order (asc or desc)' })
+  // @ApiQuery({ name: 'isActive', required: false, example: true, description: 'Filter by isActive' })
+  // findAll(
+  //   @Query('page') page?: number,
+  //   @Query('limit') limit?: number,
+  //   @Query('search') search?: string,
+  //   @Query('sortBy') sortBy?: string,
+  //   @Query('sortOrder') sortOrder?: 'asc' | 'desc',
+  //   @Query('isActive') isActive?: boolean,
+  // ) {
+  //   return this.masterService.findAll({
+  //     page: page ?? 1,
+  //     limit: limit ?? 10,
+  //     search,
+  //     sortBy,
+  //     sortOrder: sortOrder ?? 'asc',
+  //     isActive,
+  //   });
+  // }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
