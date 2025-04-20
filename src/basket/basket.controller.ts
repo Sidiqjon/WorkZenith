@@ -29,7 +29,7 @@ export class BasketController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.INDIVIDUAL, UserRole.COMPANY)
+  @Roles(UserRole.INDIVIDUAL, UserRole.COMPANY, UserRole.ADMIN)
   @ApiOperation({ summary: 'Create a basket item (USERs only)' })
   create(@Body() dto: CreateBasketDto, @Req() req: any) {
     const userId = req.user.id;

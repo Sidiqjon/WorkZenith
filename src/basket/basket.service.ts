@@ -34,6 +34,12 @@ export class BasketService {
         );
       }
 
+      if ( dto.toolId && (dto.levelId || dto.timeUnit || dto.workingTime)) {
+        throw new BadRequestException(
+          'LevelId, timeUnit, and workingTime cannot be provided for tools.',
+        );
+      }
+
       // Validate professionId if provided
       if (dto.professionId) {
         const profession = await this.prisma.profession.findUnique({

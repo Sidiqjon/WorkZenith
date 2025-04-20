@@ -27,7 +27,7 @@ export class CommentController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.INDIVIDUAL, UserRole.COMPANY)
+  @Roles(UserRole.INDIVIDUAL, UserRole.COMPANY, UserRole.ADMIN)
   @ApiOperation({ summary: 'Create a comment (USER or COMPANY who has a completed order)' })
   create(@Body() dto: CreateCommentDto, @Req() req:any) {
     const userId = req.user.id;
