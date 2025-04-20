@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -12,6 +13,7 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import { UserRole } from '../guard/role-enum';
 import { TelegramBotService } from 'src/telegram-bot/telegram-bot.service';
+import { QueryOrderDto } from './dto/search-order.dto';
 
 @Injectable()
 export class OrderService {
@@ -122,43 +124,121 @@ export class OrderService {
     }
   }
 
-  async findAll(userId?: string, userRole?: string, params: any = {}) {
-    try {
-      const { page = 1, limit = 10, search, sortBy = 'createdAt', sortOrder = 'desc', status } = params;
+  // async findAll(userId?: string, userRole?: string, params: any = {}) {
+  //   try {
+  //     const { page = 1, limit = 10, search, sortBy = 'createdAt', sortOrder = 'desc', status } = params;
 
-      const where: any = {};
-      if ((userRole === UserRole.INDIVIDUAL || userRole === UserRole.COMPANY) && userId) {
-        where.ownerId = userId;
-      }
-      if (search) {
-        where.OR = [
-          { address: { contains: search, mode: 'insensitive' } },
-          { deliveryComment: { contains: search, mode: 'insensitive' } },
-        ];
-      }
-      if (status) {
-        where.status = status;
-      }
+  //     const where: any = {};
+  //     if ((userRole === UserRole.INDIVIDUAL || userRole === UserRole.COMPANY) && userId) {
+  //       where.ownerId = userId;
+  //     }
+  //     if (search) {
+  //       where.OR = [
+  //         { address: { contains: search, mode: 'insensitive' } },
+  //         { deliveryComment: { contains: search, mode: 'insensitive' } },
+  //       ];
+  //     }
+  //     if (status) {
+  //       where.status = status;
+  //     }
 
-      const [data, total] = await this.prisma.$transaction([
-        this.prisma.order.findMany({
-          where,
-          include: { owner: { omit: { password: true, refreshToken: true } }, orderProducts: true, masters: true } as any,
-          orderBy: { [sortBy]: sortOrder },
-          skip: (page - 1) * limit,
-          take: +limit,
-        }),
-        this.prisma.order.count({ where }),
-      ]);
+  //     const [data, total] = await this.prisma.$transaction([
+  //       this.prisma.order.findMany({
+  //         where,
+  //         include: { owner: { omit: { password: true, refreshToken: true } }, orderProducts: true, masters: true } as any,
+  //         orderBy: { [sortBy]: sortOrder },
+  //         skip: (page - 1) * limit,
+  //         take: +limit,
+  //       }),
+  //       this.prisma.order.count({ where }),
+  //     ]);
 
-      return {
-        total,
-        currentPage: +page,
-        totalPages: Math.ceil(total / +limit),
-        data,
+  //     return {
+  //       total,
+  //       currentPage: +page,
+  //       totalPages: Math.ceil(total / +limit),
+  //       data,
+  //     };
+  //   } catch (error) {
+  //     this.handleError(error);
+  //   }
+  // }
+
+  async findAll(query: QueryOrderDto, userId?: string, userRole?: string) {
+    const {
+      page = 1,
+      limit = 10,
+      orderBy = 'asc',
+      sortBy = 'date',
+      withDelivery,
+      totalSum,
+      gteTotalSum,
+      lteTotalSum,
+      date,
+      gteDate,
+      lteDate,
+      paid,
+      paymentType,
+      status,
+    } = query;
+
+    const filter: any = {};
+
+    if ((userRole === UserRole.INDIVIDUAL || userRole === UserRole.COMPANY) && userId) {
+      filter.ownerId = userId;
+    }
+
+    if (withDelivery == 'true') filter.withDelivery = true;
+    if (withDelivery == 'false') filter.withDelivery = false;
+
+    if (paid == 'true') filter.paid = true;
+    if (paid == 'false') filter.paid = false;
+
+    if (paymentType) filter.paymentType = paymentType;
+    if (status) filter.status = status;
+
+    if (totalSum || gteTotalSum || lteTotalSum) {
+      filter.totalSum = {
+        gte: gteTotalSum,
+        lte: lteTotalSum,
+        equals: totalSum,
       };
+    }
+
+    if (date || gteDate || lteDate) {
+      filter.date = {
+        gte: gteDate,
+        lte: lteDate,
+        equals: date,
+      };
+    }
+
+    try {
+      const data = await this.prisma.order.findMany({
+        where: filter,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: {
+          [sortBy]: orderBy,
+        },
+        include: { orderProducts: { include: { level: true, profession: true, tool: true } }, owner: { omit: { password: true, refreshToken: true } }, masters: true } as any,
+      });
+
+      const total = await this.prisma.order.count({ where: filter });
+
+      const totalPages = Math.ceil(total / limit);
+
+      return { 
+        total,
+        currentPage: page,
+        totalPages,
+        data
+       };
     } catch (error) {
-      this.handleError(error);
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new BadRequestException(error.message);
     }
   }
 

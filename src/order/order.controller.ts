@@ -19,6 +19,7 @@ import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import { RolesGuard } from '../guard/roles.guard';
 import { Roles } from '../guard/roles.decorator';
 import { UserRole } from '../guard/role-enum';
+import { PaymentType, QueryOrderDto, SortOrder, StatusOrder } from './dto/search-order.dto';
 
 @ApiTags('Orders')
 @ApiBearerAuth()
@@ -37,31 +38,29 @@ export class OrderController {
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get all orders with filters' })
-  @ApiQuery({ name: 'page', required: false, example: 1, description: 'Page number for pagination' })
-  @ApiQuery({ name: 'limit', required: false, example: 10, description: 'Number of items per page' })
-  @ApiQuery({ name: 'search', required: false, example: '123 Main St', description: 'Search term for address or delivery comment' })
-  @ApiQuery({ name: 'sortBy', required: false, example: 'createdAt', description: 'Field to sort by' })
-  @ApiQuery({ name: 'sortOrder', required: false, example: 'asc', description: 'Sort order (asc or desc)' })
-  @ApiQuery({ name: 'status', required: false, example: 'PENDING', description: 'Filter by order status' })
+  @ApiQuery({ name: 'page', required: false, description: 'Page number for pagination', type: Number })
+  @ApiQuery({ name: 'limit', required: false, description: 'Number of items per page', type: Number })
+  @ApiQuery({ name: 'search', required: false, description: 'Search term for address or delivery comment' })
+  @ApiQuery({ name: 'sortBy', required: false, description: 'Field to sort by', enum: SortOrder })
+  @ApiQuery({ name: 'sortOrder', required: false, description: 'Sort order (asc or desc)', enum: ['asc', 'desc'] })
+  @ApiQuery({ name: 'status', required: false, description: 'Filter by order status', enum: StatusOrder })
+
+  @ApiQuery({ name: 'paymentType', required: false, enum: PaymentType, description: 'Filter by payment type' })
+  @ApiQuery({ name: 'paid', required: false, enum: ['true', 'false'], description: 'Filter by paid status' })
+  @ApiQuery({ name: 'withDelivery', required: false, enum: ['true', 'false'], description: 'Filter by delivery status' })
+  @ApiQuery({ name: 'lteTotalSum', required: false, type: String , description: 'Filter by total sum (lte)' })
+  @ApiQuery({ name: 'gteTotalSum', required: false, type: String, description: 'Filter by total sum (gte)' })
+  @ApiQuery({ name: 'totalSum', required: false, type: String, description: 'Filter by total sum' })
+  @ApiQuery({ name: 'lteDate', required: false, type: String, description: 'Filter by date (lte)' })
+  @ApiQuery({ name: 'gteDate', required: false, type: String , description: 'Filter by date (gte)' })
+  @ApiQuery({ name: 'date', required: false, type: String, description: 'Filter by date' })
   findAll(
-    @Req() req: any,
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
-    @Query('search') search?: string,
-    @Query('sortBy') sortBy?: string,
-    @Query('sortOrder') sortOrder?: 'asc' | 'desc',
-    @Query('status') status?: string,
+    @Query() query: QueryOrderDto,
+    @Req() req: any
   ) {
     const userId = req.user.id;
     const userRole = req.user.role;
-    return this.orderService.findAll(userId, userRole, {
-      page,
-      limit,
-      search,
-      sortBy,
-      sortOrder,
-      status,
-    });
+    return this.orderService.findAll(query, userId, userRole);
   }
 
   @Get(':id')
