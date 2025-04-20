@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "OrderProduct" ALTER COLUMN "timeUnit" DROP NOT NULL,
+ALTER COLUMN "workingTime" DROP NOT NULL;

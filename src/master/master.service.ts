@@ -139,6 +139,22 @@ export class MasterService {
       }),
       this.prisma.master.count({ where }),
     ]);
+
+    if (data.length) {  
+
+      for ( let i = 0; i < data.length; i++) {
+        const master = data[i];
+        
+        const masterRating = await this.calculateMasterRating(master.id);
+        
+        master['masterRating'] = masterRating;
+      }
+
+      // for (const master of data) {
+      //   const masterRating = this.calculateMasterRating(master.id);
+      //   master['masterRatingldjfnvldfkj'] = masterRating;
+      // }
+    }
   
     return {
       total,
@@ -222,6 +238,10 @@ export class MasterService {
       }),
       this.prisma.masterProfession.count({ where }),
     ]);
+
+    // if (data.length !== 0) { 
+    //   for (let i = 0; i < data.length; i++) {
+    //  }
   
     return {
       total,
@@ -296,6 +316,10 @@ export class MasterService {
       if (!master) {
         throw new NotFoundException('Master not found with the provided ID.');
       }
+
+      const masterRating = await this.calculateMasterRating(id);
+      master['masterRating'] = masterRating;
+
       return master;
     } catch (error) {
       this.handleError(error);
@@ -427,4 +451,21 @@ export class MasterService {
     console.error(error);
     throw new InternalServerErrorException('Internal server error');
   }
-}
+
+  private async calculateMasterRating(masterId: string) {
+    const masterRating = await this.prisma.masterRatings.findMany({
+      where: {
+        masterId: masterId
+      },
+    })
+
+    if (!masterRating.length) {
+      return 0;
+    }
+
+    const totalRating = masterRating.reduce((acc, rating) => acc + rating.star, 0);
+    const averageRating = totalRating / masterRating.length;
+    return averageRating.toFixed(1);
+  }
+
+} 

@@ -265,8 +265,8 @@ model OrderProduct {
   levelId       String? 
 
   quantity      Int         @default(1)
-  timeUnit      TimeUnit    
-  workingTime   Float
+  timeUnit      TimeUnit?    
+  workingTime   Float?
   price         Decimal
 
   createdAt     DateTime    @default(now())

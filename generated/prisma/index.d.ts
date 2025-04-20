@@ -21639,8 +21639,8 @@ export namespace Prisma {
     toolId: string | null
     levelId: string | null
     quantity: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit: $Enums.TimeUnit | null
+    workingTime: number | null
     price: Decimal
     createdAt: Date
     updatedAt: Date
@@ -21768,8 +21768,8 @@ export namespace Prisma {
       toolId: string | null
       levelId: string | null
       quantity: number
-      timeUnit: $Enums.TimeUnit
-      workingTime: number
+      timeUnit: $Enums.TimeUnit | null
+      workingTime: number | null
       price: Prisma.Decimal
       createdAt: Date
       updatedAt: Date
@@ -34383,8 +34383,8 @@ export namespace Prisma {
     toolId?: StringNullableFilter<"OrderProduct"> | string | null
     levelId?: StringNullableFilter<"OrderProduct"> | string | null
     quantity?: IntFilter<"OrderProduct"> | number
-    timeUnit?: EnumTimeUnitFilter<"OrderProduct"> | $Enums.TimeUnit
-    workingTime?: FloatFilter<"OrderProduct"> | number
+    timeUnit?: EnumTimeUnitNullableFilter<"OrderProduct"> | $Enums.TimeUnit | null
+    workingTime?: FloatNullableFilter<"OrderProduct"> | number | null
     price?: DecimalFilter<"OrderProduct"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"OrderProduct"> | Date | string
     updatedAt?: DateTimeFilter<"OrderProduct"> | Date | string
@@ -34401,8 +34401,8 @@ export namespace Prisma {
     toolId?: SortOrderInput | SortOrder
     levelId?: SortOrderInput | SortOrder
     quantity?: SortOrder
-    timeUnit?: SortOrder
-    workingTime?: SortOrder
+    timeUnit?: SortOrderInput | SortOrder
+    workingTime?: SortOrderInput | SortOrder
     price?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -34422,8 +34422,8 @@ export namespace Prisma {
     toolId?: StringNullableFilter<"OrderProduct"> | string | null
     levelId?: StringNullableFilter<"OrderProduct"> | string | null
     quantity?: IntFilter<"OrderProduct"> | number
-    timeUnit?: EnumTimeUnitFilter<"OrderProduct"> | $Enums.TimeUnit
-    workingTime?: FloatFilter<"OrderProduct"> | number
+    timeUnit?: EnumTimeUnitNullableFilter<"OrderProduct"> | $Enums.TimeUnit | null
+    workingTime?: FloatNullableFilter<"OrderProduct"> | number | null
     price?: DecimalFilter<"OrderProduct"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"OrderProduct"> | Date | string
     updatedAt?: DateTimeFilter<"OrderProduct"> | Date | string
@@ -34440,8 +34440,8 @@ export namespace Prisma {
     toolId?: SortOrderInput | SortOrder
     levelId?: SortOrderInput | SortOrder
     quantity?: SortOrder
-    timeUnit?: SortOrder
-    workingTime?: SortOrder
+    timeUnit?: SortOrderInput | SortOrder
+    workingTime?: SortOrderInput | SortOrder
     price?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -34462,8 +34462,8 @@ export namespace Prisma {
     toolId?: StringNullableWithAggregatesFilter<"OrderProduct"> | string | null
     levelId?: StringNullableWithAggregatesFilter<"OrderProduct"> | string | null
     quantity?: IntWithAggregatesFilter<"OrderProduct"> | number
-    timeUnit?: EnumTimeUnitWithAggregatesFilter<"OrderProduct"> | $Enums.TimeUnit
-    workingTime?: FloatWithAggregatesFilter<"OrderProduct"> | number
+    timeUnit?: EnumTimeUnitNullableWithAggregatesFilter<"OrderProduct"> | $Enums.TimeUnit | null
+    workingTime?: FloatNullableWithAggregatesFilter<"OrderProduct"> | number | null
     price?: DecimalWithAggregatesFilter<"OrderProduct"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeWithAggregatesFilter<"OrderProduct"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"OrderProduct"> | Date | string
@@ -36527,8 +36527,8 @@ export namespace Prisma {
   export type OrderProductCreateInput = {
     id?: string
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36545,8 +36545,8 @@ export namespace Prisma {
     toolId?: string | null
     levelId?: string | null
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36555,8 +36555,8 @@ export namespace Prisma {
   export type OrderProductUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36573,8 +36573,8 @@ export namespace Prisma {
     toolId?: NullableStringFieldUpdateOperationsInput | string | null
     levelId?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36587,8 +36587,8 @@ export namespace Prisma {
     toolId?: string | null
     levelId?: string | null
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -36597,8 +36597,8 @@ export namespace Prisma {
   export type OrderProductUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36611,8 +36611,8 @@ export namespace Prisma {
     toolId?: NullableStringFieldUpdateOperationsInput | string | null
     levelId?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38417,11 +38417,22 @@ export namespace Prisma {
     _max?: NestedEnumOrderStatusFilter<$PrismaModel>
   }
 
-  export type EnumTimeUnitFilter<$PrismaModel = never> = {
-    equals?: $Enums.TimeUnit | EnumTimeUnitFieldRefInput<$PrismaModel>
-    in?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel>
-    not?: NestedEnumTimeUnitFilter<$PrismaModel> | $Enums.TimeUnit
+  export type EnumTimeUnitNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeUnit | EnumTimeUnitFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTimeUnitNullableFilter<$PrismaModel> | $Enums.TimeUnit | null
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type OrderScalarRelationFilter = {
@@ -38488,14 +38499,30 @@ export namespace Prisma {
     price?: SortOrder
   }
 
-  export type EnumTimeUnitWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TimeUnit | EnumTimeUnitFieldRefInput<$PrismaModel>
-    in?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel>
-    not?: NestedEnumTimeUnitWithAggregatesFilter<$PrismaModel> | $Enums.TimeUnit
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTimeUnitFilter<$PrismaModel>
-    _max?: NestedEnumTimeUnitFilter<$PrismaModel>
+  export type EnumTimeUnitNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeUnit | EnumTimeUnitFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTimeUnitNullableWithAggregatesFilter<$PrismaModel> | $Enums.TimeUnit | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumTimeUnitNullableFilter<$PrismaModel>
+    _max?: NestedEnumTimeUnitNullableFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type MasterScalarRelationFilter = {
@@ -38519,6 +38546,13 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     masterid?: SortOrder
+  }
+
+  export type EnumTimeUnitFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeUnit | EnumTimeUnitFieldRefInput<$PrismaModel>
+    in?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel>
+    not?: NestedEnumTimeUnitFilter<$PrismaModel> | $Enums.TimeUnit
   }
 
   export type BasketCountOrderByAggregateInput = {
@@ -38573,6 +38607,16 @@ export namespace Prisma {
     quantity?: SortOrder
     workingTime?: SortOrder
     price?: SortOrder
+  }
+
+  export type EnumTimeUnitWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeUnit | EnumTimeUnitFieldRefInput<$PrismaModel>
+    in?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel>
+    not?: NestedEnumTimeUnitWithAggregatesFilter<$PrismaModel> | $Enums.TimeUnit
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTimeUnitFilter<$PrismaModel>
+    _max?: NestedEnumTimeUnitFilter<$PrismaModel>
   }
 
   export type CommentCountOrderByAggregateInput = {
@@ -40353,8 +40397,16 @@ export namespace Prisma {
     connect?: LevelWhereUniqueInput
   }
 
-  export type EnumTimeUnitFieldUpdateOperationsInput = {
-    set?: $Enums.TimeUnit
+  export type NullableEnumTimeUnitFieldUpdateOperationsInput = {
+    set?: $Enums.TimeUnit | null
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type OrderUpdateOneRequiredWithoutOrderProductsNestedInput = {
@@ -40445,6 +40497,10 @@ export namespace Prisma {
     create?: XOR<LevelCreateWithoutBasketInput, LevelUncheckedCreateWithoutBasketInput>
     connectOrCreate?: LevelCreateOrConnectWithoutBasketInput
     connect?: LevelWhereUniqueInput
+  }
+
+  export type EnumTimeUnitFieldUpdateOperationsInput = {
+    set?: $Enums.TimeUnit
   }
 
   export type UserUpdateOneRequiredWithoutBasketNestedInput = {
@@ -40895,6 +40951,39 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumOrderStatusFilter<$PrismaModel>
     _max?: NestedEnumOrderStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTimeUnitNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeUnit | EnumTimeUnitFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTimeUnitNullableFilter<$PrismaModel> | $Enums.TimeUnit | null
+  }
+
+  export type NestedEnumTimeUnitNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TimeUnit | EnumTimeUnitFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TimeUnit[] | ListEnumTimeUnitFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTimeUnitNullableWithAggregatesFilter<$PrismaModel> | $Enums.TimeUnit | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumTimeUnitNullableFilter<$PrismaModel>
+    _max?: NestedEnumTimeUnitNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumTimeUnitFilter<$PrismaModel = never> = {
@@ -42011,8 +42100,8 @@ export namespace Prisma {
   export type OrderProductCreateWithoutToolInput = {
     id?: string
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42027,8 +42116,8 @@ export namespace Prisma {
     professionId?: string | null
     levelId?: string | null
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42220,8 +42309,8 @@ export namespace Prisma {
     toolId?: StringNullableFilter<"OrderProduct"> | string | null
     levelId?: StringNullableFilter<"OrderProduct"> | string | null
     quantity?: IntFilter<"OrderProduct"> | number
-    timeUnit?: EnumTimeUnitFilter<"OrderProduct"> | $Enums.TimeUnit
-    workingTime?: FloatFilter<"OrderProduct"> | number
+    timeUnit?: EnumTimeUnitNullableFilter<"OrderProduct"> | $Enums.TimeUnit | null
+    workingTime?: FloatNullableFilter<"OrderProduct"> | number | null
     price?: DecimalFilter<"OrderProduct"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter<"OrderProduct"> | Date | string
     updatedAt?: DateTimeFilter<"OrderProduct"> | Date | string
@@ -42689,8 +42778,8 @@ export namespace Prisma {
   export type OrderProductCreateWithoutLevelInput = {
     id?: string
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42705,8 +42794,8 @@ export namespace Prisma {
     professionId?: string | null
     toolId?: string | null
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42927,8 +43016,8 @@ export namespace Prisma {
   export type OrderProductCreateWithoutProfessionInput = {
     id?: string
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42943,8 +43032,8 @@ export namespace Prisma {
     toolId?: string | null
     levelId?: string | null
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -43399,8 +43488,8 @@ export namespace Prisma {
   export type OrderProductCreateWithoutOrderInput = {
     id?: string
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -43415,8 +43504,8 @@ export namespace Prisma {
     toolId?: string | null
     levelId?: string | null
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -45561,8 +45650,8 @@ export namespace Prisma {
     professionId?: string | null
     levelId?: string | null
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -45605,8 +45694,8 @@ export namespace Prisma {
   export type OrderProductUpdateWithoutToolInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45621,8 +45710,8 @@ export namespace Prisma {
     professionId?: NullableStringFieldUpdateOperationsInput | string | null
     levelId?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45634,8 +45723,8 @@ export namespace Prisma {
     professionId?: NullableStringFieldUpdateOperationsInput | string | null
     levelId?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45800,8 +45889,8 @@ export namespace Prisma {
     professionId?: string | null
     toolId?: string | null
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -45889,8 +45978,8 @@ export namespace Prisma {
   export type OrderProductUpdateWithoutLevelInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45905,8 +45994,8 @@ export namespace Prisma {
     professionId?: NullableStringFieldUpdateOperationsInput | string | null
     toolId?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45918,8 +46007,8 @@ export namespace Prisma {
     professionId?: NullableStringFieldUpdateOperationsInput | string | null
     toolId?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45999,8 +46088,8 @@ export namespace Prisma {
     toolId?: string | null
     levelId?: string | null
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -46109,8 +46198,8 @@ export namespace Prisma {
   export type OrderProductUpdateWithoutProfessionInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46125,8 +46214,8 @@ export namespace Prisma {
     toolId?: NullableStringFieldUpdateOperationsInput | string | null
     levelId?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46138,8 +46227,8 @@ export namespace Prisma {
     toolId?: NullableStringFieldUpdateOperationsInput | string | null
     levelId?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46190,8 +46279,8 @@ export namespace Prisma {
     toolId?: string | null
     levelId?: string | null
     quantity?: number
-    timeUnit: $Enums.TimeUnit
-    workingTime: number
+    timeUnit?: $Enums.TimeUnit | null
+    workingTime?: number | null
     price: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -46213,8 +46302,8 @@ export namespace Prisma {
   export type OrderProductUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46229,8 +46318,8 @@ export namespace Prisma {
     toolId?: NullableStringFieldUpdateOperationsInput | string | null
     levelId?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46242,8 +46331,8 @@ export namespace Prisma {
     toolId?: NullableStringFieldUpdateOperationsInput | string | null
     levelId?: NullableStringFieldUpdateOperationsInput | string | null
     quantity?: IntFieldUpdateOperationsInput | number
-    timeUnit?: EnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit
-    workingTime?: FloatFieldUpdateOperationsInput | number
+    timeUnit?: NullableEnumTimeUnitFieldUpdateOperationsInput | $Enums.TimeUnit | null
+    workingTime?: NullableFloatFieldUpdateOperationsInput | number | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

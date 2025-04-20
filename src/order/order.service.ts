@@ -18,7 +18,6 @@ import { QueryOrderDto } from './dto/search-order.dto';
 @Injectable()
 export class OrderService {
   constructor(private readonly prisma: PrismaService,
-
   private telegramBotService: TelegramBotService, 
 ){}
 
@@ -41,6 +40,12 @@ export class OrderService {
         if (!product.professionId && !product.toolId) {
           throw new BadRequestException(
             'Either professionId or toolId must be provided for each order product.',
+          );
+        }
+
+        if (product.toolId && (product.levelId || product.timeUnit || product.workingTime)) {
+          throw new BadRequestException(
+            'LevelId, timeUnit, and workingTime cannot be provided for tools.',
           );
         }
       }
@@ -115,6 +120,44 @@ export class OrderService {
 
       }));
       await this.prisma.orderProduct.createMany({ data: orderProductData });
+
+      const createdOrderProducts = await this.prisma.orderProduct.findMany({
+        where: { orderId: order.id },
+      });
+
+      order['orderProducts'] = createdOrderProducts;
+
+      if ( createdOrderProducts.length > 0) {
+        for (  let i = 0; i < createdOrderProducts.length; i++) {
+          if ( createdOrderProducts[i].toolId ) {
+            const tool = await this.prisma.tool.findUnique({
+              where: { id: createdOrderProducts[i].toolId ?? undefined },
+            });
+    
+            if (tool) {
+              if (tool.quantity < createdOrderProducts[i].quantity) {
+                throw new BadRequestException(`ID: ${tool.id}, This tool's quantity is not enough for the order.`);
+              }
+            }
+          }
+        }
+
+        for (  let i = 0; i < createdOrderProducts.length; i++) {
+          if ( createdOrderProducts[i].toolId ) {
+            const tool = await this.prisma.tool.findUnique({
+              where: { id: createdOrderProducts[i].toolId ?? undefined },
+            });
+
+            await this.prisma.tool.update({
+              where: { id: tool!.id },
+              // data: { quantity: { decrement: createdOrderProducts[i].quantity } }
+              data: { quantity: tool!.quantity - createdOrderProducts[i].quantity },
+            });
+          }
+      }
+    }
+
+      await this.prisma.basket.deleteMany({ where: { ownerId: userId } });
 
       this.telegramBotService.notifyNewOrder(order, orderProducts);
 
@@ -344,6 +387,51 @@ export class OrderService {
         where: { id },
         data: body,
       });
+
+
+      if ( status && (status === 'COMPLETED' || status === 'CANCELLED' ||  status === 'REJECTED') ) {
+        const orderProducts = await this.prisma.orderProduct.findMany({
+          where: { orderId: id },
+        });
+
+        if (orderProducts.length) {
+          for (let i = 0; i < orderProducts.length; i++) {
+
+            if ( orderProducts[i].toolId ) {
+              const tool = await this.prisma.tool.findUnique({
+                where: { id: orderProducts[i].toolId ?? undefined },
+              });
+              if (tool) {
+                await this.prisma.tool.update({
+                  where: { id: tool.id },
+                  // data: { quantity: { decrement: orderProducts[i].quantity } }
+                  data: { quantity: tool.quantity + orderProducts[i].quantity },
+                });
+              }
+            }
+          }
+        }
+
+        // if (orderProducts.length) {
+        //   const toolsToUpdate = orderProducts
+        //     .filter(op => op.toolId)
+        //     .map(op => op.toolId);
+
+        //     if (toolsToUpdate.length) {
+        //       for (  let i = 0; i < toolsToUpdate.length; i++) {
+        //         const tool = await this.prisma.tool.findUnique({
+        //           where: { id: toolsToUpdate[i] ?? undefined },
+        //         });
+        //         if (tool) {
+        //           await this.prisma.tool.update({
+        //             where: { id: tool.id },
+        //             data: { quantity: tool.quantity + orderProducts[i].quantity },
+        //           });
+        //         }
+        //       }
+        //     }
+        // }
+      }
 
       return { message: 'Order updated successfully', data: updated };
     } catch (error) {

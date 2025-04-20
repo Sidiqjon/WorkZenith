@@ -22,12 +22,13 @@ export class TelegramBotService {
     this.bot.command('activate_user', this.handleActivateUser.bind(this));
     this.bot.command('view_pending_orders', this.handleViewPendingOrders.bind(this));
     this.bot.command('update_order_status', this.handleUpdateOrderStatus.bind(this));
+    this.bot.command('list_banned_users', this.handleListBannedUsers.bind(this));
     this.bot.launch();
   }
 
   private async handleLogin(ctx) {
     const [, phone, password] = ctx.message.text.split(' ');
-    if (!phone || !password) return ctx.reply('Usage: /login <phone_number> <password>');
+    if (!phone || !password) return ctx.reply('Usage: /login <phoneNumber> <password>');
 
     const user = await this.prisma.user.findFirst({
       where: { phoneNumber: phone },
@@ -64,7 +65,13 @@ export class TelegramBotService {
     if (!users.length) return ctx.reply('No users found.');
 
     const response = users.map(
-      (u) => `ID: ${u.id}\nName: ${u.firstName} ${u.lastName}\nRole: ${u.role}\nStatus: ${u.status}\nRegion: ${u.region?.nameUz || 'N/A'}`
+      (u) => `
+ID: ${u.id}
+Name: ${u.firstName} ${u.lastName}
+Phone Number: ${u.phoneNumber}
+Role: ${u.role}
+Status: ${u.status}
+Region: ${u.region?.nameUz || 'N/A'}`
     ).join('\n\n');
 
     ctx.reply(response);
@@ -74,6 +81,7 @@ export class TelegramBotService {
     if (!this.isAdmin(ctx.from.id)) return ctx.reply('Unauthorized.');
 
     const [, userId] = ctx.message.text.split(' ');
+    if (!userId) return ctx.reply('Usage: /ban_user <userId>');
     const user = await this.prisma.user.update({
       where: { id: userId },
       data: { status: 'BANNED' },
@@ -87,6 +95,7 @@ export class TelegramBotService {
     if (!this.isAdmin(ctx.from.id)) return ctx.reply('Unauthorized.');
 
     const [, userId] = ctx.message.text.split(' ');
+    if (!userId) return ctx.reply('Usage: /activate_user <userId>');
     const user = await this.prisma.user.update({
       where: { id: userId },
       data: { status: 'ACTIVE' },
@@ -94,6 +103,23 @@ export class TelegramBotService {
 
     if (!user) return ctx.reply('User not found.');
     ctx.reply(`User ${user.firstName} ${user.lastName} has been activated.`);
+  }
+
+  // /list_banned_users
+  private async handleListBannedUsers(ctx) {
+    if (!this.isAdmin(ctx.from.id)) return ctx.reply('Unauthorized.');
+
+    const users = await this.prisma.user.findMany({
+      where: { status: 'BANNED' },
+    });
+
+    if (!users.length) return ctx.reply('No banned users found.');
+
+    const response = users.map(
+      (u) => `ID: ${u.id}\nName: ${u.firstName} ${u.lastName}\nPhone Number: ${u.phoneNumber}\nRole: ${u.role}`
+    ).join('\n\n');
+
+    ctx.reply(response);
   }
 
   private async handleViewPendingOrders(ctx) {
@@ -104,7 +130,7 @@ export class TelegramBotService {
       include: { owner: true },
     });
 
-    if (!orders.length) return ctx.reply('No pending orders found.');
+    if (!orders.length) return ctx.reply('No pending or accepted orders found.');
 
     const response = orders.map(
       (o) => `Order ID: ${o.id}\nOwner: ${o.owner.firstName} ${o.owner.lastName}\nTotal Price: ${o.totalPrice}\nPayment Type: ${o.paymentType}\nStatus: ${o.status}`
@@ -117,6 +143,7 @@ export class TelegramBotService {
     if (!this.isAdmin(ctx.from.id)) return ctx.reply('Unauthorized.');
 
     const [, orderId, status] = ctx.message.text.split(' ');
+    if (!orderId || !status) return ctx.reply('Usage: /update_order_status <orderId> <status>');
     const order = await this.prisma.order.update({
       where: { id: orderId },
       data: { status },
@@ -126,7 +153,7 @@ export class TelegramBotService {
     ctx.reply(`Order ${order.id} status updated to ${status}.`);
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_HOUR)
   private async sendDailyReport() {
     const totalOrders = await this.prisma.order.count();
     const revenue = await this.prisma.order.aggregate({
@@ -147,17 +174,62 @@ export class TelegramBotService {
       where: { id: order.ownerId },
     });
 
-    const productDetails = orderProducts
-      .map(
-        (op) =>
-          `- Product: ${op.professionId ? 'Profession' : 'Tool'}, ID: ${
-            op.professionId || op.toolId
-          }, Quantity: ${op.quantity}, Time Unit: ${op.timeUnit}, Working Time: ${op.workingTime}`
-      )
-      .join('\n');
+    // const productDetails = orderProducts
+    //   .map(
+    //     (op) =>
+    //       `- Product: ${op.professionId ? 'Profession' : 'Tool'}, ID: ${
+    //         op.professionId || op.toolId
+    //       }, Quantity: ${op.quantity}, Time Unit: ${op.timeUnit}, Working Time: ${op.workingTime}`
+    //   )
+    //   .join('\n');
+
+    let productDetails = ``
+
+    for (let i = 0; i < orderProducts.length; i++) { 
+      if (orderProducts[i].professionId) {
+        productDetails += `
+Product - ${i + 1}`
+        const profession = await this.prisma.profession.findUnique({
+          where: { id: orderProducts[i].professionId },
+        });
+
+        const level = await this.prisma.level.findUnique({
+          where: { id: orderProducts[i].levelId },
+        })
+
+        if (profession) { 
+          productDetails += `
+👷‍♂️ Profession
+Name: ${profession.nameUz}, 
+ID: ${profession.id}
+Level: ${level!.nameUz}, 
+Quantity: ${orderProducts[i].quantity}, 
+Time Unit: ${orderProducts[i].timeUnit}, 
+Working Time: ${orderProducts[i].workingTime}, 
+Price: ${orderProducts[i].price}
+`
+         } 
+      } else if (orderProducts[i].toolId) {
+        productDetails += `
+Product - ${i + 1}`
+        const tool = await this.prisma.tool.findUnique({
+          where: { id: orderProducts[i].toolId },
+        });
+        if (tool) { 
+          productDetails += `
+🛠️ Tool
+Name: ${tool.nameUz}, 
+ID: ${tool.id}, 
+Quantity: ${orderProducts[i].quantity}, 
+Price: ${orderProducts[i].price}
+`
+      }
+         } 
+     }
 
     const message = `
 🔔 New Order Created:
+
 Order ID: ${order.id}
 Owner: ${owner!.firstName} ${owner!.lastName} (${owner!.phoneNumber})
 Address: ${order.address}
@@ -165,7 +237,7 @@ Total Price: ${order.totalPrice}
 Payment Type: ${order.paymentType}
 Status: ${order.status}
 
-Order Products:
+Ordered Product Details:
 ${productDetails}
     `;
 

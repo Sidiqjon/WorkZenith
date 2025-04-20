@@ -135,6 +135,10 @@ export class ToolService {
         if (fs.existsSync(oldImgPath)) fs.unlinkSync(oldImgPath);
       }
 
+      if ( dto.price) {
+        await this.prisma.basket.deleteMany({ where: { toolId: id } });
+      }
+
       const data = await this.prisma.tool.update({
         where: { id },
         data: dto,
