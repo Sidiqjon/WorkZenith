@@ -11,7 +11,28 @@ import {
   } from 'class-validator';
   import { Type } from 'class-transformer';
   import { ApiProperty } from '@nestjs/swagger';
-  import { PaymentType, OrderStatus, TimeUnit } from '@prisma/client';
+  // import { PaymentType, OrderStatus, TimeUnit } from '@prisma/client';
+
+  export enum PaymentType {
+    CASH='CASH',
+    CLICK='CLICK',
+    PAYME='PAYME',
+  }
+  
+  export enum OrderStatus {
+    PENDING='PENDING',
+    ACCEPTED='ACCEPTED',
+    IN_PROGRESS='IN_PROGRESS',
+    COMPLETED='COMPLETED',
+    CANCELLED='CANCELLED',
+    REJECTED='REJECTED',
+  }
+  
+  export enum TimeUnit {
+    HOURLY='HOURLY',
+    DAILY='DAILY',
+  }
+  
   
   export class CreateOrderProductDto {
     @IsOptional()

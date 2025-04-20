@@ -25,8 +25,9 @@ import { ApiTags, ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger'
 import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import { Roles } from 'src/guard/roles.decorator';
 import { RolesGuard } from 'src/guard/roles.guard';
-import { UserRole } from '@prisma/client';
-
+import { UserRole } from 'src/admin/dto/create-admin.dto';
+// import { UserRole } from '@prisma/client';
+// import { UserRole } 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {

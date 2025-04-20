@@ -9,7 +9,8 @@ import {
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
-import { UserRole } from '@prisma/client';
+// import { UserRole } from '@prisma/client';
+import { UserRole } from '../admin/dto/create-admin.dto';
 
 @Injectable()
 export class ContactService {

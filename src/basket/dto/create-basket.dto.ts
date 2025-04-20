@@ -6,8 +6,14 @@ import {
     Max,
     IsEnum,
   } from 'class-validator';
-  import { TimeUnit } from '@prisma/client';
+  // import { TimeUnit } from '@prisma/client';
   import { ApiProperty } from '@nestjs/swagger';
+
+  export enum TimeUnit {
+    HOURLY='HOURLY',
+    DAILY='DAILY',
+  }
+  
   
   export class CreateBasketDto {
     @ApiProperty({ example: 'ProfessionID', required: false })

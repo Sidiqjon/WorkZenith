@@ -9,7 +9,8 @@ import {
   } from 'class-validator';
   import { Type } from 'class-transformer';
   import { ApiProperty } from '@nestjs/swagger';
-  import { PaymentType, OrderStatus, TimeUnit } from '@prisma/client';
+  // import { PaymentType, OrderStatus, TimeUnit } from '@prisma/client';
+  import { PaymentType, OrderStatus, TimeUnit } from './create-order.dto';
   
   // export class UpdateOrderProductDto {
   //   @IsOptional()

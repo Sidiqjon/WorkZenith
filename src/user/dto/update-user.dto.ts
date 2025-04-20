@@ -1,8 +1,14 @@
 import { IsOptional, IsString, IsEnum, IsUUID, Matches, ValidateIf, IsNotEmpty, ValidateNested } from 'class-validator';
 import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
-import { UserStatus } from '@prisma/client';
+// import { UserStatus } from '@prisma/client';
 import { CreateCompanyDto } from '../../auth/dto/create-auth.dto';
 import { Type } from 'class-transformer';
+
+export enum UserStatus {
+  ACTIVE='ACTIVE',
+  INACTIVE='INACTIVE',
+  BANNED='BANNED',
+}
 
 
 export class UpdateCompanyDto extends PartialType(CreateCompanyDto) {

@@ -16,7 +16,8 @@ import { ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import { RolesGuard } from '../guard/roles.guard';
 import { Roles } from '../guard/roles.decorator';
-import { UserRole } from '@prisma/client';
+// import { UserRole } from '@prisma/client';
+import { UserRole } from '../admin/dto/create-admin.dto';
 
 @Controller('brand')
 @UseGuards(JwtAuthGuard, RolesGuard)

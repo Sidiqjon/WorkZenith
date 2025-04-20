@@ -6,7 +6,8 @@ import {
     Max,
     IsEnum,
   } from 'class-validator';
-  import { TimeUnit } from '@prisma/client';
+  // import { TimeUnit } from '@prisma/client';
+  import { TimeUnit } from './create-basket.dto'
   import { ApiProperty } from '@nestjs/swagger';
   
   export class UpdateBasketDto {

@@ -2,6 +2,14 @@ export class CreateAddAdminDto {}
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, Matches, MaxLength, MinLength, IsIn } from 'class-validator';
 
+export enum UserRole {
+  ADMIN="ADMIN",
+  SUPERADMIN="SUPERADMIN",  
+  VIEWERADMIN="VIEWERADMIN",
+  INDIVIDUAL="INDIVIDUAL",
+  COMPANY="COMPANY",
+}
+
 export class AddAdminDto {
   @ApiProperty({ example: "John" })
   @IsString()
