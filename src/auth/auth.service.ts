@@ -117,8 +117,6 @@ export class AuthService {
       await this.eskizService.sendSMS(otp, phoneNumber);
   
       return {
-        message:
-          `Hello ${RegisterUser.firstName}.You registered successfully. An OTP code has been sent to your phone number. Please activate your account.`,
         otp, 
         data: newData
       };
