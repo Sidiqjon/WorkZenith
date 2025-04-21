@@ -114,7 +114,7 @@ export class AuthService {
         newData['company'] = newCompany;
       }
   
-      // await this.eskizService.sendSMS(otp, phoneNumber);
+      await this.eskizService.sendSMS(otp, phoneNumber);
   
       return {
         message:

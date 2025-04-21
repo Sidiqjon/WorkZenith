@@ -37,11 +37,11 @@ export class ToolController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
   @ApiBearerAuth()
-  @ApiQuery({ name: 'page', required: false, example: 1 })
-  @ApiQuery({ name: 'limit', required: false, example: 10 })
-  @ApiQuery({ name: 'search', required: false, example: 'drill' })
-  @ApiQuery({ name: 'sortBy', required: false, example: 'price' })
-  @ApiQuery({ name: 'sortOrder', required: false, example: 'asc' })
+  @ApiQuery({ name: 'page', required: false, example: 1, description: 'Page number' })
+  @ApiQuery({ name: 'limit', required: false, example: 10, description: 'Number of items per page' })
+  @ApiQuery({ name: 'search', required: false, example: 'drill', description: 'Search by name or code of the tool' })
+  @ApiQuery({ name: 'sortBy', required: false, example: 'price', description: 'Sort by price or name' })
+  @ApiQuery({ name: 'sortOrder', required: false, example: 'asc', description: 'Sort order' })
   findAll(@Query() query) {
     return this.toolService.findAll(query);
   }
