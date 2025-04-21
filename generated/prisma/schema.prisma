@@ -295,9 +295,9 @@ model Basket {
   level   Level?  @relation(fields: [levelId], references: [id], onDelete: SetNull)
   levelId String?
 
-  quantity    Int      @default(1)
-  timeUnit    TimeUnit
-  workingTime Float
+  quantity    Int       @default(1)
+  timeUnit    TimeUnit?
+  workingTime Float?
   price       Decimal
 
   createdAt DateTime @default(now())

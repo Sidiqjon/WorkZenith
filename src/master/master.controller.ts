@@ -35,41 +35,46 @@ export class MasterController {
   }
 
   @Get()
-  @ApiQuery({ name: 'orderBy', required: false, enum: ['asc', 'desc'] })
-  @ApiQuery({ name: 'sortBy', required: false, enum: Sort })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.VIEWERADMIN, UserRole.SUPERADMIN)
+  @ApiQuery({ name: 'firstName', required: false, type: String })
+  @ApiQuery({ name: 'lastName', required: false, type: String })
+  @ApiQuery({ name: 'phoneNumber', required: false, type: String })
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'orderBy', required: false, enum: ['asc', 'desc'] })
+  @ApiQuery({ name: 'sortBy', required: false, enum: Sort })
   @ApiQuery({ name: 'isActive', required: false, enum: ['true', 'false'] })
   @ApiQuery({ name: 'minYear', required: false, type: Number })
   @ApiQuery({ name: 'maxYear', required: false, type: Number })
   @ApiQuery({ name: 'birthYear', required: false, type: Number })
-  @ApiQuery({ name: 'phoneNumber', required: false, type: String })
-  @ApiQuery({ name: 'firstName', required: false, type: String })
-  @ApiQuery({ name: 'lastName', required: false, type: String })
 
   findAll(@Query() query: QueryMasterDto) {
     return this.masterService.findAll(query);
   }
 
   @Get('search')
-  @ApiQuery({ name: 'orderBy', required: false, enum: ['asc', 'desc'] })
-  @ApiQuery({ name: 'sortBy', required: false, enum: SearchSort })
-  @ApiQuery({ name: 'limit', required: false, type: Number })
-  @ApiQuery({ name: 'page', required: false, type: Number })
-  @ApiQuery({ name: 'lteExperience', required: false, type: Number })
-  @ApiQuery({ name: 'gteExperience', required: false, type: Number })
-  @ApiQuery({ name: 'experience', required: false, type: Number })
-  @ApiQuery({ name: 'ltePriceDaily', required: false, type: Number })
-  @ApiQuery({ name: 'gtePriceDaily', required: false, type: Number })
-  @ApiQuery({ name: 'priceDaily', required: false, type: Number })
-  @ApiQuery({ name: 'ltePriceHourly', required: false, type: Number })
-  @ApiQuery({ name: 'gtePriceHourly', required: false, type: Number })
-  @ApiQuery({ name: 'priceHourly', required: false, type: Number })
-  @ApiQuery({ name: 'lteMinWorkingHours', required: false, type: Number })
-  @ApiQuery({ name: 'gteMinWorkingHours', required: false, type: Number })
-  @ApiQuery({ name: 'minWorkingHours', required: false, type: Number })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.VIEWERADMIN, UserRole.SUPERADMIN)
   @ApiQuery({ name: 'professionId', required: false, type: String })
   @ApiQuery({ name: 'levelId', required: false, type: String })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'orderBy', required: false, enum: ['asc', 'desc'] })
+  @ApiQuery({ name: 'sortBy', required: false, enum: SearchSort })
+  @ApiQuery({ name: 'LessThan or Equal Experience', required: false, type: Number })
+  @ApiQuery({ name: 'GreaterThan or Equal Experience', required: false, type: Number })
+  @ApiQuery({ name: 'experience', required: false, type: Number })
+  @ApiQuery({ name: 'LessThan PriceDaily', required: false, type: Number })
+  @ApiQuery({ name: 'GreaterThan PriceDaily', required: false, type: Number })
+  @ApiQuery({ name: 'priceDaily', required: false, type: Number })
+  @ApiQuery({ name: 'LessThan PriceHourly', required: false, type: Number })
+  @ApiQuery({ name: 'GreaterThan PriceHourly', required: false, type: Number })
+  @ApiQuery({ name: 'priceHourly', required: false, type: Number })
+  @ApiQuery({ name: 'Less Than MinWorkingHours', required: false, type: Number })
+  @ApiQuery({ name: 'Greater Than MinWorkingHours', required: false, type: Number })
+  @ApiQuery({ name: 'minWorkingHours', required: false, type: Number })
+
   search(@Query() query: SearchMasterDto) {
     return this.masterService.search(query);
   }
@@ -103,8 +108,8 @@ export class MasterController {
   // }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
+  @UseGuards(JwtAuthGuard)
+  // @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
   @ApiOperation({ summary: 'Get a single master by ID' })
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.masterService.findOne(id);

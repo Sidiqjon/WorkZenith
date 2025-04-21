@@ -46,14 +46,14 @@ export class OrderController {
   @ApiQuery({ name: 'status', required: false, description: 'Filter by order status', enum: StatusOrder })
 
   @ApiQuery({ name: 'paymentType', required: false, enum: PaymentType, description: 'Filter by payment type' })
-  @ApiQuery({ name: 'paid', required: false, enum: ['true', 'false'], description: 'Filter by paid status' })
+  @ApiQuery({ name: 'isPaid', required: false, enum: ['true', 'false'], description: 'Filter by paid status' })
   @ApiQuery({ name: 'withDelivery', required: false, enum: ['true', 'false'], description: 'Filter by delivery status' })
-  @ApiQuery({ name: 'lteTotalSum', required: false, type: String , description: 'Filter by total sum (lte)' })
-  @ApiQuery({ name: 'gteTotalSum', required: false, type: String, description: 'Filter by total sum (gte)' })
   @ApiQuery({ name: 'totalSum', required: false, type: String, description: 'Filter by total sum' })
-  @ApiQuery({ name: 'lteDate', required: false, type: String, description: 'Filter by date (lte)' })
-  @ApiQuery({ name: 'gteDate', required: false, type: String , description: 'Filter by date (gte)' })
+  @ApiQuery({ name: 'Less than or equal to total sum', required: false, type: String , description: 'Filter by total sum (lte)' })
+  @ApiQuery({ name: 'Greater than or equal to total sum', required: false, type: String, description: 'Filter by total sum (gte)' })
   @ApiQuery({ name: 'date', required: false, type: String, description: 'Filter by date' })
+  @ApiQuery({ name: 'Less than or equal to date', required: false, type: String, description: 'Filter by date (lte)' })
+  @ApiQuery({ name: 'Greater than or equal to date', required: false, type: String , description: 'Filter by date (gte)' })
   findAll(
     @Query() query: QueryOrderDto,
     @Req() req: any

@@ -34,8 +34,8 @@ export class ProfessionController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
+  @UseGuards(JwtAuthGuard)
+  // @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
   @ApiOperation({ summary: 'Get all professions with filters' })
   @ApiQuery({ name: 'page', required: false, example: 1, description: 'Page number for pagination' })
   @ApiQuery({ name: 'limit', required: false, example: 10, description: 'Number of items per page' })

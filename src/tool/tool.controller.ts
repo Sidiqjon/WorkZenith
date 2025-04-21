@@ -34,8 +34,8 @@ export class ToolController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
+  @UseGuards(JwtAuthGuard)
+  // @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.VIEWERADMIN)
   @ApiBearerAuth()
   @ApiQuery({ name: 'page', required: false, example: 1, description: 'Page number' })
   @ApiQuery({ name: 'limit', required: false, example: 10, description: 'Number of items per page' })
@@ -55,7 +55,7 @@ export class ToolController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @Roles(UserRole.ADMIN, UserRole.SUPERADMIN)
   @ApiBearerAuth()
   update(@Param('id') id: string, @Body() updateToolDto: UpdateToolDto) {

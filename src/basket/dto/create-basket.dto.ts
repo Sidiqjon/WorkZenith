@@ -38,12 +38,12 @@ import {
   
     @ApiProperty({ enum: TimeUnit, example: 'HOURLY or DAILY', description: 'Time unit' })
     @IsEnum(TimeUnit)
-    timeUnit: TimeUnit;
+    timeUnit?: TimeUnit;
   
     @ApiProperty({ example: 8, description: 'Working time in hours/days' })
     @IsNumber()
     @Min(1)
-    workingTime: number;
+    workingTime?: number;
   
     @ApiProperty({ example: 100.5, description: 'Price' })
     @IsNumber()
