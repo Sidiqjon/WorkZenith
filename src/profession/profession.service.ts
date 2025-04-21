@@ -135,7 +135,7 @@ export class ProfessionService {
         await this.prisma.professionLevel.createMany({ data: levelData });
       }
   
-      return { message: 'Profession created successfully!', data: profession };
+      return { data: profession };
     } catch (error) {
       // Handle the error, potentially based on specific error codes
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -196,7 +196,7 @@ export class ProfessionService {
       //   throw new NotFoundException('Professions not found.');
       // }
 
-      if ( data )
+      // if ( data )
 
       return {
         data,
@@ -317,7 +317,7 @@ export class ProfessionService {
       }
 
   
-      return { message: 'Profession updated successfully', data: updated };
+      return { data: updated };
     } catch (error) {
       this.handleError(error);
     }
@@ -342,7 +342,7 @@ export class ProfessionService {
         throw new BadRequestException('Failed to delete profession.');
       }
 
-      return { message: 'Profession deleted successfully', data };
+      return { data };
     } catch (error) {
       this.handleError(error);
     }
