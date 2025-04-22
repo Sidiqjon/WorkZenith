@@ -153,17 +153,17 @@ Region: ${u.region?.nameUz || 'N/A'}`
     ctx.reply(`Order ${order.id} status updated to ${status}.`);
   }
 
-  @Cron(CronExpression.EVERY_HOUR)
-  private async sendDailyReport() {
-    const totalOrders = await this.prisma.order.count();
-    const revenue = await this.prisma.order.aggregate({
-      _sum: { totalPrice: true },
-    });
-    const activeUsers = await this.prisma.user.count({ where: { status: 'ACTIVE' } });
+  // @Cron(CronExpression.EVERY_HOUR)
+  // private async sendDailyReport() {
+  //   const totalOrders = await this.prisma.order.count();
+  //   const revenue = await this.prisma.order.aggregate({
+  //     _sum: { totalPrice: true },
+  //   });
+  //   const activeUsers = await this.prisma.user.count({ where: { status: 'ACTIVE' } });
 
-    const report = `Daily Report:\nTotal Orders: ${totalOrders}\nRevenue: ${revenue._sum.totalPrice || 0}\nActive Users: ${activeUsers}`;
-    this.bot.telegram.sendMessage(this.adminGroupId, report);
-  }
+  //   const report = `Daily Report:\nTotal Orders: ${totalOrders}\nRevenue: ${revenue._sum.totalPrice || 0}\nActive Users: ${activeUsers}`;
+  //   this.bot.telegram.sendMessage(this.adminGroupId, report);
+  // }
 
   private isAdmin(userId: number): boolean {
     return this.admins.has(userId);
