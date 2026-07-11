@@ -487,7 +487,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/user/Documents/WorkZenith/generated/prisma",
+      "value": "/Users/user/Documents/Projects/backend_projects/WorkZenith/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -501,7 +501,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/user/Documents/WorkZenith/prisma/schema.prisma",
+    "sourceFilePath": "/Users/user/Documents/Projects/backend_projects/WorkZenith/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -515,11 +515,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:12345678@localhost:5432/workZenith?schema=public"
+        "value": null
       }
     }
   },
